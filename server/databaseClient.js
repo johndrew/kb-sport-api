@@ -4,9 +4,6 @@ const {
   eq: equal,
 } = Sequelize.Op;
 const logger = require('../logger');
-const {
-  createRankingType,
-} = require('./schema/models');
 
 class DatabaseClient {
   constructor() {
@@ -76,7 +73,7 @@ class DatabaseClient {
 
   async setup() {
     logger.info('Setting up database connection');
-    this.instance = new Sequelize('rankingTable2018', 'root', 'that70sshow', {
+    this.instance = new Sequelize('rankingTable2018', 'root', 'password', {
       host: 'localhost',
       port: 3306,
       dialect: 'mysql',
