@@ -315,53 +315,53 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (60, 6, 'Long Cycle', '10min', 'Super Lightweight',  '8', 'Beginners', 'women'),
 (64, 6, 'Long Cycle', '10min', 'Welterweight',       '8', 'Beginners', 'women'),
 (69, 6, 'Long Cycle', '10min', 'Super Welterweight', '8', 'Beginners', 'women');
--- Rank II: PRO Division 5min
+-- Rank III: PRO Division 5min
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(9,  5, 'Long Cycle', '5min', 'Strawweight',        '16', 'PRO', 'women'),
-(10, 5, 'Long Cycle', '5min', 'Flyweight',          '16', 'PRO', 'women'),
-(11, 5, 'Long Cycle', '5min', 'Bantamweight',       '16', 'PRO', 'women'),
-(13, 5, 'Long Cycle', '5min', 'Featherweight',      '16', 'PRO', 'women'),
-(14, 5, 'Long Cycle', '5min', 'Lightweight',        '16', 'PRO', 'women'),
-(15, 5, 'Long Cycle', '5min', 'Super Lightweight',  '16', 'PRO', 'women'),
-(17, 5, 'Long Cycle', '5min', 'Welterweight',       '16', 'PRO', 'women'),
-(17, 5, 'Long Cycle', '5min', 'Super Welterweight', '16', 'PRO', 'women');
+(9,  6, 'Long Cycle', '5min', 'Strawweight',        '16', 'PRO', 'women'),
+(10, 6, 'Long Cycle', '5min', 'Flyweight',          '16', 'PRO', 'women'),
+(11, 6, 'Long Cycle', '5min', 'Bantamweight',       '16', 'PRO', 'women'),
+(13, 6, 'Long Cycle', '5min', 'Featherweight',      '16', 'PRO', 'women'),
+(14, 6, 'Long Cycle', '5min', 'Lightweight',        '16', 'PRO', 'women'),
+(15, 6, 'Long Cycle', '5min', 'Super Lightweight',  '16', 'PRO', 'women'),
+(17, 6, 'Long Cycle', '5min', 'Welterweight',       '16', 'PRO', 'women'),
+(17, 6, 'Long Cycle', '5min', 'Super Welterweight', '16', 'PRO', 'women');
 -- Rank III: Semi PRO Division 5min
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(13, 5, 'Long Cycle', '5min', 'Strawweight',        '20', 'Semi PRO', 'women'),
-(15, 5, 'Long Cycle', '5min', 'Flyweight',          '20', 'Semi PRO', 'women'),
-(16, 5, 'Long Cycle', '5min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
-(18, 5, 'Long Cycle', '5min', 'Featherweight',      '20', 'Semi PRO', 'women'),
-(20, 5, 'Long Cycle', '5min', 'Lightweight',        '20', 'Semi PRO', 'women'),
-(22, 5, 'Long Cycle', '5min', 'Super Lightweight',  '20', 'Semi PRO', 'women'),
-(24, 5, 'Long Cycle', '5min', 'Welterweight',       '20', 'Semi PRO', 'women'),
-(25, 5, 'Long Cycle', '5min', 'Super Welterweight', '20', 'Semi PRO', 'women');
+(13, 6, 'Long Cycle', '5min', 'Strawweight',        '20', 'Semi PRO', 'women'),
+(15, 6, 'Long Cycle', '5min', 'Flyweight',          '20', 'Semi PRO', 'women'),
+(16, 6, 'Long Cycle', '5min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
+(18, 6, 'Long Cycle', '5min', 'Featherweight',      '20', 'Semi PRO', 'women'),
+(20, 6, 'Long Cycle', '5min', 'Lightweight',        '20', 'Semi PRO', 'women'),
+(22, 6, 'Long Cycle', '5min', 'Super Lightweight',  '20', 'Semi PRO', 'women'),
+(24, 6, 'Long Cycle', '5min', 'Welterweight',       '20', 'Semi PRO', 'women'),
+(25, 6, 'Long Cycle', '5min', 'Super Welterweight', '20', 'Semi PRO', 'women');
 -- Rank III: Amateur Division 5min
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(17, 5, 'Long Cycle', '5min', 'Strawweight',        '16', 'Amateur', 'women'),
-(19, 5, 'Long Cycle', '5min', 'Flyweight',          '16', 'Amateur', 'women'),
-(21, 5, 'Long Cycle', '5min', 'Bantamweight',       '16', 'Amateur', 'women'),
-(23, 5, 'Long Cycle', '5min', 'Featherweight',      '16', 'Amateur', 'women'),
-(25, 5, 'Long Cycle', '5min', 'Lightweight',        '16', 'Amateur', 'women'),
-(27, 5, 'Long Cycle', '5min', 'Super Lightweight',  '16', 'Amateur', 'women'),
-(29, 5, 'Long Cycle', '5min', 'Welterweight',       '16', 'Amateur', 'women'),
-(30, 5, 'Long Cycle', '5min', 'Super Welterweight', '16', 'Amateur', 'women');
+(17, 6, 'Long Cycle', '5min', 'Strawweight',        '16', 'Amateur', 'women'),
+(19, 6, 'Long Cycle', '5min', 'Flyweight',          '16', 'Amateur', 'women'),
+(21, 6, 'Long Cycle', '5min', 'Bantamweight',       '16', 'Amateur', 'women'),
+(23, 6, 'Long Cycle', '5min', 'Featherweight',      '16', 'Amateur', 'women'),
+(25, 6, 'Long Cycle', '5min', 'Lightweight',        '16', 'Amateur', 'women'),
+(27, 6, 'Long Cycle', '5min', 'Super Lightweight',  '16', 'Amateur', 'women'),
+(29, 6, 'Long Cycle', '5min', 'Welterweight',       '16', 'Amateur', 'women'),
+(30, 6, 'Long Cycle', '5min', 'Super Welterweight', '16', 'Amateur', 'women');
 -- Rank III: Semi Amateur Division 5min
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(19, 5, 'Long Cycle', '5min', 'Strawweight',        '12', 'Semi Amateur', 'women'),
-(21, 5, 'Long Cycle', '5min', 'Flyweight',          '12', 'Semi Amateur', 'women'),
-(23, 5, 'Long Cycle', '5min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
-(25, 5, 'Long Cycle', '5min', 'Featherweight',      '12', 'Semi Amateur', 'women'),
-(27, 5, 'Long Cycle', '5min', 'Lightweight',        '12', 'Semi Amateur', 'women'),
-(29, 5, 'Long Cycle', '5min', 'Super Lightweight',  '12', 'Semi Amateur', 'women'),
-(32, 5, 'Long Cycle', '5min', 'Welterweight',       '12', 'Semi Amateur', 'women'),
-(24, 5, 'Long Cycle', '5min', 'Super Welterweight', '12', 'Semi Amateur', 'women');
+(19, 6, 'Long Cycle', '5min', 'Strawweight',        '12', 'Semi Amateur', 'women'),
+(21, 6, 'Long Cycle', '5min', 'Flyweight',          '12', 'Semi Amateur', 'women'),
+(23, 6, 'Long Cycle', '5min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
+(25, 6, 'Long Cycle', '5min', 'Featherweight',      '12', 'Semi Amateur', 'women'),
+(27, 6, 'Long Cycle', '5min', 'Lightweight',        '12', 'Semi Amateur', 'women'),
+(29, 6, 'Long Cycle', '5min', 'Super Lightweight',  '12', 'Semi Amateur', 'women'),
+(32, 6, 'Long Cycle', '5min', 'Welterweight',       '12', 'Semi Amateur', 'women'),
+(24, 6, 'Long Cycle', '5min', 'Super Welterweight', '12', 'Semi Amateur', 'women');
 -- Rank III: Beginners Division 5min
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(23, 5, 'Long Cycle', '5min', 'Strawweight',        '8', 'Beginners', 'women'),
-(25, 5, 'Long Cycle', '5min', 'Flyweight',          '8', 'Beginners', 'women'),
-(26, 5, 'Long Cycle', '5min', 'Bantamweight',       '8', 'Beginners', 'women'),
-(28, 5, 'Long Cycle', '5min', 'Featherweight',      '8', 'Beginners', 'women'),
-(30, 5, 'Long Cycle', '5min', 'Lightweight',        '8', 'Beginners', 'women'),
-(33, 5, 'Long Cycle', '5min', 'Super Lightweight',  '8', 'Beginners', 'women'),
-(35, 5, 'Long Cycle', '5min', 'Welterweight',       '8', 'Beginners', 'women'),
-(38, 5, 'Long Cycle', '5min', 'Super Welterweight', '8', 'Beginners', 'women');
+(23, 6, 'Long Cycle', '5min', 'Strawweight',        '8', 'Beginners', 'women'),
+(25, 6, 'Long Cycle', '5min', 'Flyweight',          '8', 'Beginners', 'women'),
+(26, 6, 'Long Cycle', '5min', 'Bantamweight',       '8', 'Beginners', 'women'),
+(28, 6, 'Long Cycle', '5min', 'Featherweight',      '8', 'Beginners', 'women'),
+(30, 6, 'Long Cycle', '5min', 'Lightweight',        '8', 'Beginners', 'women'),
+(33, 6, 'Long Cycle', '5min', 'Super Lightweight',  '8', 'Beginners', 'women'),
+(35, 6, 'Long Cycle', '5min', 'Welterweight',       '8', 'Beginners', 'women'),
+(38, 6, 'Long Cycle', '5min', 'Super Welterweight', '8', 'Beginners', 'women');

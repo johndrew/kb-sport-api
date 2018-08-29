@@ -1,5 +1,5 @@
 -- MSIC: PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (83,  1, 'Jerk', '10min', 'Bantamweight',       '32', 'PRO', 'men'),
 (90,  1, 'Jerk', '10min', 'Featherweight',      '32', 'PRO', 'men'),
 (96,  1, 'Jerk', '10min', 'Lightweight',        '32', 'PRO', 'men'),
@@ -12,7 +12,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (137, 1, 'Jerk', '10min', 'Super Heavyweight',  '32', 'PRO', 'men');
 
 -- MS: PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (65,  2, 'Jerk', '10min', 'Bantamweight',       '32', 'PRO', 'men'),
 (72,  2, 'Jerk', '10min', 'Featherweight',      '32', 'PRO', 'men'),
 (79,  2, 'Jerk', '10min', 'Lightweight',        '32', 'PRO', 'men'),
@@ -25,7 +25,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (116, 2, 'Jerk', '10min', 'Super Heavyweight',  '32', 'PRO', 'men');
 
 -- CMS: PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (52, 3, 'Jerk', '10min', 'Bantamweight',       '32', 'PRO', 'men'),
 (58, 3, 'Jerk', '10min', 'Featherweight',      '32', 'PRO', 'men'),
 (64, 3, 'Jerk', '10min', 'Lightweight',        '32', 'PRO', 'men'),
@@ -37,7 +37,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (90, 3, 'Jerk', '10min', 'Heavyweight',        '32', 'PRO', 'men'),
 (92, 3, 'Jerk', '10min', 'Super Heavyweight',  '32', 'PRO', 'men');
 -- CMS: Semi PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (83,  3, 'Jerk', '10min', 'Bantamweight',       '28', 'Semi PRO', 'men'),
 (90,  3, 'Jerk', '10min', 'Featherweight',      '28', 'Semi PRO', 'men'),
 (96,  3, 'Jerk', '10min', 'Lightweight',        '28', 'Semi PRO', 'men'),
@@ -49,7 +49,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (134, 3, 'Jerk', '10min', 'Heavyweight',        '28', 'Semi PRO', 'men'),
 (137, 3, 'Jerk', '10min', 'Super Heavyweight',  '28', 'Semi PRO', 'men');
 -- CMS: Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (104, 3, 'Jerk', '10min', 'Bantamweight',       '24', 'Amateur', 'men'),
 (112, 3, 'Jerk', '10min', 'Featherweight',      '24', 'Amateur', 'men'),
 (121, 3, 'Jerk', '10min', 'Lightweight',        '24', 'Amateur', 'men'),
@@ -62,7 +62,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (176, 3, 'Jerk', '10min', 'Super Heavyweight',  '24', 'Amateur', 'men');
 
 -- Rank I: PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (42, 4, 'Jerk', '10min', 'Bantamweight',       '32', 'PRO', 'men'),
 (46, 4, 'Jerk', '10min', 'Featherweight',      '32', 'PRO', 'men'),
 (51, 4, 'Jerk', '10min', 'Lightweight',        '32', 'PRO', 'men'),
@@ -74,7 +74,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (72, 4, 'Jerk', '10min', 'Heavyweight',        '32', 'PRO', 'men'),
 (74, 4, 'Jerk', '10min', 'Super Heavyweight',  '32', 'PRO', 'men');
 -- Rank I: Semi PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (62,  4, 'Jerk', '10min', 'Bantamweight',       '28', 'Semi PRO', 'men'),
 (69,  4, 'Jerk', '10min', 'Featherweight',      '28', 'Semi PRO', 'men'),
 (76,  4, 'Jerk', '10min', 'Lightweight',        '28', 'Semi PRO', 'men'),
@@ -86,7 +86,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (108, 4, 'Jerk', '10min', 'Heavyweight',        '28', 'Semi PRO', 'men'),
 (111, 4, 'Jerk', '10min', 'Super Heavyweight',  '28', 'Semi PRO', 'men');
 -- Rank I: Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (83,  4, 'Jerk', '10min', 'Bantamweight',       '24', 'Amateur', 'men'),
 (90,  4, 'Jerk', '10min', 'Featherweight',      '24', 'Amateur', 'men'),
 (97,  4, 'Jerk', '10min', 'Lightweight',        '24', 'Amateur', 'men'),
@@ -98,7 +98,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (137, 4, 'Jerk', '10min', 'Heavyweight',        '24', 'Amateur', 'men'),
 (141, 4, 'Jerk', '10min', 'Super Heavyweight',  '24', 'Amateur', 'men');
 -- Rank I: Semi Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (99,  4, 'Jerk', '10min', 'Bantamweight',       '20', 'Semi Amateur', 'men'),
 (107, 4, 'Jerk', '10min', 'Featherweight',      '20', 'Semi Amateur', 'men'),
 (117, 4, 'Jerk', '10min', 'Lightweight',        '20', 'Semi Amateur', 'men'),
@@ -110,7 +110,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (166, 4, 'Jerk', '10min', 'Heavyweight',        '20', 'Semi Amateur', 'men'),
 (170, 4, 'Jerk', '10min', 'Super Heavyweight',  '20', 'Semi Amateur', 'men');
 -- Rank I: Beginners Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (120, 4, 'Jerk', '10min', 'Bantamweight',       '16', 'Beginners', 'men'),
 (128, 4, 'Jerk', '10min', 'Featherweight',      '16', 'Beginners', 'men'),
 (138, 4, 'Jerk', '10min', 'Lightweight',        '16', 'Beginners', 'men'),
@@ -123,7 +123,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (200, 4, 'Jerk', '10min', 'Super Heavyweight',  '16', 'Beginners', 'men');
 
 -- Rank II: Semi PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (50, 5, 'Jerk', '10min', 'Bantamweight',       '28', 'Semi PRO', 'men'),
 (55, 5, 'Jerk', '10min', 'Featherweight',      '28', 'Semi PRO', 'men'),
 (61, 5, 'Jerk', '10min', 'Lightweight',        '28', 'Semi PRO', 'men'),
@@ -135,7 +135,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (87, 5, 'Jerk', '10min', 'Heavyweight',        '28', 'Semi PRO', 'men'),
 (89, 5, 'Jerk', '10min', 'Super Heavyweight',  '28', 'Semi PRO', 'men');
 -- Rank II: Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (67,  5, 'Jerk', '10min', 'Bantamweight',       '24', 'Amateur', 'men'),
 (73,  5, 'Jerk', '10min', 'Featherweight',      '24', 'Amateur', 'men'),
 (79,  5, 'Jerk', '10min', 'Lightweight',        '24', 'Amateur', 'men'),
@@ -147,7 +147,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (110, 5, 'Jerk', '10min', 'Heavyweight',        '24', 'Amateur', 'men'),
 (112, 5, 'Jerk', '10min', 'Super Heavyweight',  '24', 'Amateur', 'men');
 -- Rank II: Semi Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (79,  5, 'Jerk', '10min', 'Bantamweight',       '20', 'Semi Amateur', 'men'),
 (86,  5, 'Jerk', '10min', 'Featherweight',      '20', 'Semi Amateur', 'men'),
 (94,  5, 'Jerk', '10min', 'Lightweight',        '20', 'Semi Amateur', 'men'),
@@ -159,7 +159,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (133, 5, 'Jerk', '10min', 'Heavyweight',        '20', 'Semi Amateur', 'men'),
 (136, 5, 'Jerk', '10min', 'Super Heavyweight',  '20', 'Semi Amateur', 'men');
 -- Rank II: Beginners Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (96,  5, 'Jerk', '10min', 'Bantamweight',       '16', 'Beginners', 'men'),
 (103, 5, 'Jerk', '10min', 'Featherweight',      '16', 'Beginners', 'men'),
 (110, 5, 'Jerk', '10min', 'Lightweight',        '16', 'Beginners', 'men'),
@@ -172,7 +172,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (160, 5, 'Jerk', '10min', 'Super Heavyweight',  '16', 'Beginners', 'men');
 
 -- Rank III: Semi PRO Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (40, 6, 'Jerk', '10min', 'Bantamweight',       '28', 'Semi PRO', 'men'),
 (44, 6, 'Jerk', '10min', 'Featherweight',      '28', 'Semi PRO', 'men'),
 (49, 6, 'Jerk', '10min', 'Lightweight',        '28', 'Semi PRO', 'men'),
@@ -184,7 +184,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (69, 6, 'Jerk', '10min', 'Heavyweight',        '28', 'Semi PRO', 'men'),
 (71, 6, 'Jerk', '10min', 'Super Heavyweight',  '28', 'Semi PRO', 'men');
 -- Rank III: Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (53, 6, 'Jerk', '10min', 'Bantamweight',       '24', 'Amateur', 'men'),
 (58, 6, 'Jerk', '10min', 'Featherweight',      '24', 'Amateur', 'men'),
 (62, 6, 'Jerk', '10min', 'Lightweight',        '24', 'Amateur', 'men'),
@@ -196,7 +196,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (88, 6, 'Jerk', '10min', 'Heavyweight',        '24', 'Amateur', 'men'),
 (90, 6, 'Jerk', '10min', 'Super Heavyweight',  '24', 'Amateur', 'men');
 -- Rank III: Semi Amateur Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (63,  6, 'Jerk', '10min', 'Bantamweight',       '20', 'Semi Amateur', 'men'),
 (69,  6, 'Jerk', '10min', 'Featherweight',      '20', 'Semi Amateur', 'men'),
 (75,  6, 'Jerk', '10min', 'Lightweight',        '20', 'Semi Amateur', 'men'),
@@ -208,7 +208,7 @@ INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory
 (106, 6, 'Jerk', '10min', 'Heavyweight',        '20', 'Semi Amateur', 'men'),
 (109, 6, 'Jerk', '10min', 'Super Heavyweight',  '20', 'Semi Amateur', 'men');
 -- Rank III: Beginners Division
-INSERT INTO menRankingTable (score, ranking, eventType, duration, weightCategory, kettlebellWeight, division, gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (77,  6, 'Jerk', '10min', 'Bantamweight',       '16', 'Beginners', 'men'),
 (82,  6, 'Jerk', '10min', 'Featherweight',      '16', 'Beginners', 'men'),
 (88,  6, 'Jerk', '10min', 'Lightweight',        '16', 'Beginners', 'men'),
