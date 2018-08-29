@@ -10,10 +10,11 @@
     "s3Bucket": "s3://johndrew-lambda-uploads/kbSportRankingTableConverter.zip"
   },
   "scripts": {
+    "build:data": "mkdir dist & cat data/**/*.sql > dist/data.sql",
     "build": "docker-compose build",
     "start": "docker-compose up",
     "stop": "docker-compose down",
-    "test": "mocha test"
+    "test": "mocha --recursive test"
   },
   "dependencies": {
     "bunyan": "^1.8.12",

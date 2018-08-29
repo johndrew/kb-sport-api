@@ -1,5 +1,5 @@
 const assert = require('assert');
-const databaseClient = require('./util/databaseClient');
+const databaseClient = require('../server/databaseClient');
 
 describe('Structure Unit Tests', () => {
   describe('when setting up the database', () => {

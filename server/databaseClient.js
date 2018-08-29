@@ -3,7 +3,10 @@ const {
   lte: lessThanOrEqual,
   eq: equal,
 } = Sequelize.Op;
-const logger = require('../../logger');
+const logger = require('../logger');
+const {
+  createRankingType,
+} = require('./schema/models');
 
 class DatabaseClient {
   constructor() {
@@ -73,7 +76,6 @@ class DatabaseClient {
 
   async setup() {
     logger.info('Setting up database connection');
-    // const sequelize = new Sequelize('information_schema', 'root', 'that70sshow', {
     this.instance = new Sequelize('rankingTable2018', 'root', 'that70sshow', {
       host: 'localhost',
       port: 3306,
@@ -127,10 +129,12 @@ class DatabaseClient {
       },
     });
     if (!result) {
-      throw new Error('No data returned');
+      logger.warn('No data returned');
+      return null;
     }
     if (result.length == 0) {
-      throw new Error('No results found');
+      logger.warn('No results found');
+      return null;
     }
     const priorityWeight = result[0].dataValues[rankingTableId];
 
@@ -143,6 +147,10 @@ class DatabaseClient {
     });
 
     return rankingName.dataValues[rankingTypeNameId];
+  }
+
+  async getRankings(listOfSearchParams) {
+    return Promise.all(listOfSearchParams.map(this.getRanking.bind(this)));
   }
 }
 
