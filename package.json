@@ -14,11 +14,13 @@
     "build": "docker-compose build",
     "start": "docker-compose up",
     "stop": "docker-compose down",
-    "test": "mocha --recursive test"
+    "test:unit": "mocha --recursive test/unit",
+    "test:integration": "mocha --recursive test/integration"
   },
   "dependencies": {
     "bunyan": "^1.8.12",
     "bunyan-format": "^0.2.1",
+    "config": "^2.0.1",
     "mysql2": "^1.6.1"
   },
   "devDependencies": {

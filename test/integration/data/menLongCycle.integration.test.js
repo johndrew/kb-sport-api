@@ -1,11 +1,15 @@
-const assert = require('assert');
-const databaseClient = require('../server/databaseClient');
+const {
+  strictEqual,
+} = require('assert');
+const databaseClient = require('../../../server/dataValidationFunction/databaseClient');
 const {
   weightClass,
-} = require('../server/util/enums');
+} = require('../../../server/dataValidationFunction/enums');
+const seedRankingTableDatabase = require('../../../server/seedRankingTableDatabaseFunction');
 
-describe('Men Long Cycle Unit Tests', () => {
+describe(__filename, () => {
   before(async () => {
+    await seedRankingTableDatabase();
     await databaseClient.setup();
   });
 
@@ -46,7 +50,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'MSIC';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns MS for repetitions less than 52 and greater than or equal to 41', async () => {
@@ -58,7 +62,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'MS';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns CMS for repetitions less than 41 and greater than or equal to 33', async () => {
@@ -70,7 +74,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'CMS';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns Rank I for repetitions less than 33 and greater than or equal to 26', async () => {
@@ -82,7 +86,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'Rank I';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns null for repetitions less than 26', async () => {
@@ -95,7 +99,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = null;
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
         });
 
@@ -113,7 +117,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'MSIC';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns MS for repetitions less than 56 and greater than or equal to 45', async () => {
@@ -125,7 +129,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'MS';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns CMS for repetitions less than 45 and greater than or equal to 36', async () => {
@@ -137,7 +141,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'CMS';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns Rank I for repetitions less than 36 and greater than or equal to 29', async () => {
@@ -149,7 +153,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = 'Rank I';
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
 
           it('returns null for repetitions less than 29', async () => {
@@ -165,7 +169,7 @@ describe('Men Long Cycle Unit Tests', () => {
 
             const results = await databaseClient.getRankings(testParams);
             const expected = null;
-            results.forEach((actual) => assert.strictEqual(actual, expected));
+            results.forEach((actual) => strictEqual(actual, expected));
           });
         });
       });

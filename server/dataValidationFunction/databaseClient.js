@@ -3,7 +3,7 @@ const {
   lte: lessThanOrEqual,
   eq: equal,
 } = Sequelize.Op;
-const logger = require('../logger');
+const logger = require('../../logger');
 
 class DatabaseClient {
   constructor() {
