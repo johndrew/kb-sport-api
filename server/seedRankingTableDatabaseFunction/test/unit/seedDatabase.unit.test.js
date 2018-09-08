@@ -2,7 +2,7 @@ const {
   ok,
   strictEqual,
 } = require('assert');
-const seedDatabase = require('../../../../server/seedRankingTableDatabaseFunction/seedDatabase');
+const seedDatabase = require('../../seedDatabase');
 
 describe(__filename, () => {
   describe('Positive Tests', () => {

@@ -1,0 +1,23 @@
+{
+  "name": "seed-ranking-table-database-function",
+  "version": "1.0.0",
+  "description": "An AWS Lambda function to seed the Ranking Table database.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "test:old": "mocha-webpack 'test/**/*.js'",
+    "test": "yarn build && mocha ./dist/test.bundle.js"
+  },
+  "author": "johndrew",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^2.0.1",
+    "mysql2": "^1.6.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "mocha-webpack": "^1.1.0",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  }
+}

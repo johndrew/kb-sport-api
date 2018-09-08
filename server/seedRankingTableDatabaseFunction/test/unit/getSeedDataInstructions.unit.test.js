@@ -1,6 +1,6 @@
 const { ok } = require('assert');
 const getSeedDataInstructions =
-  require('../../../../server/seedRankingTableDatabaseFunction/getSeedDataInstructions');
+  require('../../getSeedDataInstructions');
 
 describe(__filename, () => {
   describe('Positive Tests', () => {

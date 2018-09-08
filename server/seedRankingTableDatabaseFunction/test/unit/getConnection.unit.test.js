@@ -1,5 +1,5 @@
 const { ok } = require('assert');
-const getConnection = require('../../../../server/seedRankingTableDatabaseFunction/getConnection');
+const getConnection = require('../../getConnection');
 
 describe(__filename, () => {
   describe('Positive Tests', () => {

@@ -1,8 +1,7 @@
 const mysql = require('mysql2/promise');
-const config = require('config');
 
-const host = config.get('rankingTableDatabase.host');
-const port = config.get('rankingTableDatabase.port');
+const host = CONFIG.rankingTableDatabase.host;
+const port = CONFIG.rankingTableDatabase.port;
 const user = 'root';
 const password = 'password';
 

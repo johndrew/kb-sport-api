@@ -1,2 +1,4 @@
 node_modules/
 dist/
+seedRankingTableDatabaseFunction/node_modules/
+seedRankingTableDatabaseFunction/dist/
