@@ -1,0 +1,1 @@
+mysql -uroot -ppassword < data.sql
