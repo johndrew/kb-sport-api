@@ -1,6 +1,0 @@
-{
-  "rankingTableDatabase": {
-    "host": "kbsportrankingtabledb.c88tulh6irue.us-west-2.rds.amazonaws.com",
-    "port": 3306
-  }
-}
