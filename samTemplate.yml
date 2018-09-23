@@ -1,8 +1,0 @@
-Resources:
-  SeedRankingTableDatabaseFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: dist/upload.upload
-      Runtime: nodejs8.10
-  RankingTableDatabase:
-    Type: AWS::RDS

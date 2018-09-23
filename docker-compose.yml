@@ -1,7 +1,6 @@
 version: '3'
 services:
   db:
-    # image: mysql
     build: .
     container_name: kb-sport-rankingTable-db
     command: --default-authentication-plugin=mysql_native_password
