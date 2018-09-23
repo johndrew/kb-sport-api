@@ -1,2 +1,7 @@
 node_modules/
 dist/
+**/.DS_Store
+seedRankingTableDatabaseFunction/node_modules/
+seedRankingTableDatabaseFunction/dist/
+getRankingFunction/node_modules/
+getRankingFunction/dist/
