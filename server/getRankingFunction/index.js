@@ -15,6 +15,49 @@ const errorResponses = Object.freeze({
   PARSING_ERROR: 'Could not extract ranking'
 });
 
+const weightClasses = Object.freeze({
+  Strawweight: 'Strawweight',
+  Flyweight: 'Flyweight',
+  Bantamweight: 'Bantamweight',
+  Featherweight: 'Featherweight',
+  Lightweight: 'Lightweight',
+  Super_Lightweight: 'Super Lightweight',
+  Welterweight: 'Welterweight',
+  Super_Welterweight: 'Super Welterweight',
+  Middleweight: 'Middleweight',
+  Super_Middleweight: 'Super Middleweight',
+  Cruiserweight: 'Cruiserweight',
+  Heavyweight: 'Heavyweight',
+  Super_Heavyweight: 'Super Heavyweight',
+});
+
+const kettlebellWeights = Object.freeze({
+  EIGHT: 8,
+  TWELVE: 12,
+  SIXTEEN: 16,
+  TWENTY: 20,
+  TWENTYFOUR: 24,
+  TWENTYEIGHT: 28,
+  THIRTYTWO: 32,
+});
+
+const genders = Object.freeze({
+  MEN: 'men',
+  WOMEN: 'women',
+});
+
+const eventTypes = Object.freeze({
+  JERK: 'Jerk',
+  SNATCH: 'Snatch',
+  BIATHLON: 'Biathlon',
+  LONG_CYCLE: 'Long Cycle',
+});
+
+const durations = Object.freeze({
+  FIVE: '5min',
+  TEN: '10min',
+});
+
 /**
  * Confirm expected parameters exist in Lambda event object.
  *
@@ -23,12 +66,22 @@ const errorResponses = Object.freeze({
  */
 const validateParameters = (event) => {
   const paramSchema = Joi.object().keys({
-    duration: Joi.string().required(),
-    eventType: Joi.string().required(),
-    gender: Joi.string().required(),
-    kettlebellWeight: Joi.number().required(),
+    duration: Joi.string()
+      .valid(Object.values(durations))
+      .required(),
+    eventType: Joi.string()
+      .valid(Object.values(eventTypes))
+      .required(),
+    gender: Joi.string()
+      .valid(Object.values(genders))
+      .required(),
+    kettlebellWeight: Joi.number()
+      .valid(Object.values(kettlebellWeights))
+      .required(),
     repetitions: Joi.number().required(),
-    weightCategory: Joi.string().required(),
+    weightCategory: Joi.string()
+      .valid(Object.values(weightClasses))
+      .required(),
   });
   const { error } = Joi.validate(event, paramSchema);
   if (error != null) {
