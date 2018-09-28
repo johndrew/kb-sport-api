@@ -1,6 +1,19 @@
 const AWS = require('aws-sdk');
 const Joi = require('joi');
 const mysql = require('mysql2/promise');
+const _get = require('lodash.get');
+
+/**
+ * These errors are used by API Gateway to map to the correct error response type.
+ * 
+ * e.g. NO_MATCH_ERROR maps to a 404 error
+ */
+const errorResponses = Object.freeze({
+  BAD_INPUT_ERROR: 'Input is not valid',
+  NO_MATCH_ERROR: 'No ranking found',
+  LOOKUP_ERROR: 'Could not get ranking',
+  PARSING_ERROR: 'Could not extract ranking'
+});
 
 /**
  * Confirm expected parameters exist in Lambda event object.
@@ -10,16 +23,16 @@ const mysql = require('mysql2/promise');
  */
 const validateParameters = (event) => {
   const paramSchema = Joi.object().keys({
-    repetitions: Joi.number().required(),
-    eventType: Joi.string().required(),
     duration: Joi.string().required(),
-    weightCategory: Joi.string().required(),
-    kettlebellWeight: Joi.number().required(),
+    eventType: Joi.string().required(),
     gender: Joi.string().required(),
+    kettlebellWeight: Joi.number().required(),
+    repetitions: Joi.number().required(),
+    weightCategory: Joi.string().required(),
   });
   const { error } = Joi.validate(event, paramSchema);
   if (error != null) {
-    throw new Error(`Input is not valid: ${error}`);
+    throw new Error(`${errorResponses.BAD_INPUT_ERROR}: ${error}`);
   }
 };
 
@@ -139,26 +152,31 @@ exports.handler = async (event, context) => {
     const sqlResult = await connection.query(query);
     console.log('Got database result', sqlResult);
 
+    console.log('Checking if data exists');
+    const dataExists = _get(sqlResult, '[0][0]', 'no data');
+    if (dataExists === 'no data') {
+      console.warn('No result from database');
+      throw new Error(errorResponses.NO_MATCH_ERROR);
+    }
+
     const result = {
       ranking: null,
     };
     try {
-      const data = sqlResult[0];
-      if (data.length === 0) {
-        console.warn('No result from database');
-        return result;
-      }
-
-      result.ranking = data[0].RankingTypeName;
+      result.ranking = dataExists.RankingTypeName;
     } catch (e) {
       console.error('Problem extracting ranking', e);
-      throw new Error('Could not extract ranking');
+      throw new Error(errorResponses.PARSING_ERROR);
     }
 
     return result;
   } catch (e) {
+    if (e.message === errorResponses.NO_MATCH_ERROR || e.message || errorResponses.PARSING_ERROR) {
+      throw e;
+    }
+
     console.error(e)
-    throw new Error('Could not get ranking');
+    throw new Error(errorResponses.LOOKUP_ERROR);
   } finally {
     console.info('Closing database connection');
     await connection.close();
