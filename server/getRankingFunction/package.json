@@ -9,7 +9,7 @@
     "build": "webpack"
   },
   "dependencies": {
-    "aws-sdk": "^2.320.0",
+    "aws-sdk": "^2.325.0",
     "joi": "^13.6.0",
     "lodash.get": "^4.4.2",
     "mysql2": "^1.6.1"
