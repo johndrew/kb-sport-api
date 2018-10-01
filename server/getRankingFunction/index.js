@@ -24,7 +24,8 @@ const errorResponses = Object.freeze({
 });
 
 /**
- * Confirm expected parameters exist in Lambda event object.
+ * Confirm expected parameters exist in Lambda event object, and verify that all parameter
+ * combinations are valid.
  *
  * @param {Object} event Lambda event object.
  * @throws If event is not valid.
@@ -51,6 +52,44 @@ const validateParameters = (event) => {
   const { error } = Joi.validate(event, paramSchema);
   if (error != null) {
     throw new Error(`${errorResponses.BAD_INPUT_ERROR}: ${error}`);
+  }
+
+  if (event.gender === genders.MEN) {
+    const blackListedWeightCategories = [
+      weightClasses.STRAWWEIGHT,
+      weightClasses.FLYWEIGHT,
+      weightClasses.SUPER_WELTERWEIGHT,
+    ];
+    if (blackListedWeightCategories.indexOf(event.weightCategory) > -1) {
+      throw new Error(`${errorResponses.BAD_INPUT_ERROR}: ${genders.MEN} cannot have these weight classes: ${blackListedWeightCategories}`);
+    }
+
+    const blackListedKettlebellWeights = [
+      kettlebellWeights.EIGHT,
+      kettlebellWeights.TWELVE,
+    ];
+    if (blackListedKettlebellWeights.indexOf(event.kettlebellWeight) > -1) {
+      throw new Error(`${errorResponses.BAD_INPUT_ERROR}: ${genders.MEN} cannot have these kettlebell weights: ${blackListedKettlebellWeights}`);
+    }
+  } else {
+    const blackListedWeightCategories = [
+      weightClasses.MIDDLEWEIGHT,
+      weightClasses.SUPER_MIDDLEWEIGHT,
+      weightClasses.CRUISERWEIGHT,
+      weightClasses.HEAVYWEIGHT,
+      weightClasses.SUPER_HEAVYWEIGHT,
+    ];
+    if (blackListedWeightCategories.indexOf(event.weightCategory) > -1) {
+      throw new Error(`${errorResponses.BAD_INPUT_ERROR}: ${genders.WOMEN} cannot have these weight classes: ${blackListedWeightCategories}`);
+    }
+
+    const blackListedKettlebellWeights = [
+      kettlebellWeights.TWENTYEIGHT,
+      kettlebellWeights.THIRTYTWO,
+    ];
+    if (blackListedKettlebellWeights.indexOf(event.kettlebellWeight) > -1) {
+      throw new Error(`${errorResponses.BAD_INPUT_ERROR}: ${genders.WOMEN} cannot have these kettlebell weights: ${blackListedKettlebellWeights}`);
+    }
   }
 };
 
