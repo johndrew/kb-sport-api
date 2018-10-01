@@ -41,10 +41,29 @@ const durations = Object.freeze({
   TEN: '10min',
 });
 
+const divisions = Object.freeze({
+  PRO: 'PRO Division',
+  SEMI_PRO: 'Semi PRO Division',
+  AMATEUR: 'Amateur Division',
+  SEMI_AMATEUR: 'Semi Amateur Division',
+  BEGINNERS: 'Beginners Division',
+});
+
+const rankings = Object.freeze({
+  MSIC: 'MSIC',
+  MS: 'MS',
+  CMS: 'CMS',
+  RANK_I: 'Rank I',
+  RANK_II: 'Rank II',
+  RANK_III: 'Rank III',
+});
+
 module.exports = {
+  divisions,
   durations,
   eventTypes,
   genders,
   kettlebellWeights,
+  rankings,
   weightClasses,
 }
