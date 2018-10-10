@@ -10,8 +10,8 @@ const {
   weightClasses,
 } = require('../../shared/enums');
 const {
-  getRanking,
-  testErrorCode,
+  getRankingLocal,
+  testError,
 } = require('./util/getRankingUtil');
 
 describe(__filename, () => {
@@ -40,11 +40,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 52 and greater than or equal to 41', async function i() {
@@ -57,11 +57,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 41 and greater than or equal to 33', async function i() {
@@ -74,11 +74,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 33 and greater than or equal to 26', async function i() {
@@ -91,11 +91,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -111,11 +111,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 56 and greater than or equal to 45', async function i() {
@@ -128,11 +128,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 45 and greater than or equal to 36', async function i() {
@@ -145,11 +145,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 36 and greater than or equal to 29', async function i() {
@@ -162,11 +162,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -182,11 +182,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 60 and greater than or equal to 50', async function i() {
@@ -198,11 +198,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 50 and greater than or equal to 40', async function i() {
@@ -214,11 +214,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 40 and greater than or equal to 32', async function i() {
@@ -230,11 +230,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -250,11 +250,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 64 and greater than or equal to 54', async function i() {
@@ -267,11 +267,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 54 and greater than or equal to 43', async function i() {
@@ -284,11 +284,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 43 and greater than or equal to 35', async function i() {
@@ -300,11 +300,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -320,11 +320,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 69 and greater than or equal to 58', async function i() {
@@ -337,11 +337,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 58 and greater than or equal to 47', async function i() {
@@ -354,11 +354,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 47 and greater than or equal to 38', async function i() {
@@ -370,11 +370,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -390,11 +390,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 74 and greater than or equal to 62', async function i() {
@@ -407,11 +407,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 62 and greater than or equal to 50', async function i() {
@@ -424,11 +424,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 50 and greater than or equal to 40', async function i() {
@@ -440,11 +440,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -460,11 +460,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 78 and greater than or equal to 65', async function i() {
@@ -477,11 +477,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 65 and greater than or equal to 52', async function i() {
@@ -494,11 +494,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 52 and greater than or equal to 42', async function i() {
@@ -511,11 +511,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -531,11 +531,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
       
       it('returns MS for repetitions less than 81 and greater than or equal to 68', async function i() {
@@ -549,11 +549,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 68 and greater than or equal to 54', async function i() {
@@ -566,11 +566,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 54 and greater than or equal to 44', async function i() {
@@ -583,11 +583,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -603,11 +603,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 84 and greater than or equal to 70', async function i() {
@@ -620,11 +620,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns CMS for repetitions less than 70 and greater than or equal to 56', async function i() {
@@ -637,11 +637,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 56 and greater than or equal to 45', async function i() {
@@ -654,11 +654,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
 
@@ -674,11 +674,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MSIC;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns MS for repetitions less than 86 and greater than or equal to 72', async function i() {
@@ -691,11 +691,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.MS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
       
       it('returns CMS for repetitions less than 72 and greater than or equal to 58', async function i() {
@@ -709,11 +709,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.CMS;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
 
       it('returns Rank I for repetitions less than 58 and greater than or equal to 46', async function i() {
@@ -726,11 +726,11 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => getRanking(params));
+        })).map(params => getRankingLocal(params));
 
         const results = await Promise.all(tests);
         const expected = rankings.RANK_I;
-        results.forEach((actual) => strictEqual(actual, expected));
+        results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
       });
     });
   });
@@ -752,7 +752,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 400));
+        })).map(params => testError(params, 400));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -774,7 +774,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 400));
+        })).map(params => testError(params, 400));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -797,7 +797,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -820,7 +820,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -844,7 +844,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -867,7 +867,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -890,7 +890,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -912,7 +912,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 400));
+        })).map(params => testError(params, 400));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -935,7 +935,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -959,7 +959,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -982,7 +982,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -1005,7 +1005,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;
@@ -1028,7 +1028,7 @@ describe(__filename, () => {
 
         const tests = testRepetitions.map(rep => Object.assign({}, params, {
           repetitions: rep,
-        })).map(params => testErrorCode(params, 404));
+        })).map(params => testError(params, 404));
 
         const results = await Promise.all(tests);
         const expected = true;

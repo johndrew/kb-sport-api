@@ -115,14 +115,18 @@ exports.handler = async (event, context) => {
   console.info('Validating event');
   validateParameters(event);
 
+  //FIXME: Make this work for local testing and in production.
   console.info('Setting up db client');
   const client = await createDBClient({
     AWS,
     mysql,
-    host: 'kbsportrankingtable2018.c88tulh6irue.us-west-2.rds.amazonaws.com',
-    user: 'taylor',
+    host: 'localhost',
+    // host: 'kbsportrankingtable2018.c88tulh6irue.us-west-2.rds.amazonaws.com',
+    user: 'root',
+    // user: 'taylor',
     database: 'rankingTable2018',
     region: 'us-west-2',
+    localTesting: true,
   });
 
   try {

@@ -63,38 +63,59 @@ class DBClient {
  * @throws If RDS client cannot be made.
  * @returns {DBClient} An instance of DBClient.
  */
-module.exports = async function createClient({ AWS, mysql, host, user, database, region }) {
-  const signer = new AWS.RDS.Signer();
-  console.info('Retrieving access token');
-  const token = await new Promise((resolve, reject) => {
-    signer.getAuthToken({
-      region,
-      hostname: host,
-      port: 3306,
-      username: user
-    }, (err, token) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(token);
-      }
-    })
-  });
+module.exports = async function createClient({
+  AWS,
+  mysql,
+  host,
+  user,
+  database,
+  region,
+  localTesting = false,
+}) {
+  let password = 'password';
 
-  console.info('Creating connection to database');
-  const client = await mysql.createConnection({
+  if (!localTesting) {
+    const signer = new AWS.RDS.Signer();
+    console.info('Retrieving access token');
+    const token = await new Promise((resolve, reject) => {
+      signer.getAuthToken({
+        region,
+        hostname: host,
+        port: 3306,
+        username: user
+      }, (err, token) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(token);
+        }
+      })
+    });
+
+    password = token;
+  }
+
+  console.info('Creating connection options');
+  let options = {
     host,
     port: 3306,
     user,
-    password: token,
+    password,
     database,
-    ssl: 'Amazon RDS',
-    authSwitchHandler: (data, callback) => {
-      if (data.pluginName === 'mysql_clear_password') {
-        callback(null, Buffer.from(token + '\0'));
+  };
+  if (!localTesting) {
+    options = Object.assign(options, {
+      ssl: 'Amazon RDS',
+      authSwitchHandler: (data, callback) => {
+        if (data.pluginName === 'mysql_clear_password') {
+          callback(null, Buffer.from(token + '\0'));
+        }
       }
-    }
-  });
+    });
+  }
+
+  console.info('Creating connection to database');
+  const client = await mysql.createConnection(options);
 
   return new DBClient(client);
 };
