@@ -1,0 +1,194 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Demo Kettlebell Sport Ranking",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/getRanking": {
+      "post": {
+        "summary": "Retrieves a ranking",
+        "description": "Given a set of parameters about a lifter and a total number of repetitions for an event, looks up to see if there is a corresponding ranking that matches the given parameters.",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/getRanking"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/getRankingRankingFound"
+          },
+          "400": {
+            "$ref": "#/components/responses/getRankingBadInput"
+          },
+          "404": {
+            "$ref": "#/components/responses/getRankingRankingNotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/getRankingInternalError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "inputParameterDuration": {
+        "type": "string",
+        "enum": [
+          "5min",
+          "10min"
+        ]
+      },
+      "inputParameterEventType": {
+        "type": "string",
+        "enum": [
+          "Biathlon",
+          "Jerk",
+          "Long Cycle",
+          "Snatch"
+        ]
+      },
+      "inputParameterGender": {
+        "type": "string",
+        "enum": [
+          "men",
+          "women"
+        ]
+      },
+      "inputParameterKettlebellWeight": {
+        "type": "number",
+        "enum": [
+          8,
+          12,
+          16,
+          20,
+          24,
+          28,
+          32
+        ]
+      },
+      "inputParameterRepetitions": {
+        "type": "number"
+      },
+      "inputParameterWeightCategory": {
+        "type": "string",
+        "enum": [
+          "Strawweight",
+          "Flyweight",
+          "Bantamweight",
+          "Featherweight",
+          "Lightweight",
+          "Super Lightweight",
+          "Welterweight",
+          "Super Welterweight",
+          "Middleweight",
+          "Super Middleweight",
+          "Cruiserweight",
+          "Heavyweight",
+          "Super Heavyweight"
+        ]
+      },
+      "responseFieldRanking": {
+        "description": "A valid ranking shorthand",
+        "type": "string",
+        "enum": [
+          "Rank I",
+          "Rank II",
+          "Rank III",
+          "MS",
+          "CMS",
+          "MSIC"
+        ]
+      }
+    },
+    "responses": {
+      "getRankingRankingFound": {
+        "description": "Returns a ranking if available",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ranking": {
+                  "$ref": "#/components/schemas/responseField_ranking"
+                }
+              }
+            }
+          }
+        }
+      },
+      "getRankingRankingNotFound": {
+        "description": "Could not find ranking",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "getRankingBadInput": {
+        "description": "Client sent invalid data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string",
+              "description": "Error message"
+            }
+          }
+        }
+      },
+      "getRankingInternalError": {
+        "description": "A problem occurred getting ranking",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string",
+              "description": "Error message"
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "getRanking": {
+        "description": "Contains information about a lifter, an event, and the results from each.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "duration",
+                "eventType",
+                "gender",
+                "kettlebellWeight",
+                "repetitions",
+                "weightCategory"
+              ],
+              "properties": {
+                "duration": {
+                  "$ref": "#/components/schemas/inputParameterDuration"
+                },
+                "eventType": {
+                  "$ref": "#/components/schemas/inputParameterEventType"
+                },
+                "gender": {
+                  "$ref": "#/components/schemas/inputParameterGender"
+                },
+                "kettlebellWeight": {
+                  "$ref": "#/components/schemas/inputParameterKettlebellWeight"
+                },
+                "repetitions": {
+                  "$ref": "#/components/schemas/inputParameterRepetitions"
+                },
+                "weightCategory": {
+                  "$ref": "#/components/schemas/inputParameterWeightCategory"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      }
+    }
+  }
+}

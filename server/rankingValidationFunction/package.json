@@ -1,0 +1,19 @@
+{
+  "name": "ranking-validation-function",
+  "version": "1.0.0",
+  "description": "AWS Lambda function to validate the data in the kettlebell sport ranking table.",
+  "main": "index.js",
+  "author": "johndrew",
+  "license": "MIT",
+  "dependencies": {
+    "mocha": "^5.2.0",
+    "mysql2": "^1.6.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "webpack",
+    "test": "mocha --recursive test"
+  }
+}
