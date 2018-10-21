@@ -206,7 +206,7 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 -- Rank II: Semi Amateur Division 10min
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (42, 5, 'Long Cycle', '10min', 'Strawweight',        '12', 'Semi Amateur', 'women'),
-(45, 5, 'Long Cycle', '10min', 'Flyweight',          '12', 'Semi Amateur', 'women'),
+(46, 5, 'Long Cycle', '10min', 'Flyweight',          '12', 'Semi Amateur', 'women'),
 (50, 5, 'Long Cycle', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
 (54, 5, 'Long Cycle', '10min', 'Featherweight',      '12', 'Semi Amateur', 'women'),
 (58, 5, 'Long Cycle', '10min', 'Lightweight',        '12', 'Semi Amateur', 'women'),

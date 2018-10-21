@@ -1,0 +1,646 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: KBSport Scoring and Ranking API
+paths:
+  /events:
+    get:
+      summary: List all events
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/GetEventsSuccess'
+        '500':
+          $ref: '#/components/responses/Error'
+  /events/event/{eventId}/add:
+    post:
+      summary: Adds a new event to db
+      tags:
+        - events
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      requestBody:
+        $ref: '#/components/requestBodies/EventAdd'
+      responses:
+        '200':
+          $ref: '#/components/responses/EventSuccess'
+        '400':
+          $ref: '#/components/responses/EventError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /events/event/{eventId}/registerLifters:
+    post:
+      summary: Registers a lifter to event
+      tags:
+        - events
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      requestBody:
+        $ref: '#/components/requestBodies/EventRegisterLifters'
+      responses:
+        '200':
+          $ref: '#/components/responses/EventRegisterLifterSuccess'
+        '400':
+          $ref: '#/components/responses/EventError'
+        '403':
+          $ref: '#/components/responses/EventError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /events/event/{eventId}/delete:
+    get:
+      summary: Deletes an event
+      tags:
+        - events
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      responses:
+        '200':
+          $ref: '#/components/responses/EventSuccess'
+        '500':
+          $ref: '#/components/responses/Error'
+  /events/event/{eventId}/update:
+    post:
+      summary: Updates an existing event
+      tags:
+        - events
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+      requestBody:
+        $ref: '#/components/requestBodies/EventUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/EventSuccess'
+        '400':
+          $ref: '#/components/responses/EventError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters:
+    get:
+      summary: List all lifters
+      tags:
+        - lifters
+      responses:
+        '200':
+          $ref: '#/components/responses/GetLiftersSuccess'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters/lifter/{lifterId}/add:
+    post:
+      summary: Adds new lifter to db
+      tags:
+        - lifters
+      parameters:
+        - $ref: '#/components/parameters/LifterId'
+      requestBody:
+        $ref: '#/components/requestBodies/LifterAdd'
+      responses:
+        '200':
+          $ref: '#/components/responses/LifterSuccess'
+        '400':
+          $ref: '#/components/responses/LifterError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters/lifter/{lifterId}/delete:
+    get:
+      summary: Deletes a lifter from db
+      tags:
+        - lifters
+      parameters:
+        - $ref: '#/components/parameters/LifterId'
+      responses:
+        '200':
+          $ref: '#/components/responses/LifterSuccess'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters/lifter/{lifterId}/registerEvents:
+    post:
+      summary: Updates a lifter's registered events
+      tags:
+        - lifters
+      parameters:
+        - $ref: '#/components/parameters/LifterId'
+      requestBody:
+        $ref: '#/components/requestBodies/LifterRegisterEvents'
+      responses:
+        '200':
+          $ref: '#/components/responses/LifterEventRegisterSuccess'
+        '400':
+          $ref: '#/components/responses/LifterError'
+        '403':
+          $ref: '#/components/responses/LifterError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters/lifter/{lifterId}/eventDetails:
+    post:
+      summary: Update details about a lifter for an event
+      tags:
+        - lifters
+      parameters:
+        - $ref: '#/components/parameters/LifterId'
+      requestBody:
+        $ref: '#/components/requestBodies/LifterEventDetails'
+      responses:
+        '200':
+          $ref: '#/components/responses/LifterSuccess'
+        '400':
+          $ref: '#/components/responses/LifterError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters/lifter/{lifterId}/eventResult:
+    post:
+      summary: Updates a lifter's score and ranking for an event
+      tags:
+        - lifters
+      parameters:
+        - $ref: '#/components/parameters/LifterId'
+      requestBody:
+        $ref: '#/components/requestBodies/LifterEventResult'
+      responses:
+        '200':
+          $ref: '#/components/responses/LifterEventResultSuccess'
+        '400':
+          $ref: '#/components/responses/LifterError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /lifters/lifter/{lifterId}/update:
+    post:
+      summary: Updates data for a lifter in db
+      tags:
+        - lifters
+      parameters:
+        - $ref: '#/components/parameters/LifterId'
+      requestBody:
+        $ref: '#/components/requestBodies/LifterUpdate'
+      responses:
+        '200':
+          $ref: '#/components/responses/LifterSuccess'
+        '400':
+          $ref: '#/components/responses/LifterError'
+        '500':
+          $ref: '#/components/responses/Error'
+  /ranking:
+    post:
+      summary: Returns the ranking for a lifter and event
+      tags:
+        - general
+      requestBody:
+        $ref: '#/components/requestBodies/Ranking'
+      responses:
+        '200':
+          $ref: '#/components/responses/RankingSuccess'
+        '400':
+          $ref: '#/components/responses/Error'
+        '500':
+          $ref: '#/components/responses/Error'
+  /score:
+    post:
+      summary: Returns the score for a lifter and an event
+      tags:
+        - general
+      requestBody:
+        $ref: '#/components/requestBodies/Score'
+      responses:
+        '200':
+          $ref: '#/components/responses/ScoreSuccess'
+        '400':
+          $ref: '#/components/responses/Error'
+        '500':
+          $ref: '#/components/responses/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - statusCode
+        - message
+      properties:
+        statusCode:
+          type: number
+        message:
+          type: string
+    Event:
+      description: represents an event
+      type: object
+      properties:
+        eventId:
+          $ref: '#/components/schemas/EventId'
+        type:
+          $ref: '#/components/schemas/EventType'
+        duration:
+          $ref: '#/components/schemas/EventDuration'
+        registeredLifters:
+          type: array
+          items:
+            $ref: '#/components/schemas/LifterId'
+    EventDuration:
+      description: Valid lengths of events
+      type: string
+      enum:
+        - '5min'
+        - '10min'
+    EventId:
+      description: eventId used to index the events db
+      type: string
+    EventType:
+      description: Valid event types
+      type: string
+      enum:
+        - Biathlon
+        - Jerk
+        - Long Cycle
+        - Snatch
+    Gender:
+      type: string
+      enum:
+        - male
+        - female
+    KettlebellWeight:
+      description: Weight in kilograms of a sport kettlebell
+      type: number
+      enum:
+        - 8
+        - 12
+        - 16
+        - 20
+        - 24
+        - 28
+        - 32
+    Lifter:
+      description: Represents a lifter
+      type: object
+      properties:
+        lifterId:
+          $ref: '#/components/schemas/LifterId'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        weight:
+          type: string
+        weightClass:
+          $ref: '#/components/schemas/WeightClass'
+        registeredEvents:
+          $ref: '#/components/schemas/RegisteredEvents'
+    LifterId:
+      description: ID used to index the lifters db
+      type: string
+    Ranking:
+      description: Valid ranking types
+      type: string
+      enum:
+        - MSIC
+        - MS
+        - CMS
+        - Rank I
+        - Rank II
+        - Rank III
+    RegisteredEvents:
+      description: List of eventIds lifter is registered for
+      type: array
+      items:
+        $ref: '#/components/schemas/EventId'
+    Repetitions:
+      description: The total number of repeptitions from a lifter for an event
+      type: number
+    Score:
+      description: The score for a lifter for an event
+      type: number
+    WeightClass:
+      type: string
+      enum:
+        - Strawweight
+        - Flyweight
+        - Bantamweight
+        - Featherweight
+        - Lightweight
+        - Super Lightweight
+        - Welterweight
+        - Super Welterweight
+        - Middleweight
+        - Super Middleweight
+        - Cruiserweight
+        - Heavyweight
+        - Super Heavyweight
+  responses:
+    Error:
+      description: unexpected error
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/Error'
+    EventRegisterLifterSuccess:
+      description: Successfully added lifters to event
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - eventId
+              - lifterIds
+              - messages
+            properties:
+              eventId:
+                $ref: '#/components/schemas/EventId'
+              lifterIds:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LifterId'
+              message:
+                type: string
+    EventError:
+      description: Indicates an event request experienced an error
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - eventId
+              - messages
+            properties:
+              eventId:
+                $ref: '#/components/schemas/EventId'
+              messages:
+                type: array
+                items:
+                  type: string
+    EventSuccess:
+      description: Indicates an event request is successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - eventId
+              - messages
+            properties:
+              eventId:
+                $ref: '#/components/schemas/EventId'
+              message:
+                type: string
+    GetEventsSuccess:
+      description: Returns all events
+      content:
+        'application/json':
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Event'
+    GetLiftersSuccess:
+      description: Returns all lifters
+      content:
+        'application/json':
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Lifter'
+    LifterSuccess:
+      description: Indicates a lifter request is successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - lifterId
+              - message
+            properties:
+              lifterId:
+                $ref: '#/components/schemas/LifterId'
+              message:
+                type: string
+    LifterError:
+      description: Indicates a lifter request experienced an error
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - lifterId
+              - messages
+            properties:
+              lifterId:
+                $ref: '#/components/schemas/LifterId'
+              messages:
+                type: array
+                items:
+                  type: string
+    LifterEventRegisterSuccess:
+      description: Request to update a lifter's registered events is successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - lifterId
+              - eventIds
+              - message
+            properties:
+              lifterId:
+                $ref: '#/components/schemas/LifterId'
+              eventIds:
+                type: array
+                minItems: 0
+                maxItems: 2
+                items:
+                  $ref: '#/components/schemas/EventId'
+              message:
+                type: string
+    LifterEventResultSuccess:
+      description: Request to update a lifter's results for an event is successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - lifterId
+              - eventIds
+              - message
+            properties:
+              lifterId:
+                $ref: '#/components/schemas/LifterId'
+              eventId:
+                $ref: '#/components/schemas/EventId'
+              ranking:
+                $ref: '#/components/schemas/Ranking'
+              score:
+                $ref: '#/components/schemas/Score'
+    RankingSuccess:
+      description: Request for ranking is successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - ranking
+            properties:
+              ranking:
+                $ref: '#/components/schemas/Ranking'
+    ScoreSuccess:
+      description: Request for score is successful
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - score
+            properties:
+              score:
+                $ref: '#/components/schemas/Score'
+  parameters:
+    LifterId:
+      name: lifterId
+      in: path
+      required: true
+      schema: 
+        $ref: '#/components/schemas/LifterId'
+    EventId:
+      name: eventId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/EventId'
+  requestBodies:
+    EventAdd:
+      description: Describes the new event
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - type
+              - duration
+            properties:
+              type:
+                $ref: '#/components/schemas/EventType'
+              duration:
+                $ref: '#/components/schemas/EventDuration'
+    EventRegisterLifters:
+      description: Describes which lifters to add to an event
+      content:
+        'application/json':
+          schema:
+            type: array
+            minItems: 0
+            items:
+              $ref: '#/components/schemas/LifterId'
+    EventUpdate:
+      description: Describes the fields to update
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/EventType'
+              duration:
+                $ref: '#/components/schemas/EventDuration'
+    LifterAdd:
+      description: Describes the fields of the new lifter
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - firstName
+              - lastName
+              - gender
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              gender:
+                $ref: '#/components/schemas/Gender'
+              weight:
+                type: string
+              weightClass:
+                $ref: '#/components/schemas/WeightClass'
+    LifterEventDetails:
+      description: Describes the details from a lifter related to an event
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              eventId:
+                $ref: '#/components/schemas/EventId'
+              kettlebellWeight:
+                $ref: '#/components/schemas/KettlebellWeight'
+    LifterEventResult:
+      description: Describes the results from a lifter's event
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              eventId:
+                $ref: '#/components/schemas/EventId'
+              repetitions:
+                $ref: '#/components/schemas/Repetitions'
+    LifterRegisterEvents:
+      description: Describes which events to register to
+      content:
+        'application/json':
+          schema:
+            type: array
+            minItems: 0
+            maxItems: 2
+            items:
+              $ref: '#/components/schemas/EventId'
+    LifterUpdate:
+      description: Describes the fields to be updated
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - firstName
+              - lastName
+              - gender
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              gender:
+                $ref: '#/components/schemas/Gender'
+              weight:
+                type: string
+              weightClass:
+                $ref: '#/components/schemas/WeightClass'
+    Ranking:
+      description: Describes the fields needed to obtain a ranking
+      content:
+        'application/json':
+          schema:
+            type: object
+            required:
+              - duration
+              - eventType
+              - gender
+              - kettlebellWeight
+              - repetitions
+              - weightCategory
+            properties:
+              duration:
+                $ref: '#/components/schemas/EventDuration'
+              eventType:
+                $ref: '#/components/schemas/EventType'
+              gender:
+                $ref: '#/components/schemas/Gender'
+              kettlebellWeight:
+                $ref: '#/components/schemas/KettlebellWeight'
+              repetitions:
+                $ref: '#/components/schemas/Repetitions'
+              weightCategory:
+                $ref: '#/components/schemas/WeightClass'
+    Score:
+      description: Describes the fields needed to obtain a score
+      content:
+        'application/json':
+          schema:
+            type: object
+      
+        
