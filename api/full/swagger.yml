@@ -13,13 +13,11 @@ paths:
           $ref: '#/components/responses/GetEventsSuccess'
         '500':
           $ref: '#/components/responses/Error'
-  /events/event/{eventId}/add:
+  /events/event/add:
     post:
       summary: Adds a new event to db
       tags:
         - events
-      parameters:
-        - $ref: '#/components/parameters/EventId'
       requestBody:
         $ref: '#/components/requestBodies/EventAdd'
       responses:
