@@ -1,0 +1,11 @@
+{
+  "name": "kb-sport-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/johndrew/kbSportRankingTableDb.git",
+  "author": "Taylor Johndrew <johndrew.t@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.8.0"
+  }
+}

@@ -1,5 +1,6 @@
 const uuid = require('uuid/v4');
 const AWS = require('aws-sdk');
+const hash = require('object-hash');
 const { eventTypes, durations } = require('../shared/enums');
 
 const TABLE_NAME = 'kbEventDb';
@@ -8,6 +9,9 @@ const VALID_ACTIONS = Object.freeze({
     UPDATE: 'update',
     DELETE: 'delete',
 });
+const DYNAMO_INIT_PARAMS = {
+    region: 'us-west-2',
+};
 
 /**
  * Throws an error if the event object is invalid.
@@ -24,6 +28,15 @@ function validateEvent(event) {
 }
 
 /**
+ * Creates the db key for dynamo
+ * @param {String} eventType 
+ * @param {String} duration 
+ */
+function createKey(eventType, duration) {
+    return hash({ eventType, duration });
+}
+
+/**
  * Saves an event to the database.
  * @param {String} eventType The type of event
  * @param {String} duration The length in time of the event
@@ -32,27 +45,21 @@ function validateEvent(event) {
 exports.addToDb = async (eventType, duration) => {
 
     console.log(`INFO: Adding event; type:${eventType}, duration:${duration}`);
-    const dynamo = new AWS.DynamoDB();
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
-        dynamo.putItem({
+        dynamo.put({
             TableName: TABLE_NAME,
             Item: {
-                eventId: {
-                    S: uuid(),
-                },
-                type: {
-                    S: eventType,
-                },
-                duration: {
-                    S: duration,
-                },
+                eventId: createKey(eventType, duration),
+                type: eventType,
+                duration: duration,
             },
         }, (err, result) => {
             if (err) {
-                console.error('ERROR: putItem error;', err);
+                console.error('ERROR: put error;', err);
                 reject(new Error('Could not add event to database'));
             } else {
-                console.log('DEBUG: putItem success', result);
+                console.log('DEBUG: put success', result);
                 resolve('success');
             };
         });
@@ -62,24 +69,19 @@ exports.addToDb = async (eventType, duration) => {
 exports.deleteFromDb = async (eventType, duration) => {
 
     console.log(`INFO: Deleting event; type:${eventType}, duration:${duration}`);
-    const dynamo = new AWS.DynamoDB();
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
-        dynamo.deleteItem({
+        dynamo.delete({
             TableName: TABLE_NAME,
-            Item: {
-                type: {
-                    S: eventType,
-                },
-                duration: {
-                    S: duration,
-                },
+            Key: {
+                eventId: createKey(eventType, duration),
             },
         }, (err, result) => {
             if (err) {
-                console.error('ERROR: deleteItem error;', err);
+                console.error('ERROR: delete error;', err);
                 reject(new Error('Failed to delete event'));
             } else {
-                console.log('DEBUG: deleteItem success;', result);
+                console.log('DEBUG: delete success;', result);
                 resolve('success');
             };
         });
@@ -95,24 +97,19 @@ exports.deleteFromDb = async (eventType, duration) => {
 exports.eventExists = async (eventType, duration) => {
 
     console.log(`INFO: Determine if event exists; type:${eventType}, duration:${duration}`);
-    const dynamo = new AWS.DynamoDB();
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
-        dynamo.getItem({
+        dynamo.get({
             TableName: TABLE_NAME,
-            Item: {
-                type: {
-                    S: eventType,
-                },
-                duration: {
-                    S: duration,
-                },
+            Key: {
+                eventId: createKey(eventType, duration),
             },
         }, (err, result) => {
             if (err) {
-                console.error('ERROR: getItem error;', err);
+                console.error('ERROR: get error;', err);
                 reject(new Error('Could not check if event exists in database'));
             } else {
-                console.log('DEBUG: getItem success;', result);
+                console.log('DEBUG: get success;', result);
                 resolve(result.Item !== undefined);
             };
         });
