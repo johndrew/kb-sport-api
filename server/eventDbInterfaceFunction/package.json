@@ -1,0 +1,20 @@
+{
+  "name": "event-db-interface-function",
+  "version": "1.0.0",
+  "description": "Controls data in the kettlebell sport event database",
+  "main": "index.js",
+  "author": "johndrew",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha index.test.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.339.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "aws-sdk-mock": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.1.0"
+  }
+}

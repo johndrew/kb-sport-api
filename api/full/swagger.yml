@@ -59,22 +59,6 @@ paths:
           $ref: '#/components/responses/EventSuccess'
         '500':
           $ref: '#/components/responses/Error'
-  /events/event/{eventId}/update:
-    post:
-      summary: Updates an existing event
-      tags:
-        - events
-      parameters:
-        - $ref: '#/components/parameters/EventId'
-      requestBody:
-        $ref: '#/components/requestBodies/EventUpdate'
-      responses:
-        '200':
-          $ref: '#/components/responses/EventSuccess'
-        '400':
-          $ref: '#/components/responses/EventError'
-        '500':
-          $ref: '#/components/responses/Error'
   /lifters:
     get:
       summary: List all lifters
@@ -525,17 +509,6 @@ components:
             minItems: 0
             items:
               $ref: '#/components/schemas/LifterId'
-    EventUpdate:
-      description: Describes the fields to update
-      content:
-        'application/json':
-          schema:
-            type: object
-            properties:
-              type:
-                $ref: '#/components/schemas/EventType'
-              duration:
-                $ref: '#/components/schemas/EventDuration'
     LifterAdd:
       description: Describes the fields of the new lifter
       content:
