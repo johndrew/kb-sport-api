@@ -67,13 +67,11 @@ paths:
           $ref: '#/components/responses/GetLiftersSuccess'
         '500':
           $ref: '#/components/responses/Error'
-  /lifters/lifter/{lifterId}/add:
+  /lifters/lifter/add:
     post:
       summary: Adds new lifter to db
       tags:
         - lifters
-      parameters:
-        - $ref: '#/components/parameters/LifterId'
       requestBody:
         $ref: '#/components/requestBodies/LifterAdd'
       responses:
