@@ -5,6 +5,7 @@ const { genders, weightClasses } = require('../shared/enums');
 const VALID_ACTIONS = Object.freeze({
     ADD: 'add',
     DELETE: 'delete',
+    GET_ALL: 'getAll',
 });
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
@@ -27,6 +28,8 @@ function validateEvent(event) {
             break;
         case VALID_ACTIONS.DELETE:
             if (!event.lifterId) throw new Error('lifterId is required for delete event');
+            break;
+        case VALID_ACTIONS.GET_ALL:
             break;
         default:
             throw new Error('action is not recognized');
@@ -145,6 +148,26 @@ exports.lifterExists = async ({
 }
 
 /**
+ * Retrieves all lifters from db
+ */
+exports.getAllFromDb = async () => {
+    
+    console.log('INFO: retrieving lifters from database');
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
+    return new Promise((resolve, reject) => {
+        dynamo.scan({ TableName: TABLE_NAME }, (err, result) => {
+            if (err) {
+                console.error('ERROR: scan error;', err);
+                reject(new Error('Could not get lifters from database'));
+            } else {
+                console.log('DEBUG: scan success', result);
+                resolve(result.Items);
+            };
+        });
+    });
+};
+
+/**
  * Provides an interface into the kettlebell sport lifter database
  */
 exports.handler = async (event, context) => {
@@ -162,6 +185,8 @@ exports.handler = async (event, context) => {
             if (lifterExists === false) throw new Error('lifter does not exist');
             await exports.deleteFromDb(event.lifterId);
             break;
+        case VALID_ACTIONS.GET_ALL:
+            return exports.getAllFromDb();
         default:
             throw new Error('unrecognized action');
     }

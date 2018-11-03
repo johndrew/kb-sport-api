@@ -341,4 +341,62 @@ describe(__filename, () => {
             });
         });
     });
+
+    describe('when all lifters are requested', () => {
+        
+        const getAllEvent = {
+            action: 'getAll'
+        };
+
+        before(() => {
+            
+            sinon.stub(eventFunction, 'getAllFromDb');
+        });
+
+        after(() => {
+            
+            eventFunction.getAllFromDb.restore();
+        });
+
+        describe('Positive Tests', () => {
+
+            const lifters = [{
+                lifterId: 'foo',
+                firstName: 'sharon',
+                lastName: 'feldman',
+                gender: 'women',
+            }];
+
+            before(() => {
+                
+                eventFunction.getAllFromDb.resolves(lifters);
+            });
+
+            it('should return lifters', async () => {
+                
+                const actual = await handler(getAllEvent, {});
+                assert.deepEqual(actual, lifters);
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            before(() => {
+                
+                eventFunction.getAllFromDb.rejects(new Error('get failure'));
+            });
+
+            it('should error if get call fails', async () => {
+                
+                try {
+                    await handler(getAllEvent, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if get call fails');
+            });
+        });
+    });
 });

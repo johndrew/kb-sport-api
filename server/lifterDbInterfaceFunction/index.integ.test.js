@@ -21,6 +21,14 @@ describe(__filename, () => {
         assert.strictEqual(actual, true);
     });
 
+    it('should get all lifters from db', async () => {
+        
+        const event = { action: 'getAll' };
+
+        const result = await handler(event, {});
+        assert.strictEqual(result.length >= 1, true);
+    });
+
     it('should delete a lifter from db', async () => {
         
         const event = {
