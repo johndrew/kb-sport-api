@@ -4,6 +4,9 @@ module.exports = {
         "commonjs": true,
         "es6": true
     },
+    "ecmaFeatures": {
+        "arrowFunctions": true
+    },
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": 2015
@@ -25,5 +28,11 @@ module.exports = {
             "error",
             "always"
         ]
+    },
+    "globals": {
+        "describe": true,
+        "it": true,
+        "__filename": true,
+        "__dirname": true,
     }
 };

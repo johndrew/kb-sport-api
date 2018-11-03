@@ -1,0 +1,19 @@
+{
+  "name": "lifter-db-interface-function",
+  "version": "1.0.0",
+  "description": "Interface into the lifter database for the kettlebell sport app",
+  "main": "index.js",
+  "author": "johndrew",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha *.test.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.348.0",
+    "object-hash": "^1.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "sinon": "^7.1.1"
+  }
+}

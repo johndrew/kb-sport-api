@@ -5,3 +5,4 @@ seedRankingTableDatabaseFunction/node_modules/
 seedRankingTableDatabaseFunction/dist/
 getRankingFunction/node_modules/
 getRankingFunction/dist/
+.vscode
