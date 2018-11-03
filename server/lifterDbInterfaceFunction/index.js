@@ -200,7 +200,7 @@ exports.updateInDb = async ({ lifterId, fields }) => {
                 reject(new Error('Could not get lifters from database'));
             } else {
                 console.log('DEBUG: scan success', result);
-                resolve(result.Items);
+                resolve('success');
             };
         });
     });
@@ -222,15 +222,13 @@ exports.handler = async (event, context) => {
         case VALID_ACTIONS.DELETE:
             lifterExists = await exports.lifterExists(event);
             if (lifterExists === false) throw new Error('lifter does not exist');
-            await exports.deleteFromDb(event.lifterId);
-            break;
+            return exports.deleteFromDb(event.lifterId);
         case VALID_ACTIONS.GET_ALL:
             return exports.getAllFromDb();
         case VALID_ACTIONS.UPDATE:
             lifterExists = await exports.lifterExists(event);
             if (lifterExists === false) throw new Error('lifter does not exist');
-            await exports.updateInDb(event);
-            break;
+            return exports.updateInDb(event);
         default:
             throw new Error('action is not recognized');
     }
