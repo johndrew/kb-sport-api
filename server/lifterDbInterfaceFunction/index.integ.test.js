@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { handler, lifterExists } = require('./index');
+const { handler, lifterExists, getAllFromDb } = require('./index');
 
 describe(__filename, () => {
 
@@ -16,7 +16,6 @@ describe(__filename, () => {
 
         const result = await handler(event, {});
         lifterId = result.lifterId;
-
         const actual = await lifterExists(event);
         assert.strictEqual(actual, true);
     });
@@ -29,6 +28,22 @@ describe(__filename, () => {
         assert.strictEqual(result.length >= 1, true);
     });
 
+    it('should update a lifter', async () => {
+        
+        const event = {
+            action: 'update',
+            lifterId,
+            fields: {
+                weightClass: 'Flyweight'
+            },
+        };
+
+        await handler(event, {});
+        const results = await getAllFromDb();
+        const { weightClass: actual } = results.find(result => result.lifterId === lifterId);
+        assert.strictEqual(actual, event.fields.weightClass);
+    });
+
     it('should delete a lifter from db', async () => {
         
         const event = {
@@ -37,7 +52,6 @@ describe(__filename, () => {
         };
 
         await handler(event, {});
-
         const actual = await lifterExists(event);
         assert.strictEqual(actual, false);
     });

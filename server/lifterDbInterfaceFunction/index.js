@@ -6,6 +6,7 @@ const VALID_ACTIONS = Object.freeze({
     ADD: 'add',
     DELETE: 'delete',
     GET_ALL: 'getAll',
+    UPDATE: 'update',
 });
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
@@ -29,10 +30,17 @@ function validateEvent(event) {
         case VALID_ACTIONS.DELETE:
             if (!event.lifterId) throw new Error('lifterId is required for delete event');
             break;
-        case VALID_ACTIONS.GET_ALL:
+        case VALID_ACTIONS.UPDATE:
+            if (!event.lifterId) throw new Error('lifterId is required for update event');
+            if (!event.fields) throw new Error('fields are required for update event');
+            if (!Object.keys(event.fields).length) throw new Error('fields cannot be empty');
+            if (event.fields.weightClass && Object.values(weightClasses).indexOf(event.fields.weightClass) < 0) {
+                throw new Error(`weightClass must be one of these: ${Object.values(weightClasses).join(', ')}`);
+            }
             break;
+        case VALID_ACTIONS.GET_ALL:
         default:
-            throw new Error('action is not recognized');
+            break;
     }
 }
 
@@ -168,6 +176,37 @@ exports.getAllFromDb = async () => {
 };
 
 /**
+ * Updates a lifter's data
+ */
+exports.updateInDb = async ({ lifterId, fields }) => {
+    
+    const attributesToUpdate = Object.keys(fields).map((field) => ({
+        [field]: {
+            Action: 'PUT', // TODO: Enable deleting fields
+            Value: fields[field],
+        },
+    })).reduce((finalAttributes, fieldObj) => Object.assign(finalAttributes, fieldObj));
+    
+    console.log('INFO: updating lifter in database');
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
+    return new Promise((resolve, reject) => {
+        dynamo.update({
+            TableName: TABLE_NAME,
+            Key: { lifterId },
+            AttributeUpdates: attributesToUpdate,
+        }, (err, result) => {
+            if (err) {
+                console.error('ERROR: scan error;', err);
+                reject(new Error('Could not get lifters from database'));
+            } else {
+                console.log('DEBUG: scan success', result);
+                resolve(result.Items);
+            };
+        });
+    });
+}
+
+/**
  * Provides an interface into the kettlebell sport lifter database
  */
 exports.handler = async (event, context) => {
@@ -187,7 +226,12 @@ exports.handler = async (event, context) => {
             break;
         case VALID_ACTIONS.GET_ALL:
             return exports.getAllFromDb();
+        case VALID_ACTIONS.UPDATE:
+            lifterExists = await exports.lifterExists(event);
+            if (lifterExists === false) throw new Error('lifter does not exist');
+            await exports.updateInDb(event);
+            break;
         default:
-            throw new Error('unrecognized action');
+            throw new Error('action is not recognized');
     }
 };

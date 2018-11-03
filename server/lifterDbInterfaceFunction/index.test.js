@@ -399,4 +399,163 @@ describe(__filename, () => {
             });
         });
     });
+
+    describe('when a lifter is being updated', () => {
+
+        const updateEvent = {
+            action: 'update',
+            lifterId: 'foo',
+            fields: {
+                weightClass: 'Flyweight',
+            },
+        };
+        
+        before(() => {
+            
+            sinon.stub(eventFunction, 'updateInDb');
+            sinon.stub(eventFunction, 'lifterExists');
+        });
+
+        after(() => {
+            
+            eventFunction.updateInDb.restore();
+            eventFunction.lifterExists.restore();
+        });
+
+        describe('Positive Tests', () => {
+
+            before(() => {
+                
+                eventFunction.updateInDb.resolves('success');
+                eventFunction.lifterExists.resolves(true);
+            });
+
+            it('should resolve', async () => {
+                
+                await handler(updateEvent, {});
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            describe('when update call fails', () => {
+                
+                before(() => {
+                    
+                    eventFunction.updateInDb.rejects(new Error('update call failed'));
+                });
+
+                it('should error if update call fails', async () => {
+
+                    try {
+                        await handler(updateEvent, {});
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if update call fails');
+                });
+            });
+
+            describe('when lifter does not exist', () => {
+                
+                before(() => {
+                    
+                    eventFunction.updateInDb.resolves('success');
+                    eventFunction.lifterExists.resolves(false);
+                });
+
+                it('should error if lifter does not exist', async () => {
+                    
+                    try {
+                        await handler(updateEvent, {});
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if lifter does not exist');
+                });
+            });
+
+            describe('when a call to check lifter existence fails', () => {
+                
+                before(() => {
+                    
+                    eventFunction.lifterExists.rejects(new Error('lifter exists call failed'));
+                });
+
+                it('should error if lifter exists call fails', async () => {
+                    
+                    try {
+                        await handler(updateEvent, {});
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if lifter exists call fails');
+                });
+            });
+
+            it('should error if lifterId is missing', async () => {
+
+                const event = Object.assign({}, updateEvent, { lifterId: undefined });
+                
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if lifterId is missing');
+            });
+
+            it('should error if fields property is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { fields: undefined });
+
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if fields is missing');
+            });
+
+            it('should error if fields is empty', async () => {
+                
+                const event = Object.assign({}, updateEvent, { fields: {} });
+
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if fields is empty');
+            });
+
+            it('should error if weightClass is invalid', async () => {
+                
+                const event = JSON.parse(JSON.stringify(updateEvent));
+                event.fields.weightClass = 'foo';
+
+
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if weightClass is invalid');
+            });
+        });
+    });
 });
