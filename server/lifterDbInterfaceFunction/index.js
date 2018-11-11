@@ -12,6 +12,9 @@ const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
 };
 const TABLE_NAME = 'kbLifterDb';
+const VALID_UPDATE_FIELDS = Object.freeze({
+    WEIGHT_CLASS: 'weightClass',
+});
 
 function validateEvent(event) {
     if (!event) throw new Error('event is required');
@@ -34,6 +37,10 @@ function validateEvent(event) {
             if (!event.lifterId) throw new Error('lifterId is required for update event');
             if (!event.fields) throw new Error('fields are required for update event');
             if (!Object.keys(event.fields).length) throw new Error('fields cannot be empty');
+            
+            const invalidFields = Object.keys(event.fields).filter(field => Object.values(VALID_UPDATE_FIELDS).indexOf(field) < 0);
+            if (invalidFields.length > 0)
+                throw new Error(`these fields are invalid: ${invalidFields}`);
             if (event.fields.weightClass && Object.values(weightClasses).indexOf(event.fields.weightClass) < 0) {
                 throw new Error(`weightClass must be one of these: ${Object.values(weightClasses).join(', ')}`);
             }

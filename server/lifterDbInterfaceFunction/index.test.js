@@ -541,6 +541,21 @@ describe(__filename, () => {
                 throw new Error('should not resolve if fields is empty');
             });
 
+            it('should error if an invalid field is provided', async () => {
+
+                const event = JSON.parse(JSON.stringify(updateEvent));
+                event.fields.foo = 'bar';
+
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if invalid fields are provided');
+            });
+
             it('should error if weightClass is invalid', async () => {
                 
                 const event = JSON.parse(JSON.stringify(updateEvent));

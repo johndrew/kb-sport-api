@@ -9,8 +9,8 @@ describe(__filename, () => {
         
         const event = {
             action: 'add',
-            firstName: 'sharon',
-            lastName: 'feldman',
+            firstName: 'test',
+            lastName: 'icle',
             gender: 'women',
         };
 
