@@ -7,13 +7,13 @@ describe(__filename, () => {
         type: 'Long Cycle',
         duration: '10min',
     };
-    const eventId = '18c88ea8b8a5dd866e94e5ff248d5ce9c4b9181c';
+    let eventId;
     
     it('should add an event to db', async () => {
 
         const event = Object.assign({}, eventTemplate, { action: 'add' });
 
-        await handler(event, {});
+        ({ eventId } = await handler(event, {}));
 
         const actual = await eventExists({
             eventType: eventTemplate.type,
@@ -29,6 +29,18 @@ describe(__filename, () => {
         const actual = await handler(event, {});
 
         assert.ok(actual);
+    });
+
+    it('should register lifter to db', async () => {
+        
+        const event = {
+            action: 'register',
+            eventId,
+            lifterId: '54e34c0648350e93dee24410510ccbc9e494aeee', // WARNING: hardcoded lifter id. Could be deleted.
+        };
+
+        await handler(event, {});
+        assert.ok(true);
     });
 
     it('should delete an event from db', async () => {

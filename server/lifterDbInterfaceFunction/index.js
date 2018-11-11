@@ -7,6 +7,7 @@ const VALID_ACTIONS = Object.freeze({
     DELETE: 'delete',
     GET_ALL: 'getAll',
     UPDATE: 'update',
+    EXISTS: 'exists',
 });
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
@@ -44,6 +45,9 @@ function validateEvent(event) {
             if (event.fields.weightClass && Object.values(weightClasses).indexOf(event.fields.weightClass) < 0) {
                 throw new Error(`weightClass must be one of these: ${Object.values(weightClasses).join(', ')}`);
             }
+            break;
+        case VALID_ACTIONS.EXISTS:
+            if (!event.lifterId) throw new Error('lifterId is required for update event');
             break;
         case VALID_ACTIONS.GET_ALL:
         default:
@@ -236,6 +240,8 @@ exports.handler = async (event, context) => {
             lifterExists = await exports.lifterExists(event);
             if (lifterExists === false) throw new Error('lifter does not exist');
             return exports.updateInDb(event);
+        case VALID_ACTIONS.EXISTS:
+            return exports.lifterExists(event);
         default:
             throw new Error('action is not recognized');
     }

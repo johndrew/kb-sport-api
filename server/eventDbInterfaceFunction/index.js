@@ -1,4 +1,3 @@
-const uuid = require('uuid/v4');
 const AWS = require('aws-sdk');
 const hash = require('object-hash');
 const { eventTypes, durations } = require('../shared/enums');
@@ -8,10 +7,12 @@ const VALID_ACTIONS = Object.freeze({
     ADD: 'add',
     DELETE: 'delete',
     GET_ALL: 'getAll',
+    REGISTER: 'register',
 });
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
 };
+const LIFTER_DB_FUNCTION = 'kbSportLifterDbInterfaceFunction';
 
 /**
  * Throws an error if the event object is invalid.
@@ -32,6 +33,10 @@ function validateEvent(event) {
             return;
         case VALID_ACTIONS.DELETE:
             if (!event.eventId) throw new Error('event id is required');
+            return;
+        case VALID_ACTIONS.REGISTER:
+            if (!event.eventId) throw new Error('event id is required');
+            if (!event.lifterId) throw new Error('lifter id is required');
             return;
         default:
             throw new Error(`action ${event.action} is not recognized`);
@@ -56,12 +61,13 @@ function createKey(eventType, duration) {
 exports.addToDb = async (eventType, duration) => {
 
     console.log(`INFO: Adding event; type:${eventType}, duration:${duration}`);
+    const eventId = createKey(eventType, duration);
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.put({
             TableName: TABLE_NAME,
             Item: {
-                eventId: createKey(eventType, duration),
+                eventId,
                 type: eventType,
                 duration: duration,
             },
@@ -71,7 +77,9 @@ exports.addToDb = async (eventType, duration) => {
                 reject(new Error('Could not add event to database'));
             } else {
                 console.log('DEBUG: put success', result);
-                resolve('success');
+                resolve({
+                    eventId,
+                });
             };
         });
     });
@@ -93,6 +101,32 @@ exports.deleteFromDb = async (eventId) => {
                 reject(new Error('Failed to delete event'));
             } else {
                 console.log('DEBUG: delete success;', result);
+                resolve('success');
+            };
+        });
+    });
+};
+
+/**
+ * Registers a lifter for an event in db
+ */
+exports.registerLifterInDb = async ({ eventId, lifterId }) => {
+    
+    console.log('INFO: registering lifter to event in database');
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
+    return new Promise((resolve, reject) => {
+        dynamo.update({
+            TableName: TABLE_NAME,
+            Key: { eventId },
+            UpdateExpression: "ADD #lifters :lifter",
+            ExpressionAttributeNames: { "#lifters" : "lifters" },
+            ExpressionAttributeValues: { ":lifter": dynamo.createSet([lifterId]) }
+        }, (err, result) => {
+            if (err) {
+                console.error('ERROR: update error;', err);
+                reject(new Error('Could not register lifter to event in database'));
+            } else {
+                console.log('DEBUG: update success', result);
                 resolve('success');
             };
         });
@@ -149,6 +183,32 @@ exports.getAllFromDb = async () => {
 };
 
 /**
+ * Determines if a lifter exists
+ */
+exports.lifterExists = async ({ lifterId }) => {
+
+    console.log('INFO: Checking if lifter exists');
+    const lambda = new AWS.Lambda({ region: 'us-west-2' });
+    return new Promise((resolve, reject) => {
+        lambda.invokeAsync({
+            FunctionName: LIFTER_DB_FUNCTION,
+            InvokeArgs: JSON.stringify({
+                action: 'exists',
+                lifterId,
+            }),
+        }, (err, lifterExists) => {
+            if (err) {
+                console.error('ERROR: call to lambda failed', err.message);
+                reject(new Error('Could not determine if lifter exists'));
+            } else {
+                console.log('DEBUG: call to lifter lambda successful');
+                resolve(lifterExists);
+            }
+        });
+    })
+}
+
+/**
  * Provides an interface into the "kbEventDb" DynamoDb table.
  * Allows the user to add, update, or delete events
  */
@@ -165,13 +225,19 @@ exports.handler = async (event, context) => {
                 duration: event.duration,
             });
             if (eventExists == true) throw new Error('Event already exists');
-            return await exports.addToDb(event.type, event.duration);
+            return exports.addToDb(event.type, event.duration);
         case VALID_ACTIONS.DELETE:
             eventExists = await exports.eventExists({ eventId: event.eventId });
             if (eventExists == false) throw new Error('Event does not exist and cannot be deleted');
-            return await exports.deleteFromDb(event.eventId);
+            return exports.deleteFromDb(event.eventId);
         case VALID_ACTIONS.GET_ALL:
-            return await exports.getAllFromDb();
+            return exports.getAllFromDb();
+        case VALID_ACTIONS.REGISTER:
+            eventExists = await exports.eventExists({ eventId: event.eventId });
+            if (eventExists == false) throw new Error('Event does not exist. Cannot register lifter');
+            const lifterExists = await exports.lifterExists({ lifterId: event.lifterId });
+            if (lifterExists == false) throw new Error('Lifter does not exist. Cannot register lifter');
+            return exports.registerLifterInDb({ eventId: event.eventId, lifterId: event.lifterId });
         default:
             throw new Error(`action ${event.action} is not recognized`);
     }

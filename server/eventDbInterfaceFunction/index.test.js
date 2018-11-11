@@ -368,4 +368,162 @@ describe(__filename, () => {
             });
         });
     });
+
+    describe.only('when a lifter is registered to an event', () => {
+
+        const registerEvent = {
+            action: 'register',
+            eventId: 'bar',
+            lifterId: 'foo',
+        };
+
+        before(() => {
+            
+            sinon.stub(eventFunction, 'eventExists');
+            sinon.stub(eventFunction, 'lifterExists');
+            sinon.stub(eventFunction, 'registerLifterInDb');
+        });
+
+        after(() => {
+            
+            eventFunction.eventExists.restore();
+            eventFunction.lifterExists.restore();
+            eventFunction.registerLifterInDb.restore();
+        });
+        
+        describe('Positive Tests', () => {
+
+            before(() => {
+                
+                eventFunction.eventExists.resolves(true);
+                eventFunction.lifterExists.resolves(true);
+                eventFunction.registerLifterInDb.resolves('success');
+            });
+
+            it('should resolve if update is successful', async () => {
+                
+                await handler(registerEvent, {});
+                assert.ok(true);
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            it('should error if eventId is missing', async () => {
+
+                const event = Object.assign({}, registerEvent, { eventId: undefined });
+
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(true);
+                    return;
+                }
+
+                throw new Error('should not resolve if lifter id is missing');
+            });
+
+            it('should error if lifterId is missing', async () => {
+
+                const event = Object.assign({}, registerEvent, { lifterId: undefined });
+
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(true);
+                    return;
+                }
+
+                throw new Error('should not resolve if lifter id is missing');
+            });
+
+            describe('when event does not exist', () => {
+
+                before(() => {
+                    
+                    eventFunction.eventExists.rejects(new Error('event does not exist'));
+                    eventFunction.lifterExists.resolves(true);
+                    eventFunction.registerLifterInDb.resolves('success');
+                });
+                
+                it('should error when event does not exist', async () => {
+    
+                    try {
+                        await handler(registerEvent, {});
+                    } catch (e) {
+                        assert.ok(true);
+                        return;
+                    }
+    
+                    throw new Error('should not resolve if event does not exist');
+                });
+            });
+
+            describe('when call to check if lifter exists fails', () => {
+                
+                before(() => {
+                    
+                    eventFunction.eventExists.resolves(true);
+                    eventFunction.lifterExists.rejects(new Error('call failed'));
+                    eventFunction.registerLifterInDb.resolves('success');
+                });
+                
+                it('should error when lifter existence cannot be determined', async () => {
+    
+                    try {
+                        await handler(registerEvent, {});
+                    } catch (e) {
+                        assert.ok(true);
+                        return;
+                    }
+    
+                    throw new Error('should not resolve if lifter existence cannot be determined');
+                });
+            });
+
+            describe('when lifter does not exist', () => {
+                
+                before(() => {
+                    
+                    eventFunction.eventExists.resolves(true);
+                    eventFunction.lifterExists.resolves(false);
+                    eventFunction.registerLifterInDb.resolves('success');
+                });
+                
+                it('should error when lifter does not exist', async () => {
+    
+                    try {
+                        await handler(registerEvent, {});
+                    } catch (e) {
+                        assert.ok(true);
+                        return;
+                    }
+    
+                    throw new Error('should not resolve if lifter does not exist');
+                });
+            });
+
+            describe('when call to register fails', () => {
+
+                before(() => {
+    
+                    eventFunction.eventExists.resolves(true);
+                    eventFunction.lifterExists.resolves(true);
+                    eventFunction.registerLifterInDb.rejects(new Error('Could not register lifter'));
+                });
+
+                it('should error when call to register fails', async () => {
+                    
+                    try {
+                        await handler(registerEvent, {});
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if register call fails');
+                });
+            });
+        });
+    });
 });

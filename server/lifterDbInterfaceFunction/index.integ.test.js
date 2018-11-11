@@ -44,6 +44,17 @@ describe(__filename, () => {
         assert.strictEqual(actual, event.fields.weightClass);
     });
 
+    it('should show when a lifter exists', async () => {
+        
+        const event = {
+            action: 'exists',
+            lifterId,
+        };
+
+        const actual = await handler(event, {});
+        assert.strictEqual(actual, true);
+    });
+
     it('should delete a lifter from db', async () => {
         
         const event = {
@@ -53,6 +64,17 @@ describe(__filename, () => {
 
         await handler(event, {});
         const actual = await lifterExists(event);
+        assert.strictEqual(actual, false);
+    });
+
+    it('should show when a lifter does not exist', async () => {
+        
+        const event = {
+            action: 'exists',
+            lifterId,
+        };
+
+        const actual = await handler(event, {});
         assert.strictEqual(actual, false);
     });
 });

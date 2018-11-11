@@ -573,4 +573,90 @@ describe(__filename, () => {
             });
         });
     });
+
+    describe('when checking if a lifter exists', () => {
+
+        const lifterExistEvent = {
+            action: 'exists',
+            lifterId: 'foo',
+        };
+
+        before(() => {
+            
+            sinon.stub(eventFunction, 'lifterExists');
+        });
+
+        after(() => {
+            
+            eventFunction.lifterExists.restore();
+        });
+        
+        describe('Positive Tests', () => {
+
+            describe('when a lifter does exist', () => {
+                
+                before(() => {
+                    
+                    eventFunction.lifterExists.resolves(true);
+                });
+
+                it('should return false', async () => {
+                    
+                    const actual = await handler(lifterExistEvent, {});
+                    assert.strictEqual(actual, true);
+                });
+            });
+
+            describe('when a lifter does not exist', () => {
+                
+                before(() => {
+                    
+                    eventFunction.lifterExists.resolves(false);
+                });
+
+                it('should return false', async () => {
+                    
+                    const actual = await handler(lifterExistEvent, {});
+                    assert.strictEqual(actual, false);
+                });
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            it('should error if lifter id is missing', async () => {
+
+                const event = Object.assign({}, lifterExistEvent, { lifterId: undefined });
+                
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if lifter id is missing');
+            });
+
+            describe('when network call fails', () => {
+                
+                before(() => {
+                    
+                    eventFunction.lifterExists.rejects(new Error('call failed'));
+                });
+
+                it('should error if call fails', async () => {
+                    
+                    try {
+                        await handler(lifterExistEvent, {});
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if network call fails');
+                });
+            });
+        });
+    });
 });
