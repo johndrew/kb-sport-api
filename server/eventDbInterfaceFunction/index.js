@@ -8,6 +8,7 @@ const VALID_ACTIONS = Object.freeze({
     DELETE: 'delete',
     GET_ALL: 'getAll',
     REGISTER: 'register',
+    EXISTS: 'exists',
 });
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
@@ -38,6 +39,9 @@ function validateEvent(event) {
             if (!event.eventId) throw new Error('event id is required');
             if (!event.lifterId) throw new Error('lifter id is required');
             return;
+        case VALID_ACTIONS.EXISTS:
+            if (!event.eventId) throw new Error('event id is required');
+            return;
         default:
             throw new Error(`action ${event.action} is not recognized`);
     }
@@ -58,14 +62,14 @@ function createKey(eventType, duration) {
  * @param {String} duration The length in time of the event
  * @returns {String} Success string
  */
-exports.addToDb = async (eventType, duration) => {
+exports.addToDb = async (eventType, duration, { tableName } = {}) => {
 
     console.log(`INFO: Adding event; type:${eventType}, duration:${duration}`);
     const eventId = createKey(eventType, duration);
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.put({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Item: {
                 eventId,
                 type: eventType,
@@ -85,13 +89,13 @@ exports.addToDb = async (eventType, duration) => {
     });
 };
 
-exports.deleteFromDb = async (eventId) => {
+exports.deleteFromDb = async (eventId, { tableName } = {}) => {
 
     console.log(`INFO: Deleting event; eventId:${eventId}`);
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.delete({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Key: {
                 eventId,
             },
@@ -110,13 +114,13 @@ exports.deleteFromDb = async (eventId) => {
 /**
  * Registers a lifter for an event in db
  */
-exports.registerLifterInDb = async ({ eventId, lifterId }) => {
+exports.registerLifterInDb = async ({ eventId, lifterId }, { tableName } = {}) => {
     
     console.log('INFO: registering lifter to event in database');
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.update({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Key: { eventId },
             UpdateExpression: "ADD #lifters :lifter",
             ExpressionAttributeNames: { "#lifters" : "lifters" },
@@ -139,13 +143,13 @@ exports.registerLifterInDb = async ({ eventId, lifterId }) => {
  * @param {String} duration The length in time of the event
  * @returns {Boolean} Determines if the event exists in db.
  */
-exports.eventExists = async ({ eventType, duration, eventId }) => {
+exports.eventExists = async ({ eventType, duration, eventId }, { tableName } = {}) => {
 
     console.log(`INFO: Determine if event exists; type:${eventType}, duration:${duration}, eventId:${eventId}`);
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.get({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Key: {
                 eventId: eventId ? eventId : createKey(eventType, duration),
             },
@@ -164,13 +168,15 @@ exports.eventExists = async ({ eventType, duration, eventId }) => {
 /**
  * Retrieves all events.
  */
-exports.getAllFromDb = async () => {
+exports.getAllFromDb = async ({ tableName } = {}) => {
 
     console.log('INFO: Getting all events');
 
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
-        dynamo.scan({ TableName: TABLE_NAME }, (err, results) => {
+        dynamo.scan({
+            TableName: tableName || TABLE_NAME,
+        }, (err, results) => {
             if (err) {
                 console.error('ERROR: scan error;', err);
                 reject(new Error('Could not get events from database'));
@@ -223,21 +229,23 @@ exports.handler = async (event, context) => {
             eventExists = await exports.eventExists({
                 eventType: event.type,
                 duration: event.duration,
-            });
+            }, context);
             if (eventExists == true) throw new Error('Event already exists');
-            return exports.addToDb(event.type, event.duration);
+            return exports.addToDb(event.type, event.duration, context);
         case VALID_ACTIONS.DELETE:
-            eventExists = await exports.eventExists({ eventId: event.eventId });
+            eventExists = await exports.eventExists({ eventId: event.eventId }, context);
             if (eventExists == false) throw new Error('Event does not exist and cannot be deleted');
-            return exports.deleteFromDb(event.eventId);
+            return exports.deleteFromDb(event.eventId, context);
         case VALID_ACTIONS.GET_ALL:
-            return exports.getAllFromDb();
+            return exports.getAllFromDb(context);
         case VALID_ACTIONS.REGISTER:
-            eventExists = await exports.eventExists({ eventId: event.eventId });
+            eventExists = await exports.eventExists({ eventId: event.eventId }, context);
             if (eventExists == false) throw new Error('Event does not exist. Cannot register lifter');
             const lifterExists = await exports.lifterExists({ lifterId: event.lifterId });
             if (lifterExists == false) throw new Error('Lifter does not exist. Cannot register lifter');
-            return exports.registerLifterInDb({ eventId: event.eventId, lifterId: event.lifterId });
+            return exports.registerLifterInDb({ eventId: event.eventId, lifterId: event.lifterId }, context);
+        case VALID_ACTIONS.EXISTS:
+            return exports.eventExists({ eventId: event.eventId }, context);
         default:
             throw new Error(`action ${event.action} is not recognized`);
     }

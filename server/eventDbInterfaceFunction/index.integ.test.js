@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { handler, eventExists } = require('./index');
+const { handler } = require('./index');
 
 describe(__filename, () => {
 
@@ -7,18 +7,26 @@ describe(__filename, () => {
         type: 'Long Cycle',
         duration: '10min',
     };
+    const context = {
+        tableName: 'kbEventDb-dev',
+    };
     let eventId;
     
     it('should add an event to db', async () => {
 
         const event = Object.assign({}, eventTemplate, { action: 'add' });
 
-        ({ eventId } = await handler(event, {}));
+        ({ eventId } = await handler(event, context));
+    });
 
-        const actual = await eventExists({
-            eventType: eventTemplate.type,
-            duration: eventTemplate.duration,
-        });
+    it('should confirm that the event exist', async () => {
+        
+        const event = {
+            action: 'exists',
+            eventId,
+        };
+
+        const actual = await handler(event, context);
         assert.strictEqual(actual, true);
     });
 
@@ -26,7 +34,7 @@ describe(__filename, () => {
         
         const event = { action: 'getAll' };
 
-        const actual = await handler(event, {});
+        const actual = await handler(event, context);
 
         assert.ok(actual);
     });
@@ -39,7 +47,7 @@ describe(__filename, () => {
             lifterId: '54e34c0648350e93dee24410510ccbc9e494aeee', // WARNING: hardcoded lifter id. Could be deleted.
         };
 
-        await handler(event, {});
+        await handler(event, context);
         assert.ok(true);
     });
 
@@ -47,9 +55,17 @@ describe(__filename, () => {
 
         const event = { action: 'delete', eventId };
 
-        await handler(event, {});
+        await handler(event, context);
+    });
 
-        const actual = await eventExists({ eventId });
+    it('should confirm that the event does not exist', async () => {
+        
+        const event = {
+            action: 'exists',
+            eventId,
+        };
+
+        const actual = await handler(event, context);
         assert.strictEqual(actual, false);
     });
 });

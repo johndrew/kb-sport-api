@@ -13,6 +13,9 @@ describe(__filename, () => {
         type: eventTypes.LONG_CYCLE,
         duration: durations.TEN,
     };
+    const context = {
+        tableName: 'kbEventDb-dev',
+    };
 
     describe('when bad input is sent', () => {
 
@@ -20,7 +23,7 @@ describe(__filename, () => {
             const event = null;
 
             try {
-                await handler(event, {});
+                await handler(event, context);
             } catch (e) {
                 assert.ok(true);
                 return;
@@ -33,7 +36,7 @@ describe(__filename, () => {
             const event = Object.assign({}, testEvent, { action: null });
 
             try {
-                await handler(event, {});
+                await handler(event, context);
             } catch (e) {
                 assert.ok(true);
                 return;
@@ -46,7 +49,7 @@ describe(__filename, () => {
             const event = Object.assign({}, testEvent, { action: 'foo' });
 
             try {
-                await handler(event, {});
+                await handler(event, context);
             } catch (e) {
                 assert.ok(true);
                 return;
@@ -78,7 +81,7 @@ describe(__filename, () => {
 
                 eventFunction.addToDb.resolves('success');
 
-                await handler(addEvent, {});
+                await handler(addEvent, context);
                 assert.ok(true);
             });
         });
@@ -91,7 +94,7 @@ describe(__filename, () => {
                     const event = Object.assign({}, addEvent, { type: null });
 
                     try {
-                        await handler(event, {});
+                        await handler(event, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -104,7 +107,7 @@ describe(__filename, () => {
                     const event = Object.assign({}, addEvent, { type: 'foo' });
 
                     try {
-                        await handler(event, {});
+                        await handler(event, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -117,7 +120,7 @@ describe(__filename, () => {
                     const event = Object.assign({}, addEvent, { duration: null });
 
                     try {
-                        await handler(event, {});
+                        await handler(event, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -130,7 +133,7 @@ describe(__filename, () => {
                     const event = Object.assign({}, addEvent, { duration: 'foo' });
 
                     try {
-                        await handler(event, {});
+                        await handler(event, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -150,7 +153,7 @@ describe(__filename, () => {
                 it('should error when trying to add', async () => {
 
                     try {
-                        await handler(addEvent, {});
+                        await handler(addEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -171,7 +174,7 @@ describe(__filename, () => {
                 it('should error when trying to delete', async () => {
 
                     try {
-                        await handler(addEvent, {});
+                        await handler(addEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -193,7 +196,7 @@ describe(__filename, () => {
                     eventFunction.eventExists.resolves(true);
 
                     try {
-                        await handler(addEvent, {});
+                        await handler(addEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -231,7 +234,7 @@ describe(__filename, () => {
 
             it('should delete the event from database', async () => {
 
-                await handler(deleteEvent, {});
+                await handler(deleteEvent, context);
                 assert.ok(true);
             });
         });
@@ -245,7 +248,7 @@ describe(__filename, () => {
                     const event = Object.assign({}, deleteEvent, { eventId: null });
 
                     try {
-                        await handler(event, {});
+                        await handler(event, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -266,7 +269,7 @@ describe(__filename, () => {
                 it('should error', async () => {
 
                     try {
-                        await handler(deleteEvent, {});
+                        await handler(deleteEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -287,7 +290,7 @@ describe(__filename, () => {
                 it('should error when trying to delete', async () => {
 
                     try {
-                        await handler(deleteEvent, {});
+                        await handler(deleteEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -308,7 +311,7 @@ describe(__filename, () => {
                 it('should error when trying to delete', async () => {
 
                     try {
-                        await handler(deleteEvent, {});
+                        await handler(deleteEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -343,7 +346,7 @@ describe(__filename, () => {
 
             it('should return all events', async () => {
 
-                await handler(getEvent, {});
+                await handler(getEvent, context);
                 assert.ok(true);
             });
         });
@@ -358,7 +361,7 @@ describe(__filename, () => {
             it('should error when database call fails', async () => {
 
                 try {
-                    await handler(getEvent, {});
+                    await handler(getEvent, context);
                 } catch (e) {
                     assert.ok(true);
                     return;
@@ -369,7 +372,7 @@ describe(__filename, () => {
         });
     });
 
-    describe.only('when a lifter is registered to an event', () => {
+    describe('when a lifter is registered to an event', () => {
 
         const registerEvent = {
             action: 'register',
@@ -402,7 +405,7 @@ describe(__filename, () => {
 
             it('should resolve if update is successful', async () => {
                 
-                await handler(registerEvent, {});
+                await handler(registerEvent, context);
                 assert.ok(true);
             });
         });
@@ -414,7 +417,7 @@ describe(__filename, () => {
                 const event = Object.assign({}, registerEvent, { eventId: undefined });
 
                 try {
-                    await handler(event, {});
+                    await handler(event, context);
                 } catch (e) {
                     assert.ok(true);
                     return;
@@ -428,7 +431,7 @@ describe(__filename, () => {
                 const event = Object.assign({}, registerEvent, { lifterId: undefined });
 
                 try {
-                    await handler(event, {});
+                    await handler(event, context);
                 } catch (e) {
                     assert.ok(true);
                     return;
@@ -449,7 +452,7 @@ describe(__filename, () => {
                 it('should error when event does not exist', async () => {
     
                     try {
-                        await handler(registerEvent, {});
+                        await handler(registerEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -471,7 +474,7 @@ describe(__filename, () => {
                 it('should error when lifter existence cannot be determined', async () => {
     
                     try {
-                        await handler(registerEvent, {});
+                        await handler(registerEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -493,7 +496,7 @@ describe(__filename, () => {
                 it('should error when lifter does not exist', async () => {
     
                     try {
-                        await handler(registerEvent, {});
+                        await handler(registerEvent, context);
                     } catch (e) {
                         assert.ok(true);
                         return;
@@ -515,13 +518,96 @@ describe(__filename, () => {
                 it('should error when call to register fails', async () => {
                     
                     try {
-                        await handler(registerEvent, {});
+                        await handler(registerEvent, context);
                     } catch (e) {
                         assert.ok(e);
                         return;
                     }
                     
                     throw new Error('should not resolve if register call fails');
+                });
+            });
+        });
+    });
+
+    describe('when checking if an event exists', () => {
+
+        const existsEvent = {
+            action: 'exists',
+            eventId: 'foo',
+        };
+
+        before(() => {
+            
+            sinon.stub(eventFunction, 'eventExists');
+        });
+
+        after(() => {
+            
+            eventFunction.eventExists.restore();
+        });
+        
+        describe('Positive Tests', () => {
+                
+            before(() => {
+                
+                eventFunction.eventExists.resolves(true);
+            });
+
+            it('should return true if event exists', async () => {
+                
+                const actual = await handler(existsEvent, context);
+                assert.strictEqual(actual, true);
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            it('should error if eventId is missing', async () => {
+
+                const event = Object.assign({}, existsEvent, { eventId: null });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if eventId is missing');
+            });
+
+            describe('when network error occurs', () => {
+                
+                before(() => {
+                    
+                    eventFunction.eventExists.rejects(new Error('call failed'));
+                });
+
+                it('should error when existence call fails', async () => {
+                    
+                    try {
+                        await handler(existsEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if network call fails');
+                });
+            });
+
+            describe('when event does not exist', () => {
+                
+                before(() => {
+                    
+                    eventFunction.eventExists.resolves(false);
+                });
+    
+                it('should return false if event does not exists', async () => {
+                    
+                    const actual = await handler(existsEvent, context);
+                    assert.strictEqual(actual, false);
                 });
             });
         });
