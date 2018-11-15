@@ -1,0 +1,14 @@
+{
+  "name": "event-results-db-interface-function",
+  "version": "1.0.0",
+  "description": "Interfaces with the event results db",
+  "main": "index.js",
+  "author": "johndrew",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha *.test.js"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
