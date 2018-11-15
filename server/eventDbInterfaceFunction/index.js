@@ -24,24 +24,30 @@ function validateEvent(event) {
     if (!event.action) throw new Error('action is required');
 
     switch (event.action) {
+
         case VALID_ACTIONS.GET_ALL:
             return;
+
         case VALID_ACTIONS.ADD:
             if (!event.type) throw new Error('event type is required');
             if (Object.values(eventTypes).indexOf(event.type) < 0) throw new Error(`event type ${event.type} is not recognized`);
             if (!event.duration) throw new Error('event duration is required');
             if (Object.values(durations).indexOf(event.duration) < 0) throw new Error(`event duration ${event.duration} is not recognized`);
             return;
+
         case VALID_ACTIONS.DELETE:
             if (!event.eventId) throw new Error('event id is required');
             return;
+
         case VALID_ACTIONS.REGISTER:
             if (!event.eventId) throw new Error('event id is required');
             if (!event.lifterId) throw new Error('lifter id is required');
             return;
+
         case VALID_ACTIONS.EXISTS:
             if (!event.eventId) throw new Error('event id is required');
             return;
+            
         default:
             throw new Error(`action ${event.action} is not recognized`);
     }
@@ -225,6 +231,7 @@ exports.handler = async (event, context) => {
 
     let eventExists;
     switch (event.action) {
+
         case VALID_ACTIONS.ADD:
             eventExists = await exports.eventExists({
                 eventType: event.type,
@@ -232,20 +239,25 @@ exports.handler = async (event, context) => {
             }, context);
             if (eventExists == true) throw new Error('Event already exists');
             return exports.addToDb(event.type, event.duration, context);
+            
         case VALID_ACTIONS.DELETE:
             eventExists = await exports.eventExists({ eventId: event.eventId }, context);
             if (eventExists == false) throw new Error('Event does not exist and cannot be deleted');
             return exports.deleteFromDb(event.eventId, context);
+
         case VALID_ACTIONS.GET_ALL:
             return exports.getAllFromDb(context);
+
         case VALID_ACTIONS.REGISTER:
             eventExists = await exports.eventExists({ eventId: event.eventId }, context);
             if (eventExists == false) throw new Error('Event does not exist. Cannot register lifter');
             const lifterExists = await exports.lifterExists({ lifterId: event.lifterId });
             if (lifterExists == false) throw new Error('Lifter does not exist. Cannot register lifter');
             return exports.registerLifterInDb({ eventId: event.eventId, lifterId: event.lifterId }, context);
+
         case VALID_ACTIONS.EXISTS:
             return exports.eventExists({ eventId: event.eventId }, context);
+
         default:
             throw new Error(`action ${event.action} is not recognized`);
     }
