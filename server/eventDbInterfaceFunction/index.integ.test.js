@@ -12,7 +12,9 @@ describe(__filename, () => {
     };
     let eventId;
     
-    it('should add an event to db', async () => {
+    it('should add an event to db', async function i() {
+
+        this.timeout(3000);
 
         const event = Object.assign({}, eventTemplate, { action: 'add' });
 
@@ -37,18 +39,6 @@ describe(__filename, () => {
         const actual = await handler(event, context);
 
         assert.ok(actual);
-    });
-
-    it('should register lifter to db', async () => {
-        
-        const event = {
-            action: 'register',
-            eventId,
-            lifterId: '54e34c0648350e93dee24410510ccbc9e494aeee', // WARNING: hardcoded lifter id. Could be deleted.
-        };
-
-        await handler(event, context);
-        assert.ok(true);
     });
 
     it('should delete an event from db', async () => {

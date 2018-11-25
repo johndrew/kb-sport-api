@@ -7,7 +7,6 @@ const VALID_ACTIONS = Object.freeze({
     ADD: 'add',
     DELETE: 'delete',
     GET_ALL: 'getAll',
-    REGISTER: 'register',
     EXISTS: 'exists',
 });
 const DYNAMO_INIT_PARAMS = {
@@ -37,11 +36,6 @@ function validateEvent(event) {
 
         case VALID_ACTIONS.DELETE:
             if (!event.eventId) throw new Error('event id is required');
-            return;
-
-        case VALID_ACTIONS.REGISTER:
-            if (!event.eventId) throw new Error('event id is required');
-            if (!event.lifterId) throw new Error('lifter id is required');
             return;
 
         case VALID_ACTIONS.EXISTS:
@@ -111,32 +105,6 @@ exports.deleteFromDb = async (eventId, { tableName } = {}) => {
                 reject(new Error('Failed to delete event'));
             } else {
                 console.log('DEBUG: delete success;', result);
-                resolve('success');
-            };
-        });
-    });
-};
-
-/**
- * Registers a lifter for an event in db
- */
-exports.registerLifterInDb = async ({ eventId, lifterId }, { tableName } = {}) => {
-    
-    console.log('INFO: registering lifter to event in database');
-    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
-    return new Promise((resolve, reject) => {
-        dynamo.update({
-            TableName: tableName || TABLE_NAME,
-            Key: { eventId },
-            UpdateExpression: "ADD #lifters :lifter",
-            ExpressionAttributeNames: { "#lifters" : "lifters" },
-            ExpressionAttributeValues: { ":lifter": dynamo.createSet([lifterId]) }
-        }, (err, result) => {
-            if (err) {
-                console.error('ERROR: update error;', err);
-                reject(new Error('Could not register lifter to event in database'));
-            } else {
-                console.log('DEBUG: update success', result);
                 resolve('success');
             };
         });
@@ -247,13 +215,6 @@ exports.handler = async (event, context) => {
 
         case VALID_ACTIONS.GET_ALL:
             return exports.getAllFromDb(context);
-
-        case VALID_ACTIONS.REGISTER:
-            eventExists = await exports.eventExists({ eventId: event.eventId }, context);
-            if (eventExists == false) throw new Error('Event does not exist. Cannot register lifter');
-            const lifterExists = await exports.lifterExists({ lifterId: event.lifterId });
-            if (lifterExists == false) throw new Error('Lifter does not exist. Cannot register lifter');
-            return exports.registerLifterInDb({ eventId: event.eventId, lifterId: event.lifterId }, context);
 
         case VALID_ACTIONS.EXISTS:
             return exports.eventExists({ eventId: event.eventId }, context);
