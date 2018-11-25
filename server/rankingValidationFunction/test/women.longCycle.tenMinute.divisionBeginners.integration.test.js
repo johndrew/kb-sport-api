@@ -344,8 +344,6 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_WELTERWEIGHT;
             });
 
-            throw new Error('FIXME: have not fixed negative tests. fix dem');
-
             it('returns Rank I for repetitions greater than or equal to 107', async function i() {
                 this.timeout(timeout);
 
@@ -409,16 +407,17 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.STRAWWEIGHT;
             });
 
-            it('returns 400 for valid repetitions', async function i() {
+            it('returns 404 for repetitions less than 42', async function i() {
                 this.timeout(timeout);
 
                 const testRepetitions = [
-                    65, 52, 42,
+                    41, 40, 39, 38, 37,
+                    30, 20, 10, 5, 1,
                 ];
 
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
-                })).map(params => testError(params, 400));
+                })).map(params => testError(params, 404));
 
                 const results = await Promise.all(tests);
                 const expected = true;
@@ -431,16 +430,17 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.FLYWEIGHT;
             });
 
-            it('returns 400 for valid repetitions', async function i() {
+            it('returns 404 for repetitions less than 45', async function i() {
                 this.timeout(timeout);
 
                 const testRepetitions = [
-                    70, 56, 45,
+                    44, 43, 42, 41, 40,
+                    30, 20, 10, 5, 1,
                 ];
 
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
-                })).map(params => testError(params, 400));
+                })).map(params => testError(params, 404));
 
                 const results = await Promise.all(tests);
                 const expected = true;
@@ -568,28 +568,6 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_WELTERWEIGHT;
             });
 
-            it('returns 400 for valid repetitions', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    107, 86, 69,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => testError(params, 400));
-
-                const results = await Promise.all(tests);
-                const expected = true;
-                results.forEach((actual) => strictEqual(actual, expected));
-            });
-        });
-
-        describe(weightClasses.MIDDLEWEIGHT, () => {
-            beforeEach(() => {
-                params.weightCategory = weightClasses.MIDDLEWEIGHT;
-            });
-
             it('returns 404 for repetitions less than 69', async function i() {
               this.timeout(timeout);
       
@@ -608,22 +586,43 @@ describe(__filename, () => {
             });
         });
 
+        describe(weightClasses.MIDDLEWEIGHT, () => {
+            beforeEach(() => {
+                params.weightCategory = weightClasses.MIDDLEWEIGHT;
+            });
+
+            it('returns 400 for valid repetitions', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    107, 86, 69,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => testError(params, 400));
+
+                const results = await Promise.all(tests);
+                const expected = true;
+                results.forEach((actual) => strictEqual(actual, expected));
+            });
+        });
+
         describe(weightClasses.SUPER_MIDDLEWEIGHT, () => {
             beforeEach(() => {
                 params.weightCategory = weightClasses.SUPER_MIDDLEWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 72', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
               this.timeout(timeout);
       
               const testRepetitions = [
-                71, 70, 69, 68, 67,
-                60, 50, 40, 30, 20, 10, 5, 1,
+                113, 91, 72,
               ];
       
               const tests = testRepetitions.map(rep => Object.assign({}, params, {
                 repetitions: rep,
-              })).map(params => testError(params, 404));
+              })).map(params => testError(params, 400));
       
               const results = await Promise.all(tests);
               const expected = true;
@@ -636,17 +635,16 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.CRUISERWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 75', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
               this.timeout(timeout);
       
               const testRepetitions = [
-                74, 73, 72, 71, 70,
-                60, 50, 40, 30, 20, 10, 5, 1,
+                118, 95, 75,
               ];
       
               const tests = testRepetitions.map(rep => Object.assign({}, params, {
                 repetitions: rep,
-              })).map(params => testError(params, 404));
+              })).map(params => testError(params, 400));
       
               const results = await Promise.all(tests);
               const expected = true;
@@ -659,17 +657,16 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.HEAVYWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 78', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
               this.timeout(timeout);
       
               const testRepetitions = [
-                77, 76, 75, 74, 73,
-                70, 60, 50, 40, 30, 20, 10, 5, 1,
+                122, 98, 78,
               ];
       
               const tests = testRepetitions.map(rep => Object.assign({}, params, {
                 repetitions: rep,
-              })).map(params => testError(params, 404));
+              })).map(params => testError(params, 400));
       
               const results = await Promise.all(tests);
               const expected = true;
@@ -682,17 +679,16 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_HEAVYWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 80', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
               this.timeout(timeout);
       
               const testRepetitions = [
-                79, 78, 77, 76, 75,
-                70, 60, 50, 40, 30, 20, 10, 5, 1,
+                125, 100, 80,
               ];
       
               const tests = testRepetitions.map(rep => Object.assign({}, params, {
                 repetitions: rep,
-              })).map(params => testError(params, 404));
+              })).map(params => testError(params, 400));
       
               const results = await Promise.all(tests);
               const expected = true;
