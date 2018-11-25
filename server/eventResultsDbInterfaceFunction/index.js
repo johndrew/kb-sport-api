@@ -3,7 +3,7 @@ const hash = require('object-hash');
 
 const VALID_ACTIONS = Object.freeze({
     REGISTER_LIFTER: 'register',
-    UNREGISTER_LIFTER: 'register',
+    UNREGISTER_LIFTER: 'unregister',
     UPDATE_LIFTER_DETAILS: 'lifterUpdate',
 });
 const TABLE_NAME = 'kbEventDetailsDb';
@@ -20,6 +20,10 @@ function validateEvent(event) {
 
     switch (event.action) {
         case VALID_ACTIONS.REGISTER_LIFTER:
+            if (!event.eventId) throw new Error('event id is required');
+            if (!event.lifterId) throw new Error('lifter id is required');
+            break;
+        case VALID_ACTIONS.UNREGISTER_LIFTER:
             if (!event.eventId) throw new Error('event id is required');
             if (!event.lifterId) throw new Error('lifter id is required');
             break;
@@ -102,6 +106,28 @@ exports.registerLifter = async ({ eventId, lifterId }, { tableName } = {}) => {
     });
 };
 
+exports.unregisterLifter = async ({ eventId, lifterId }, { tableName } = {}) => {
+
+    console.log(`INFO: Unregistering lifter from event; lifterId:${lifterId},eventId:${eventId}`);
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
+    return new Promise((resolve, reject) => {
+        dynamo.delete({
+            TableName: tableName || TABLE_NAME,
+            Key: {
+                id: createKey(eventId, lifterId),
+            },
+        }, (err, result) => {
+            if (err) {
+                console.error('ERROR: delete error;', err);
+                reject(new Error('Failed to unregister lifter from event'));
+            } else {
+                console.log('DEBUG: delete success;', result);
+                resolve('success');
+            };
+        });
+    });
+}
+
 exports.handler = async (event, context) => {
 
     validateEvent(event);
@@ -111,6 +137,10 @@ exports.handler = async (event, context) => {
             if (!(await exports.eventExists(event.eventId))) throw new Error(`event ${event.eventId} does not exist`);
             if (!(await exports.lifterExists(event.lifterId))) throw new Error(`lifter ${event.lifterId} does not exist`);
             return exports.registerLifter({ eventId: event.eventId, lifterId: event.lifterId }, context);
+        case VALID_ACTIONS.UNREGISTER_LIFTER:
+            if (!(await exports.eventExists(event.eventId))) throw new Error(`event ${event.eventId} does not exist`);
+            if (!(await exports.lifterExists(event.lifterId))) throw new Error(`lifter ${event.lifterId} does not exist`);
+            return exports.unregisterLifter({ eventId: event.eventId, lifterId: event.lifterId }, context);    
         default:
             console.warn('WARN: event action not recognized');
             break;
