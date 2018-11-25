@@ -5,6 +5,7 @@ const VALID_ACTIONS = Object.freeze({
     REGISTER_LIFTER: 'register',
     UNREGISTER_LIFTER: 'unregister',
     UPDATE_LIFTER_DETAILS: 'lifterUpdate',
+    GET_ALL: 'getAll',
 });
 const TABLE_NAME = 'kbEventDetailsDb';
 const LIFTER_DB_FUNCTION = 'kbSportLifterDbInterfaceFunction';
@@ -26,6 +27,8 @@ function validateEvent(event) {
         case VALID_ACTIONS.UNREGISTER_LIFTER:
             if (!event.eventId) throw new Error('event id is required');
             if (!event.lifterId) throw new Error('lifter id is required');
+            break;
+        case VALID_ACTIONS.GET_ALL:
             break;
         default:
             throw new Error(`action ${event.action} is not recognized`);
@@ -126,7 +129,26 @@ exports.unregisterLifter = async ({ eventId, lifterId }, { tableName } = {}) => 
             };
         });
     });
-}
+};
+
+exports.getAllResults = async ({ tableName } = {}) => {
+
+    console.log('INFO: Getting all event results');
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
+    return new Promise((resolve, reject) => {
+        dynamo.scan({
+            TableName: tableName || TABLE_NAME,
+        }, (err, results) => {
+            if (err) {
+                console.error('ERROR: scan error;', err);
+                reject(new Error('Could not get event results from database'));
+            } else {
+                console.log('DEBUG: scan success;', results);
+                resolve(results.Items);
+            };
+        });
+    });
+};
 
 exports.handler = async (event, context) => {
 
@@ -141,6 +163,8 @@ exports.handler = async (event, context) => {
             if (!(await exports.eventExists(event.eventId))) throw new Error(`event ${event.eventId} does not exist`);
             if (!(await exports.lifterExists(event.lifterId))) throw new Error(`lifter ${event.lifterId} does not exist`);
             return exports.unregisterLifter({ eventId: event.eventId, lifterId: event.lifterId }, context);    
+        case VALID_ACTIONS.GET_ALL:
+            return exports.getAllResults(context);
         default:
             console.warn('WARN: event action not recognized');
             break;

@@ -27,6 +27,16 @@ paths:
           $ref: '#/components/responses/EventError'
         '500':
           $ref: '#/components/responses/Error'
+  /events/event/details:
+    get:
+      summary: Retrieves all event details
+      tags:
+        - events
+      responses:
+        '200':
+          $ref: '#/components/responses/GetEventDetailsSuccess'
+        '500':
+          $ref: '#/components/responses/Error'
   /events/event/{eventId}/registerLifters:
     post:
       summary: Registers a lifter to event
@@ -213,6 +223,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LifterId'
+    EventDetail:
+      description: describes a specific lifter for a specific event
+      type: object
+      properties:
+        eventId:
+          $ref: '#/components/schemas/EventId'
+        id:
+          type: string
+        lifterId:
+          $ref: '#/components/schemas/LifterId'
     EventDuration:
       description: Valid lengths of events
       type: string
@@ -368,6 +388,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Event'
+    GetEventDetailsSuccess:
+      description: Returns all event details
+      content:
+        'application/json':
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EventDetail'
     GetLiftersSuccess:
       description: Returns all lifters
       content:

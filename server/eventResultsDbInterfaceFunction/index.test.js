@@ -427,4 +427,53 @@ describe(__filename, () => {
             });
         });
     });
+
+    describe('when retrieving all event results', () => {
+        
+        const getAllEvent = {
+            action: 'getAll',
+        };
+
+        beforeEach(() => {
+
+            sinon.stub(eventResultsFunction, 'getAllResults');
+            eventResultsFunction.getAllResults.resolves([]);
+        });
+
+        afterEach(() => {
+            
+            eventResultsFunction.getAllResults.restore();
+        });
+
+        describe('Positive Tests', () => {
+
+            it('should resolve', async () => {
+                
+                await handler(getAllEvent, context);
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            describe('when call for all results fails', () => {
+                
+                beforeEach(() => {
+                    
+                    eventResultsFunction.getAllResults.rejects(new Error('call failed'));
+                });
+
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(getAllEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if db call fails');
+                });
+            });
+        });
+    });
 });
