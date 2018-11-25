@@ -7,6 +7,9 @@ const VALID_ACTIONS = Object.freeze({
     UPDATE_LIFTER_DETAILS: 'lifterUpdate',
     GET_ALL: 'getAll',
 });
+const VALID_DETAILS_TO_UPDATE = Object.freeze({
+    KETTLEBELL: 'kettlebellWeight',
+});
 const TABLE_NAME = 'kbEventDetailsDb';
 const LIFTER_DB_FUNCTION = 'kbSportLifterDbInterfaceFunction';
 const EVENT_DB_FUNCTION = 'kbSportEventDbInterfaceFunction';
@@ -24,12 +27,17 @@ function validateEvent(event) {
 
     switch (event.action) {
         case VALID_ACTIONS.REGISTER_LIFTER:
-            if (!event.eventId) throw new Error('event id is required');
-            if (!event.lifterId) throw new Error('lifter id is required');
-            break;
         case VALID_ACTIONS.UNREGISTER_LIFTER:
             if (!event.eventId) throw new Error('event id is required');
             if (!event.lifterId) throw new Error('lifter id is required');
+            break;
+        case VALID_ACTIONS.UPDATE_LIFTER_DETAILS:
+            if (!event.eventId) throw new Error('event id is required');
+            if (!event.lifterId) throw new Error('lifter id is required');
+            if (!event.details) throw new Error('details are required');
+            Object.keys(event.details).forEach(detail => {
+                if (Object.values(VALID_DETAILS_TO_UPDATE).indexOf(detail) < 0) throw new Error(`detail ${detail} is not allowed`);
+            });
             break;
         case VALID_ACTIONS.GET_ALL:
             break;
@@ -171,6 +179,37 @@ exports.getAllResults = async ({ tableName } = {}) => {
     });
 };
 
+/**
+ * Updates details of a specific record
+ */
+exports.updateRecord = async({ eventId, lifterId, details }, { tableName } = {}) => {
+    
+    const attributesToUpdate = Object.keys(details).map((detail) => ({
+        [detail]: {
+            Action: 'PUT', // TODO: Enable deleting details
+            Value: details[detail],
+        },
+    })).reduce((finalAttributes, detailObj) => Object.assign(finalAttributes, detailObj));
+    
+    console.log('INFO: updating lifter details for event in database');
+    const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
+    return new Promise((resolve, reject) => {
+        dynamo.update({
+            TableName: tableName || TABLE_NAME,
+            Key: { id: createKey(eventId, lifterId) },
+            AttributeUpdates: attributesToUpdate,
+        }, (err, result) => {
+            if (err) {
+                console.error('ERROR: scan error;', err);
+                reject(new Error('Could not get lifters from database'));
+            } else {
+                console.log('DEBUG: scan success', result);
+                resolve('success');
+            };
+        });
+    });
+}
+
 exports.handler = async (event, context) => {
 
     validateEvent(event);
@@ -186,6 +225,15 @@ exports.handler = async (event, context) => {
             return exports.unregisterLifter({ eventId: event.eventId, lifterId: event.lifterId }, context);    
         case VALID_ACTIONS.GET_ALL:
             return exports.getAllResults(context);
+        case VALID_ACTIONS.UPDATE_LIFTER_DETAILS:
+            if (!(await exports.eventExists(event.eventId))) throw new Error(`event ${event.eventId} does not exist`);
+            if (!(await exports.lifterExists(event.lifterId))) throw new Error(`lifter ${event.lifterId} does not exist`);
+            // TODO: add kettlebell validation by gender
+            return exports.updateRecord({
+                eventId: event.eventId,
+                lifterId: event.lifterId,
+                details: event.details,
+            }, context);
         default:
             console.warn('WARN: event action not recognized');
             break;

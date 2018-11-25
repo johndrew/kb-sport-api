@@ -476,4 +476,225 @@ describe(__filename, () => {
             });
         });
     });
+
+    describe('when updating a record', () => {
+        
+        const updateEvent = {
+            action: 'lifterUpdate',
+            eventId: 'foo',
+            lifterId: 'bar',
+            details: {
+                kettlebellWeight: 'foobar',
+            },
+        };
+
+        beforeEach(() => {
+            
+            sinon.stub(eventResultsFunction, 'eventExists');
+            sinon.stub(eventResultsFunction, 'lifterExists');
+            sinon.stub(eventResultsFunction, 'updateRecord');
+            eventResultsFunction.eventExists.resolves(true);
+            eventResultsFunction.lifterExists.resolves(true);
+            eventResultsFunction.updateRecord.resolves('success');
+        });
+
+        afterEach(() => {
+            
+            eventResultsFunction.eventExists.restore();
+            eventResultsFunction.lifterExists.restore();
+            eventResultsFunction.updateRecord.restore();
+        });
+
+        describe('Positive Tests', () => {
+
+            it('should resolve if update is successful', async () => {
+                
+                await handler(updateEvent, context);
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            it('should error if event id is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { eventId: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if event id is missing');
+            });
+
+            it('should error if lifter id is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { lifterId: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if lifter id is missing');
+            });
+
+            it('should error if details are missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { details: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if details are missing');
+            });
+
+            it('should error if invalid details are provided', async () => {
+                
+                const event = Object.assign({}, updateEvent, { details: { foo: 'bar' } });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if invalid details are provided');
+            });
+
+            describe('when event existence cannot be determined', () => {
+
+                beforeEach(() => {
+                    
+                    eventResultsFunction.eventExists.rejects(new Error('call failed'));
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.eventExists.resolves(true);
+                });
+                
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if event existence cannot be determined');
+                });
+            });
+
+            describe('when event does not exist', () => {
+
+                beforeEach(() => {
+                    
+                    eventResultsFunction.eventExists.resolves(false);
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.eventExists.resolves(true);
+                });
+                
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if event does not exist');
+                });
+            });
+
+            describe('when lifter existence cannot be determined', () => {
+
+                beforeEach(() => {
+                    
+                    eventResultsFunction.lifterExists.rejects(new Error('call failed'));
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.lifterExists.resolves(true);
+                });
+                
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if lifter existence cannot be determined');
+                });
+            });
+
+            describe('when the lifter does not exist', () => {
+                
+                beforeEach(() => {
+                    
+                    eventResultsFunction.lifterExists.resolves(false);
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.lifterExists.resolves(true);
+                });
+                
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if lifter does not exist');
+                });
+            });
+
+            describe('when update call fails', () => {
+                
+                beforeEach(() => {
+                    
+                    eventResultsFunction.updateRecord.rejects(new Error('could not update record'));
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.updateRecord.resolves('success');
+                });
+
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if update call fails');
+                })
+            });
+        });
+    });
 });
