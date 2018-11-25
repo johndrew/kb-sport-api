@@ -55,6 +55,21 @@ paths:
           $ref: '#/components/responses/EventError'
         '500':
           $ref: '#/components/responses/Error'
+  /events/event/{eventId}/lifter/{lifterId}/details:
+    post:
+      summary: Update details about a lifter for an event
+      tags:
+        - events
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+        - $ref: '#/components/parameters/LifterId'
+      requestBody:
+        $ref: '#/components/requestBodies/LifterEventDetails'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/Error'
   /events/event/{eventId}/delete:
     get:
       summary: Deletes an event
@@ -101,40 +116,6 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/LifterSuccess'
-        '500':
-          $ref: '#/components/responses/Error'
-  /lifters/lifter/{lifterId}/registerEvents:
-    post:
-      summary: Updates a lifter's registered events
-      tags:
-        - lifters
-      parameters:
-        - $ref: '#/components/parameters/LifterId'
-      requestBody:
-        $ref: '#/components/requestBodies/LifterRegisterEvents'
-      responses:
-        '200':
-          $ref: '#/components/responses/LifterEventRegisterSuccess'
-        '400':
-          $ref: '#/components/responses/LifterError'
-        '403':
-          $ref: '#/components/responses/LifterError'
-        '500':
-          $ref: '#/components/responses/Error'
-  /lifters/lifter/{lifterId}/eventDetails:
-    post:
-      summary: Update details about a lifter for an event
-      tags:
-        - lifters
-      parameters:
-        - $ref: '#/components/parameters/LifterId'
-      requestBody:
-        $ref: '#/components/requestBodies/LifterEventDetails'
-      responses:
-        '200':
-          $ref: '#/components/responses/LifterSuccess'
-        '400':
-          $ref: '#/components/responses/LifterError'
         '500':
           $ref: '#/components/responses/Error'
   /lifters/lifter/{lifterId}/eventResult:
@@ -496,6 +477,12 @@ components:
             properties:
               score:
                 $ref: '#/components/schemas/Score'
+    Success:
+      description: General success response
+      content:
+        'application/json':
+          schema:
+            type: object
   parameters:
     LifterId:
       name: lifterId
@@ -561,8 +548,6 @@ components:
           schema:
             type: object
             properties:
-              eventId:
-                $ref: '#/components/schemas/EventId'
               kettlebellWeight:
                 $ref: '#/components/schemas/KettlebellWeight'
     LifterEventResult:
