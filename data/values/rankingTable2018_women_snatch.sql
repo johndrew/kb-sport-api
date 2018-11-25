@@ -1,7 +1,7 @@
 -- MSIC: PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(104, 1, 'Snatch', '10min', 'Bantamweight',       '24', 'PRO', 'women'),
-(111, 1, 'Snatch', '10min', 'Bantamweight',       '24', 'PRO', 'women'),
+(104, 1, 'Snatch', '10min', 'Strawweight',       '24', 'PRO', 'women'),
+(111, 1, 'Snatch', '10min', 'Flyweight',       '24', 'PRO', 'women'),
 (120, 1, 'Snatch', '10min', 'Bantamweight',       '24', 'PRO', 'women'),
 (129, 1, 'Snatch', '10min', 'Featherweight',      '24', 'PRO', 'women'),
 (138, 1, 'Snatch', '10min', 'Lightweight',        '24', 'PRO', 'women'),
@@ -11,8 +11,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 
 -- MS: PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(74,  2, 'Snatch', '10min', 'Bantamweight',        '24', 'PRO', 'women'),
-(83,  2, 'Snatch', '10min', 'Bantamweight',        '24', 'PRO', 'women'),
+(74,  2, 'Snatch', '10min', 'Strawweight',        '24', 'PRO', 'women'),
+(83,  2, 'Snatch', '10min', 'Flyweight',        '24', 'PRO', 'women'),
 (93,  2, 'Snatch', '10min', 'Bantamweight',        '24', 'PRO', 'women'),
 (103, 2, 'Snatch', '10min', 'Featherweight',      '24', 'PRO', 'women'),
 (113, 2, 'Snatch', '10min', 'Lightweight',        '24', 'PRO', 'women'),
@@ -22,8 +22,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 
 -- CMS: PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(59,  3, 'Snatch', '10min', 'Bantamweight',        '24', 'PRO', 'women'),
-(66,  3, 'Snatch', '10min', 'Bantamweight',        '24', 'PRO', 'women'),
+(59,  3, 'Snatch', '10min', 'Strawweight',        '24', 'PRO', 'women'),
+(66,  3, 'Snatch', '10min', 'Flyweight',        '24', 'PRO', 'women'),
 (74,  3, 'Snatch', '10min', 'Bantamweight',        '24', 'PRO', 'women'),
 (83,  3, 'Snatch', '10min', 'Featherweight',       '24', 'PRO', 'women'),
 (92,  3, 'Snatch', '10min', 'Lightweight',         '24', 'PRO', 'women'),
@@ -32,8 +32,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (114, 3, 'Snatch', '10min', 'Super Welterweight',  '24', 'PRO', 'women');
 -- CMS: Semi PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(104, 3, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
-(111, 3, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
+(104, 3, 'Snatch', '10min', 'Strawweight',       '20', 'Semi PRO', 'women'),
+(111, 3, 'Snatch', '10min', 'Flyweight',       '20', 'Semi PRO', 'women'),
 (120, 3, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
 (129, 3, 'Snatch', '10min', 'Featherweight',      '20', 'Semi PRO', 'women'),
 (138, 3, 'Snatch', '10min', 'Lightweight',        '20', 'Semi PRO', 'women'),
@@ -42,8 +42,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (168, 3, 'Snatch', '10min', 'Super Welterweight', '20', 'Semi PRO', 'women');
 -- CMS: Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(127, 3, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
-(137, 3, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
+(127, 3, 'Snatch', '10min', 'Strawweight',       '16', 'Amateur', 'women'),
+(137, 3, 'Snatch', '10min', 'Flyweight',       '16', 'Amateur', 'women'),
 (148, 3, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
 (160, 3, 'Snatch', '10min', 'Featherweight',      '16', 'Amateur', 'women'),
 (172, 3, 'Snatch', '10min', 'Lightweight',        '16', 'Amateur', 'women'),
@@ -53,8 +53,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 
 -- Rank I: PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(47,  4, 'Snatch', '10min', 'Bantamweight',       '24', 'PRO', 'women'),
-(53,  4, 'Snatch', '10min', 'Bantamweight',       '24', 'PRO', 'women'),
+(47,  4, 'Snatch', '10min', 'Strawweight',       '24', 'PRO', 'women'),
+(53,  4, 'Snatch', '10min', 'Flyweight',       '24', 'PRO', 'women'),
 (60,  4, 'Snatch', '10min', 'Bantamweight',       '24', 'PRO', 'women'),
 (66,  4, 'Snatch', '10min', 'Featherweight',      '24', 'PRO', 'women'),
 (73,  4, 'Snatch', '10min', 'Lightweight',        '24', 'PRO', 'women'),
@@ -63,8 +63,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (91,  4, 'Snatch', '10min', 'Super Welterweight', '24', 'PRO', 'women');
 -- Rank I: Semi PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(71,  4, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
-(79,  4, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
+(71,  4, 'Snatch', '10min', 'Strawweight',       '20', 'Semi PRO', 'women'),
+(79,  4, 'Snatch', '10min', 'Flyweight',       '20', 'Semi PRO', 'women'),
 (89,  4, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
 (99,  4, 'Snatch', '10min', 'Featherweight',      '20', 'Semi PRO', 'women'),
 (109, 4, 'Snatch', '10min', 'Lightweight',        '20', 'Semi PRO', 'women'),
@@ -73,8 +73,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (137, 4, 'Snatch', '10min', 'Super Welterweight', '20', 'Semi PRO', 'women');
 -- Rank I: Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(99,  4, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
-(107, 4, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
+(99,  4, 'Snatch', '10min', 'Strawweight',       '16', 'Amateur', 'women'),
+(107, 4, 'Snatch', '10min', 'Flyweight',       '16', 'Amateur', 'women'),
 (116, 4, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
 (126, 4, 'Snatch', '10min', 'Featherweight',      '16', 'Amateur', 'women'),
 (136, 4, 'Snatch', '10min', 'Lightweight',        '16', 'Amateur', 'women'),
@@ -83,8 +83,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (163, 4, 'Snatch', '10min', 'Super Welterweight', '16', 'Amateur', 'women');
 -- Rank I: Semi Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(120, 4, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
-(128, 4, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
+(120, 4, 'Snatch', '10min', 'Strawweight',       '12', 'Semi Amateur', 'women'),
+(128, 4, 'Snatch', '10min', 'Flyweight',       '12', 'Semi Amateur', 'women'),
 (138, 4, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
 (150, 4, 'Snatch', '10min', 'Featherweight',      '12', 'Semi Amateur', 'women'),
 (162, 4, 'Snatch', '10min', 'Lightweight',        '12', 'Semi Amateur', 'women'),
@@ -93,8 +93,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (196, 4, 'Snatch', '10min', 'Super Welterweight', '12', 'Semi Amateur', 'women');
 -- Rank I: Beginners Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(150, 4, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
-(159, 4, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
+(150, 4, 'Snatch', '10min', 'Strawweight',       '8', 'Beginners', 'women'),
+(159, 4, 'Snatch', '10min', 'Flyweight',       '8', 'Beginners', 'women'),
 (169, 4, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
 (180, 4, 'Snatch', '10min', 'Featherweight',      '8', 'Beginners', 'women'),
 (192, 4, 'Snatch', '10min', 'Lightweight',        '8', 'Beginners', 'women'),
@@ -104,8 +104,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 
 -- Rank II: Semi PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(57,  5, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
-(64,  5, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
+(57,  5, 'Snatch', '10min', 'Strawweight',       '20', 'Semi PRO', 'women'),
+(64,  5, 'Snatch', '10min', 'Flyweight',       '20', 'Semi PRO', 'women'),
 (72,  5, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
 (79,  5, 'Snatch', '10min', 'Featherweight',      '20', 'Semi PRO', 'women'),
 (87,  5, 'Snatch', '10min', 'Lightweight',        '20', 'Semi PRO', 'women'),
@@ -114,8 +114,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (110, 5, 'Snatch', '10min', 'Super Welterweight', '20', 'Semi PRO', 'women');
 -- Rank II: Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(79,  5, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
-(86,  5, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
+(79,  5, 'Snatch', '10min', 'Strawweight',       '16', 'Amateur', 'women'),
+(86,  5, 'Snatch', '10min', 'Flyweight',       '16', 'Amateur', 'women'),
 (94,  5, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
 (102, 5, 'Snatch', '10min', 'Featherweight',      '16', 'Amateur', 'women'),
 (110, 5, 'Snatch', '10min', 'Lightweight',        '16', 'Amateur', 'women'),
@@ -124,8 +124,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (130, 5, 'Snatch', '10min', 'Super Welterweight', '16', 'Amateur', 'women');
 -- Rank II: Semi Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(96,  5, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
-(105, 5, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
+(96,  5, 'Snatch', '10min', 'Strawweight',       '12', 'Semi Amateur', 'women'),
+(105, 5, 'Snatch', '10min', 'Flyweight',       '12', 'Semi Amateur', 'women'),
 (114, 5, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
 (123, 5, 'Snatch', '10min', 'Featherweight',      '12', 'Semi Amateur', 'women'),
 (132, 5, 'Snatch', '10min', 'Lightweight',        '12', 'Semi Amateur', 'women'),
@@ -134,8 +134,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (158, 5, 'Snatch', '10min', 'Super Welterweight', '12', 'Semi Amateur', 'women');
 -- Rank II: Beginners Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(120, 5, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
-(129, 5, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
+(120, 5, 'Snatch', '10min', 'Strawweight',       '8', 'Beginners', 'women'),
+(129, 5, 'Snatch', '10min', 'Flyweight',       '8', 'Beginners', 'women'),
 (138, 5, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
 (147, 5, 'Snatch', '10min', 'Featherweight',      '8', 'Beginners', 'women'),
 (156, 5, 'Snatch', '10min', 'Lightweight',        '8', 'Beginners', 'women'),
@@ -145,8 +145,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 
 -- Rank III: Semi PRO Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(45,  6, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
-(51,  6, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
+(45,  6, 'Snatch', '10min', 'Strawweight',       '20', 'Semi PRO', 'women'),
+(51,  6, 'Snatch', '10min', 'Flyweight',       '20', 'Semi PRO', 'women'),
 (57,  6, 'Snatch', '10min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
 (63,  6, 'Snatch', '10min', 'Featherweight',      '20', 'Semi PRO', 'women'),
 (70,  6, 'Snatch', '10min', 'Lightweight',        '20', 'Semi PRO', 'women'),
@@ -155,8 +155,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (88,  6, 'Snatch', '10min', 'Super Welterweight', '20', 'Semi PRO', 'women');
 -- Rank III: Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(63,  6, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
-(68,  6, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
+(63,  6, 'Snatch', '10min', 'Strawweight',       '16', 'Amateur', 'women'),
+(68,  6, 'Snatch', '10min', 'Flyweight',       '16', 'Amateur', 'women'),
 (74,  6, 'Snatch', '10min', 'Bantamweight',       '16', 'Amateur', 'women'),
 (80,  6, 'Snatch', '10min', 'Featherweight',      '16', 'Amateur', 'women'),
 (86,  6, 'Snatch', '10min', 'Lightweight',        '16', 'Amateur', 'women'),
@@ -165,8 +165,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (103, 6, 'Snatch', '10min', 'Super Welterweight', '16', 'Amateur', 'women');
 -- Rank III: Semi Amateur Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(77,  5, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
-(84,  5, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
+(77,  5, 'Snatch', '10min', 'Strawweight',       '12', 'Semi Amateur', 'women'),
+(84,  5, 'Snatch', '10min', 'Flyweight',       '12', 'Semi Amateur', 'women'),
 (91,  5, 'Snatch', '10min', 'Bantamweight',       '12', 'Semi Amateur', 'women'),
 (99,  5, 'Snatch', '10min', 'Featherweight',      '12', 'Semi Amateur', 'women'),
 (107, 5, 'Snatch', '10min', 'Lightweight',        '12', 'Semi Amateur', 'women'),
@@ -175,8 +175,8 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (128, 5, 'Snatch', '10min', 'Super Welterweight', '12', 'Semi Amateur', 'women');
 -- Rank III: Beginners Division
 INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
-(96,  6, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
-(103, 6, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
+(96,  6, 'Snatch', '10min', 'Strawweight',       '8', 'Beginners', 'women'),
+(103, 6, 'Snatch', '10min', 'Flyweight',       '8', 'Beginners', 'women'),
 (110, 6, 'Snatch', '10min', 'Bantamweight',       '8', 'Beginners', 'women'),
 (118, 6, 'Snatch', '10min', 'Featherweight',      '8', 'Beginners', 'women'),
 (126, 6, 'Snatch', '10min', 'Lightweight',        '8', 'Beginners', 'women'),
