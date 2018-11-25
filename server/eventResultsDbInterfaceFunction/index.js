@@ -14,6 +14,9 @@ const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
 };
 
+/**
+ * Validates all input coming into this lambda function
+ */
 function validateEvent(event) {
 
     if (!event) throw new Error('event is required');
@@ -35,10 +38,16 @@ function validateEvent(event) {
     }
 }
 
+/**
+ * Returns a unique key that identifies records in this db
+ */
 function createKey(eventId, lifterId) {
     return hash({ eventId, lifterId });
 }
 
+/**
+ * Determines if an event exists in db
+ */
 exports.eventExists = async (eventId) => {
 
     console.log('INFO: Checking if event exists');
@@ -62,6 +71,9 @@ exports.eventExists = async (eventId) => {
     });
 };
 
+/**
+ * Determines if a lifter exists in db
+ */
 exports.lifterExists = async (lifterId) => {
 
     console.log('INFO: Checking if lifter exists');
@@ -85,6 +97,9 @@ exports.lifterExists = async (lifterId) => {
     });
 };
 
+/**
+ * Registers a lifter to an event in db
+ */
 exports.registerLifter = async ({ eventId, lifterId }, { tableName } = {}) => {
 
     console.log('INFO: Registering lifter to event');
@@ -109,6 +124,9 @@ exports.registerLifter = async ({ eventId, lifterId }, { tableName } = {}) => {
     });
 };
 
+/**
+ * Unregisters a lifter from an event in db
+ */
 exports.unregisterLifter = async ({ eventId, lifterId }, { tableName } = {}) => {
 
     console.log(`INFO: Unregistering lifter from event; lifterId:${lifterId},eventId:${eventId}`);
@@ -131,6 +149,9 @@ exports.unregisterLifter = async ({ eventId, lifterId }, { tableName } = {}) => 
     });
 };
 
+/**
+ * Returns all records from db
+ */
 exports.getAllResults = async ({ tableName } = {}) => {
 
     console.log('INFO: Getting all event results');
