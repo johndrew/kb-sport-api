@@ -217,7 +217,7 @@ exports.lifterExists = async ({ lifterId }) => {
                 resolve(lifterExists);
             }
         });
-    })
+    });
 }
 
 /**
