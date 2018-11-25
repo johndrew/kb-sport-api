@@ -18,15 +18,168 @@ describe(__filename, () => {
     let params;
     beforeEach(() => {
         params = {
-            gender: genders.MEN,
+            gender: genders.WOMEN,
             eventType: eventTypes.SNATCH,
             duration: durations.TEN,
-            kettlebellWeight: kettlebellWeights.THIRTYTWO,
+            kettlebellWeight: kettlebellWeights.TWENTYFOUR,
         };
     });
 
     describe('Positive Tests', () => {
         const timeout = 4000;
+        describe(weightClasses.STRAWWEIGHT, () => {
+            beforeEach(() => {
+                params.weightCategory = weightClasses.STRAWWEIGHT;
+            });
+
+            it('returns MSIC for repetitions greater than or equal to 104', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    130, 125, 120, 115, 110,
+                    108, 107, 106, 105, 104,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.MSIC;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+
+            it('returns MS for repetitions less than 104 and greater than or equal to 74', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    103, 102, 101, 100,
+                    99, 98, 97, 96, 95, 94, 93, 92, 91, 90,
+                    89, 88, 87, 86, 85, 84, 83, 82, 81, 80,
+                    79, 78, 77, 76, 75, 74,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.MS;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+
+            it('returns CMS for repetitions less than 74 and greater than or equal to 59', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    73, 72, 71, 70,
+                    69, 68, 67, 66, 65, 64, 63, 62, 61, 60,
+                    59,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.CMS;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+
+            it('returns Rank I for repetitions less than 59 and greater than or equal to 47', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    58, 57, 56, 55, 54, 53, 52, 51, 50,
+                    49, 48, 47,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.RANK_I;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+        });
+
+        describe(weightClasses.FLYWEIGHT, () => {
+            beforeEach(() => {
+                params.weightCategory = weightClasses.FLYWEIGHT;
+            });
+
+            it('returns MSIC for repetitions greater than or equal to 111', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    140, 135, 130, 125, 120,
+                    115, 114, 113, 112, 111,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.MSIC;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+
+            it('returns MS for repetitions less than 111 and greater than or equal to 83', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    110,
+                    109, 108, 107, 106, 105, 104, 103, 102, 101, 100,
+                    99, 98, 97, 96, 95, 94, 93, 92, 91, 90,
+                    89, 88, 87, 86, 85, 84, 83,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.MS;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+
+            it('returns CMS for repetitions less than 83 and greater than or equal to 66', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    82, 81, 80,
+                    79, 78, 77, 76, 75, 74, 73, 72, 71, 70,
+                    69, 68, 67, 66,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.CMS;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+
+            it('returns Rank I for repetitions less than 66 and greater than or equal to 53', async function i() {
+                this.timeout(timeout);
+
+                const testRepetitions = [
+                    65, 64, 63, 62, 61, 60,
+                    59, 58, 57, 56, 55, 54, 53,
+                ];
+
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                    repetitions: rep,
+                })).map(params => getRankingLocal(params));
+
+                const results = await Promise.all(tests);
+                const expected = rankings.RANK_I;
+                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
+            });
+        });
 
         describe(weightClasses.BANTAMWEIGHT, () => {
             beforeEach(() => {
@@ -413,9 +566,9 @@ describe(__filename, () => {
             });
         });
 
-        describe(weightClasses.MIDDLEWEIGHT, () => {
+        describe(weightClasses.SUPER_WELTERWEIGHT, () => {
             beforeEach(() => {
-                params.weightCategory = weightClasses.MIDDLEWEIGHT;
+                params.weightCategory = weightClasses.SUPER_WELTERWEIGHT;
             });
 
             it('returns MSIC for repetitions greater than or equal to 168', async function i() {
@@ -490,322 +643,6 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
         });
-
-        describe(weightClasses.SUPER_MIDDLEWEIGHT, () => {
-            beforeEach(() => {
-                params.weightCategory = weightClasses.SUPER_MIDDLEWEIGHT;
-            });
-
-            it('returns MSIC for repetitions greater than or equal to 178', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    195, 190,
-                    185, 184, 183, 182, 181, 180, 179,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MSIC;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns MS for repetitions less than 178 and greater than or equal to 149', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    177, 176, 175, 174, 173, 172, 171, 170,
-                    169, 168, 167, 166, 165, 164, 163, 162, 161, 160,
-                    159, 158, 157, 156, 155, 154, 153, 152, 151, 150,
-                    149,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns CMS for repetitions less than 149 and greater than or equal to 120', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    148, 147, 146, 145, 144, 143, 142, 141, 140,
-                    139, 138, 137, 136, 135, 134, 133, 132, 131, 130,
-                    129, 128, 127, 126, 125, 124, 123, 122, 121, 120,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.CMS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns Rank I for repetitions less than 120 and greater than or equal to 96', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    119, 118, 117, 116, 115, 114, 113, 112, 111, 110,
-                    109, 108, 107, 106, 105, 104, 103, 102, 101, 100,
-                    99, 98, 97, 96,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.RANK_I;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-        });
-
-        describe(weightClasses.CRUISERWEIGHT, () => {
-            beforeEach(() => {
-                params.weightCategory = weightClasses.CRUISERWEIGHT;
-            });
-
-            it('returns MSIC for repetitions greater than or equal to 186', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    200, 195,
-                    190, 189, 188, 187,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MSIC;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns MS for repetitions less than 186 and greater than or equal to 156', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    185, 184, 183, 182, 181, 180,
-                    179, 178, 177, 176, 175, 174, 173, 172, 171, 170,
-                    169, 168, 167, 166, 165, 164, 163, 162, 161, 160,
-                    159, 158, 157, 156,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns CMS for repetitions less than 156 and greater than or equal to 125', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    155, 154, 153, 152, 151, 150,
-                    149, 148, 147, 146, 145, 144, 143, 142, 141, 140,
-                    139, 138, 137, 136, 135, 134, 133, 132, 131, 130,
-                    129, 128, 127, 126, 125,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.CMS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns Rank I for repetitions less than 125 and greater than or equal to 100', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    124, 123, 122, 121, 120,
-                    119, 118, 117, 116, 115, 114, 113, 112, 111, 110,
-                    109, 108, 107, 106, 105, 104, 103, 102, 101, 100,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.RANK_I;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-        });
-
-        describe(weightClasses.HEAVYWEIGHT, () => {
-            beforeEach(() => {
-                params.weightCategory = weightClasses.HEAVYWEIGHT;
-            });
-
-            it('returns MSIC for repetitions greater than or equal to 193', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    220, 210, 205, 200,
-                    195, 194,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MSIC;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns MS for repetitions less than 193 and greater than or equal to 162', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    192, 191, 190,
-                    189, 188, 187, 186, 185, 184, 183, 182, 181, 180,
-                    179, 178, 177, 176, 175, 174, 173, 172, 171, 170,
-                    169, 168, 167, 166, 165, 164, 163, 162,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns CMS for repetitions less than 162 and greater than or equal to 130', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    161, 160,
-                    159, 158, 157, 156, 155, 154, 153, 152, 151, 150,
-                    149, 148, 147, 146, 145, 144, 143, 142, 141, 140,
-                    139, 138, 137, 136, 135, 134, 133, 132, 131, 130,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.CMS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns Rank I for repetitions less than 130 and greater than or equal to 104', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    129, 128, 127, 126, 125, 124, 123, 122, 121, 120,
-                    119, 118, 117, 116, 115, 114, 113, 112, 111, 110,
-                    109, 108, 107, 106, 105, 104,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.RANK_I;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-        });
-
-        describe(weightClasses.SUPER_HEAVYWEIGHT, () => {
-            beforeEach(() => {
-                params.weightCategory = weightClasses.SUPER_HEAVYWEIGHT;
-            });
-
-            it('returns MSIC for repetitions greater than or equal to 198', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    220, 210, 205,
-                    200, 199, 198,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MSIC;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns MS for repetitions less than 198 and greater than or equal to 166', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    197, 196, 195, 194, 193, 192, 191, 190,
-                    189, 188, 187, 186, 185, 184, 183, 182, 181, 180,
-                    179, 178, 177, 176, 175, 174, 173, 172, 171, 170,
-                    169, 168, 167, 166,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.MS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns CMS for repetitions less than 166 and greater than or equal to 133', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    165, 164, 163, 162, 161, 160,
-                    159, 158, 157, 156, 155, 154, 153, 152, 151, 150,
-                    149, 148, 147, 146, 145, 144, 143, 142, 141, 140,
-                    139, 138, 137, 136, 135, 134, 133,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.CMS;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-
-            it('returns Rank I for repetitions less than 133 and greater than or equal to 106', async function i() {
-                this.timeout(timeout);
-
-                const testRepetitions = [
-                    132, 131, 130,
-                    129, 128, 127, 126, 125, 124, 123, 122, 121, 120,
-                    119, 118, 117, 116, 115, 114, 113, 112, 111, 110,
-                    109, 108, 107, 106,
-                ];
-
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                    repetitions: rep,
-                })).map(params => getRankingLocal(params));
-
-                const results = await Promise.all(tests);
-                const expected = rankings.RANK_I;
-                results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
-            });
-        });
     });
 
     describe('Negative Tests', () => {
@@ -816,43 +653,45 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.STRAWWEIGHT;
             });
 
-            it('returns 400 for valid repetitions', async function i() {
+            it('returns 404 for repetitions less than 47', async function i() {
                 this.timeout(timeout);
         
                 const testRepetitions = [
-                    104, 74, 59, 47,
+                    46, 45, 44, 43, 42, 41, 40,
+                    30, 20, 10, 5, 1,
                 ];
         
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                   repetitions: rep,
-                })).map(params => testError(params, 400));
+                })).map(params => testError(params, 404));
         
                 const results = await Promise.all(tests);
                 const expected = true;
                 results.forEach((actual) => strictEqual(actual, expected));
-            });
+              });
         });
-        
+
         describe(weightClasses.FLYWEIGHT, () => {
             beforeEach(() => {
                 params.weightCategory = weightClasses.FLYWEIGHT;
             });
 
-            it('returns 400 for valid repetitions', async function i() {
+            it('returns 404 for repetitions less than 53', async function i() {
                 this.timeout(timeout);
         
                 const testRepetitions = [
-                    111, 83, 66, 53,
+                    52, 51, 50,
+                    45, 40, 30, 20, 10, 5, 1,
                 ];
         
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                   repetitions: rep,
-                })).map(params => testError(params, 400));
+                })).map(params => testError(params, 404));
         
                 const results = await Promise.all(tests);
                 const expected = true;
                 results.forEach((actual) => strictEqual(actual, expected));
-            });
+              });
         });
 
         describe(weightClasses.BANTAMWEIGHT, () => {
@@ -975,28 +814,6 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_WELTERWEIGHT;
             });
 
-            it('returns 400 for valid repetitions', async function i() {
-                this.timeout(timeout);
-        
-                const testRepetitions = [
-                    168, 141, 114, 91,
-                ];
-        
-                const tests = testRepetitions.map(rep => Object.assign({}, params, {
-                  repetitions: rep,
-                })).map(params => testError(params, 400));
-        
-                const results = await Promise.all(tests);
-                const expected = true;
-                results.forEach((actual) => strictEqual(actual, expected));
-            });
-        });
-
-        describe(weightClasses.MIDDLEWEIGHT, () => {
-            beforeEach(() => {
-                params.weightCategory = weightClasses.MIDDLEWEIGHT;
-            });
-
             it('returns 404 for repetitions less than 91', async function i() {
                 this.timeout(timeout);
         
@@ -1015,27 +832,49 @@ describe(__filename, () => {
               });
         });
 
+        describe(weightClasses.MIDDLEWEIGHT, () => {
+            beforeEach(() => {
+                params.weightCategory = weightClasses.MIDDLEWEIGHT;
+            });
+
+            it('returns 400 for valid repetitions', async function i() {
+                this.timeout(timeout);
+        
+                const testRepetitions = [
+                    168, 141, 114, 91,
+                ];
+        
+                const tests = testRepetitions.map(rep => Object.assign({}, params, {
+                  repetitions: rep,
+                })).map(params => testError(params, 400));
+        
+                const results = await Promise.all(tests);
+                const expected = true;
+                results.forEach((actual) => strictEqual(actual, expected));
+            });
+        });
+
+        // TODO: convert all below to 400 tests
         describe(weightClasses.SUPER_MIDDLEWEIGHT, () => {
             beforeEach(() => {
                 params.weightCategory = weightClasses.SUPER_MIDDLEWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 96', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
                 this.timeout(timeout);
         
                 const testRepetitions = [
-                  95, 94, 93, 92, 91, 90,
-                  80, 70, 60, 50, 40, 30, 25, 20, 15, 10, 5, 1,
+                    178, 149, 120, 96,
                 ];
         
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                   repetitions: rep,
-                })).map(params => testError(params, 404));
+                })).map(params => testError(params, 400));
         
                 const results = await Promise.all(tests);
                 const expected = true;
                 results.forEach((actual) => strictEqual(actual, expected));
-              });
+            });
         });
 
         describe(weightClasses.CRUISERWEIGHT, () => {
@@ -1043,45 +882,43 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.CRUISERWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 100', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
                 this.timeout(timeout);
         
                 const testRepetitions = [
-                  99, 98, 97, 96, 95,
-                  90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 10, 5, 1,
+                    186, 156, 125, 100,
                 ];
         
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                   repetitions: rep,
-                })).map(params => testError(params, 404));
+                })).map(params => testError(params, 400));
         
                 const results = await Promise.all(tests);
                 const expected = true;
                 results.forEach((actual) => strictEqual(actual, expected));
-              });
+            });
         });
-
+        
         describe(weightClasses.HEAVYWEIGHT, () => {
             beforeEach(() => {
                 params.weightCategory = weightClasses.HEAVYWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 104', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
                 this.timeout(timeout);
         
                 const testRepetitions = [
-                  103, 102, 101, 100,
-                  90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 10, 5, 1,
+                    193, 162, 130, 104,
                 ];
         
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                   repetitions: rep,
-                })).map(params => testError(params, 404));
+                })).map(params => testError(params, 400));
         
                 const results = await Promise.all(tests);
                 const expected = true;
                 results.forEach((actual) => strictEqual(actual, expected));
-              });
+            });
         });
 
         describe(weightClasses.SUPER_HEAVYWEIGHT, () => {
@@ -1089,22 +926,21 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_HEAVYWEIGHT;
             });
 
-            it('returns 404 for repetitions less than 106', async function i() {
+            it('returns 400 for valid repetitions', async function i() {
                 this.timeout(timeout);
         
                 const testRepetitions = [
-                  105, 104, 103, 102, 101, 100,
-                  90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 10, 5, 1,
+                    198, 166, 133, 106,
                 ];
         
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                   repetitions: rep,
-                })).map(params => testError(params, 404));
+                })).map(params => testError(params, 400));
         
                 const results = await Promise.all(tests);
                 const expected = true;
                 results.forEach((actual) => strictEqual(actual, expected));
-              });
+            });
         });
     });
 });
