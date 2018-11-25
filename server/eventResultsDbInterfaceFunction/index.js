@@ -9,6 +9,7 @@ const VALID_ACTIONS = Object.freeze({
 });
 const VALID_DETAILS_TO_UPDATE = Object.freeze({
     KETTLEBELL: 'kettlebellWeight',
+    TOTAL_REPETITIONS: 'totalRepetitions',
 });
 const TABLE_NAME = 'kbEventDetailsDb';
 const LIFTER_DB_FUNCTION = 'kbSportLifterDbInterfaceFunction';

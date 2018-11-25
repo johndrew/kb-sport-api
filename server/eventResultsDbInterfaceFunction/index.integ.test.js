@@ -31,6 +31,7 @@ describe(__filename, () => {
             lifterId,
             details: {
                 kettlebellWeight: '28',
+                totalRepetitions: '70',
             },
         }, { tableName: 'kbEventDetailsDb-dev' });
     });
