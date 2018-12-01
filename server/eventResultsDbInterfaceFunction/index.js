@@ -275,6 +275,11 @@ exports.handler = async (event, context) => {
                     lifterWeight: event.weight,
                     totalRepetitions: event.details.totalRepetitions,
                 });
+                
+                // Add other details for reference
+                updatedDetails.weight = event.weight;
+                updatedDetails.eventType = event.eventType;
+                updatedDetails.eventDuration = event.eventDuration;
             }
 
             return exports.updateRecord({

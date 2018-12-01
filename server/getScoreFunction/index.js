@@ -17,6 +17,13 @@ function validateEvent(event) {
     if (!event.totalRepetitions) throw new Error('total repetitions is required');
 }
 
+function sanitizeEvent(event) {
+
+    return Object.assign({}, event, {
+        weight: parseFloat(event.weight),
+    });
+}
+
 function mapEventToFormula(eventType, duration) {
 
     switch (`${eventType}${duration}`) {
@@ -75,10 +82,16 @@ exports.handler = async (event, context) => {
             break;
     }
 
+    const {
+        kettlebellWeight,
+        weight,
+        totalRepetitions,
+    } = sanitizeEvent(event);
+
     // This is called the KOEHORST formula
     return (
-        Math.pow((event.kettlebellWeight / 6), indexA) *
-        ((event.weight + indexB) / event.weight) * 
-        (Math.pow(indexC, event.totalRepetitions) * event.totalRepetitions)
+        Math.pow((kettlebellWeight / 6), indexA) *
+        ((weight + indexB) / weight) * 
+        (Math.pow(indexC, totalRepetitions) * totalRepetitions)
     ) / indexD;
 }
