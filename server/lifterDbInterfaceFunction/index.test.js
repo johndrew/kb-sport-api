@@ -1,6 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const eventFunction = require('./index');
+const { weightClasses, genders } = require('../shared/enums')
 
 const { handler } = eventFunction;
 
@@ -405,8 +406,9 @@ describe(__filename, () => {
         const updateEvent = {
             action: 'update',
             lifterId: 'foo',
+            gender: genders.WOMEN,
             fields: {
-                weightClass: 'Flyweight',
+                weight: '75',
             },
         };
         
@@ -556,11 +558,19 @@ describe(__filename, () => {
                 throw new Error('should not resolve if invalid fields are provided');
             });
 
-            it('should error if weightClass is invalid', async () => {
+            it('should error if weight is invalid', async () => {
                 
                 const event = JSON.parse(JSON.stringify(updateEvent));
-                event.fields.weightClass = 'foo';
+                event.fields.weight = true;
 
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+
+                event.fields.weight = '-1';
 
                 try {
                     await handler(event, {});
@@ -570,6 +580,21 @@ describe(__filename, () => {
                 }
                 
                 throw new Error('should not resolve if weightClass is invalid');
+            });
+
+            it('should error if gender is missing', async () => {
+
+                const event = JSON.parse(JSON.stringify(updateEvent));
+                event.gender = undefined;
+                
+                try {
+                    await handler(event, {});
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if gender is missing');
             });
         });
     });
@@ -655,6 +680,147 @@ describe(__filename, () => {
                     }
                     
                     throw new Error('should not resolve if network call fails');
+                });
+            });
+        });
+    });
+
+    context('method getWeightClass', () => {
+        
+        describe('Positive Tests', () => {
+            
+            it('should return strawweight for women for weights equal to or below 52.2', () => {
+                
+                const testWeights = [0, 1, 10, 30, 50, 51, 52, '51.1', '52.2'];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.STRAWWEIGHT);
+            });
+
+            it('should return flyweight for women for weights between 52.2 and 56.7', () => {
+                
+                const testWeights = ['52.3', 53, 54, 55, 56, 56.6, 56.7];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.FLYWEIGHT);
+            });
+
+            it('should return bantamweight for women for weights between 56.7 and 61.2', () => {
+                
+                const testWeights = [56.8, 57, 58, 59, 60, 61, 61.1, '61.2'];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.BANTAMWEIGHT);
+            });
+
+            it('should return bantamweight for men for weights equal to or below 61.2', () => {
+                
+                const testWeights = [0, 1, 10, 30, 60, 61, 61.1, '61.2'];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.BANTAMWEIGHT);
+            });
+
+            it('should return featherweight for weights between 61.2 and 65.8', () => {
+                
+                const testWeights = [61.3, 61.4, 62, 63, 64, 65, 65.7, 65.8];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.FEATHERWEIGHT);
+            });
+
+            it('should return lightweight for weights between 65.8 and 70.3', () => {
+                
+                const testWeights = [65.9, 66, 67, 68, 69, 70, 70.2, 70.3];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.LIGHTWEIGHT);
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.LIGHTWEIGHT);
+            });
+            
+            it('should return super lightweight for weights between 70.3 and 74.3', () => {
+                
+                const testWeights = [70.4, 70.5, 71, 72, 73, 74, 74.2, 74.3];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.SUPER_LIGHTWEIGHT);
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.SUPER_LIGHTWEIGHT);
+            });
+
+            it('should return welterweight for weights between 74.3 and 79.4', () => {
+                
+                const testWeights = [74.4, 74.5, 75, 76, 77, 78, 79, 79.3, 79.4];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.WELTERWEIGHT);
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.WELTERWEIGHT);
+            });
+
+            it('should return super welterweight for women weights above 79.4', () => {
+                
+                const testWeights = [79.5, 79.6, 80, 90, 100, 102, 102.1, 150];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.WOMEN)))
+                    assert.strictEqual(weightClass, weightClasses.SUPER_WELTERWEIGHT);
+            });
+
+            it('should return middleweight for men weights between 79.4 and 83.9', () => {
+                
+                const testWeights = [79.5, 79.6, 80, 81, 82, 83, 83.8, 83.9];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.MIDDLEWEIGHT);
+            });
+
+            it('should return super middleweight for men weights between 83.9 and 88.5', () => {
+                
+                const testWeights = [84, 84.1, 85, 86, 87, 88, 88.4, 88.5];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.SUPER_MIDDLEWEIGHT);
+            });
+
+            it('should return cruiserweight for men weights between 88.5 and 93', () => {
+                
+                const testWeights = [88.6, 88.7, 89, 90, 91, 92, 92.9, 93];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.CRUISERWEIGHT);
+            });
+
+            it('should return heavyweight for men weights between 93 and 102.1', () => {
+                
+                const testWeights = [93.1, 93.2, 94, 95, 96, 97, 98, 99, 100, 101, 101.0, 102, 102.1];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.HEAVYWEIGHT);
+            });
+
+            it('should return super heavyweight for men weights above 102.1', () => {
+                
+                const testWeights = [102.2, 102.3, 103, 105, 110, 125, 150];
+
+                for (let weightClass of testWeights.map(weight => eventFunction.getWeightClass(weight, genders.MEN)))
+                    assert.strictEqual(weightClass, weightClasses.SUPER_HEAVYWEIGHT);
+            });
+        });
+        
+        describe('Negative Tests', () => {
+
+            it('should error if weight is missing', () => {
+                
+                assert.throws(() => {
+                    handler.getWeightClass(null, 'women');
+                });
+            });
+
+            it('should error if gender is missing', () => {
+                
+                assert.throws(() => {
+                    handler.getWeightClass('75', null);
                 });
             });
         });

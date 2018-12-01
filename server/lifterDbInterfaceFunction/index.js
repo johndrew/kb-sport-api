@@ -14,7 +14,7 @@ const DYNAMO_INIT_PARAMS = {
 };
 const TABLE_NAME = 'kbLifterDb';
 const VALID_UPDATE_FIELDS = Object.freeze({
-    WEIGHT_CLASS: 'weightClass',
+    WEIGHT: 'weight',
 });
 
 function validateEvent(event) {
@@ -36,14 +36,16 @@ function validateEvent(event) {
             break;
         case VALID_ACTIONS.UPDATE:
             if (!event.lifterId) throw new Error('lifterId is required for update event');
+            if (!event.gender) throw new Error('gender is required');
             if (!event.fields) throw new Error('fields are required for update event');
             if (!Object.keys(event.fields).length) throw new Error('fields cannot be empty');
-            
+
             const invalidFields = Object.keys(event.fields).filter(field => Object.values(VALID_UPDATE_FIELDS).indexOf(field) < 0);
             if (invalidFields.length > 0)
                 throw new Error(`these fields are invalid: ${invalidFields}`);
-            if (event.fields.weightClass && Object.values(weightClasses).indexOf(event.fields.weightClass) < 0) {
-                throw new Error(`weightClass must be one of these: ${Object.values(weightClasses).join(', ')}`);
+            if (event.fields.weight) {
+                if (parseFloat(event.fields.weight) === NaN) throw new Error('weight must be a number');
+                if (event.fields.weight < 0) throw new Error('weight must be a positive number');
             }
             break;
         case VALID_ACTIONS.EXISTS:
@@ -71,6 +73,29 @@ function createKey({
 }
 
 /**
+ * Returns the weight class based on a lifter's weight and gender.
+ */
+exports.getWeightClass = (weight, gender) => {
+
+    if (weight == null) throw new Error('weight is required');
+    if (!gender) throw new Error('gender is required');
+
+    if (weight <= 52.2 && gender === genders.WOMEN) return weightClasses.STRAWWEIGHT;
+    else if (weight <= 56.7 && gender === genders.WOMEN) return weightClasses.FLYWEIGHT;
+    else if (weight <= 61.2) return weightClasses.BANTAMWEIGHT;
+    else if (weight <= 65.8) return weightClasses.FEATHERWEIGHT;
+    else if (weight <= 70.3) return weightClasses.LIGHTWEIGHT;
+    else if (weight <= 74.3) return weightClasses.SUPER_LIGHTWEIGHT;
+    else if (weight <= 79.4) return weightClasses.WELTERWEIGHT;
+    else if (weight > 79.4 && gender === genders.WOMEN) return weightClasses.SUPER_WELTERWEIGHT;
+    else if (weight <= 83.9 && gender === genders.MEN) return weightClasses.MIDDLEWEIGHT;
+    else if (weight <= 88.5 && gender === genders.MEN) return weightClasses.SUPER_MIDDLEWEIGHT;
+    else if (weight <= 93 && gender === genders.MEN) return weightClasses.CRUISERWEIGHT;
+    else if (weight <= 102.1 && gender === genders.MEN) return weightClasses.HEAVYWEIGHT;
+    else if (weight > 102.1 && gender === genders.MEN) return weightClasses.SUPER_HEAVYWEIGHT;
+};
+
+/**
  * Adds lifter to database
  */
 exports.addToDb = async ({
@@ -78,11 +103,11 @@ exports.addToDb = async ({
     lastName,
     gender,
     weightClass,
-}) => {
+}, { tableName } = {}) => {
 
     const lifterId = createKey({ firstName, lastName, gender });
     const params = {
-        TableName: TABLE_NAME,
+        TableName: tableName || TABLE_NAME,
         Item: {
             lifterId,
             firstName,
@@ -112,13 +137,13 @@ exports.addToDb = async ({
 /**
  * Deletes a lifter from database
  */
-exports.deleteFromDb = async (lifterId) => {
+exports.deleteFromDb = async (lifterId, { tableName } = {}) => {
     
     console.log('INFO: deleting lifter from database');
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.delete({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Key: {
                 lifterId,
             },
@@ -142,7 +167,7 @@ exports.lifterExists = async ({
     lastName,
     gender,
     lifterId,
-}) => {
+}, { tableName } = {}) => {
 
     const id = lifterId ? lifterId : createKey({ firstName, lastName, gender });
    
@@ -150,7 +175,7 @@ exports.lifterExists = async ({
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.get({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Key: {
                 lifterId: id,
             },
@@ -169,12 +194,12 @@ exports.lifterExists = async ({
 /**
  * Retrieves all lifters from db
  */
-exports.getAllFromDb = async () => {
+exports.getAllFromDb = async ({ tableName } = {}) => {
     
     console.log('INFO: retrieving lifters from database');
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
-        dynamo.scan({ TableName: TABLE_NAME }, (err, result) => {
+        dynamo.scan({ TableName: tableName || TABLE_NAME }, (err, result) => {
             if (err) {
                 console.error('ERROR: scan error;', err);
                 reject(new Error('Could not get lifters from database'));
@@ -189,7 +214,7 @@ exports.getAllFromDb = async () => {
 /**
  * Updates a lifter's data
  */
-exports.updateInDb = async ({ lifterId, fields }) => {
+exports.updateInDb = async ({ lifterId, fields }, { tableName } = {}) => {
     
     const attributesToUpdate = Object.keys(fields).map((field) => ({
         [field]: {
@@ -202,7 +227,7 @@ exports.updateInDb = async ({ lifterId, fields }) => {
     const dynamo = new AWS.DynamoDB.DocumentClient(DYNAMO_INIT_PARAMS);
     return new Promise((resolve, reject) => {
         dynamo.update({
-            TableName: TABLE_NAME,
+            TableName: tableName || TABLE_NAME,
             Key: { lifterId },
             AttributeUpdates: attributesToUpdate,
         }, (err, result) => {
@@ -227,21 +252,25 @@ exports.handler = async (event, context) => {
     let lifterExists;
     switch (event.action) {
         case VALID_ACTIONS.ADD:
-            lifterExists = await exports.lifterExists(event);
+            lifterExists = await exports.lifterExists(event, context);
             if (lifterExists) throw new Error('lifter already exists');
-            return exports.addToDb(event);
+            return exports.addToDb(event, context);
         case VALID_ACTIONS.DELETE:
-            lifterExists = await exports.lifterExists(event);
+            lifterExists = await exports.lifterExists(event, context);
             if (lifterExists === false) throw new Error('lifter does not exist');
-            return exports.deleteFromDb(event.lifterId);
+            return exports.deleteFromDb(event.lifterId, context);
         case VALID_ACTIONS.GET_ALL:
-            return exports.getAllFromDb();
+            return exports.getAllFromDb(context);
         case VALID_ACTIONS.UPDATE:
-            lifterExists = await exports.lifterExists(event);
+            lifterExists = await exports.lifterExists(event, context);
             if (lifterExists === false) throw new Error('lifter does not exist');
-            return exports.updateInDb(event);
+            const updatedFields = JSON.parse(JSON.stringify(event.fields));
+            
+            // If weight exists, add the weight class to the data to update
+            if (event.fields.weight) updatedFields.weightClass = exports.getWeightClass(event.fields.weight, event.gender);
+            return exports.updateInDb({ lifterId: event.lifterId, fields: updatedFields }, context);
         case VALID_ACTIONS.EXISTS:
-            return exports.lifterExists(event);
+            return exports.lifterExists(event, context);
         default:
             throw new Error('action is not recognized');
     }

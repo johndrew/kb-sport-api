@@ -1,9 +1,15 @@
 const assert = require('assert');
 const { handler, lifterExists, getAllFromDb } = require('./index');
+const {
+    weightClasses,
+    genders,
+} = require('../shared/enums');
+const testDb = 'kbLifterDb-dev';
 
 describe(__filename, () => {
 
     let lifterId;
+    const context = { tableName: testDb };
     
     it('should add a lifter to db', async () => {
         
@@ -11,12 +17,12 @@ describe(__filename, () => {
             action: 'add',
             firstName: 'test',
             lastName: 'icle',
-            gender: 'women',
+            gender: genders.WOMEN,
         };
 
-        const result = await handler(event, {});
+        const result = await handler(event, context);
         lifterId = result.lifterId;
-        const actual = await lifterExists(event);
+        const actual = await lifterExists(event, context);
         assert.strictEqual(actual, true);
     });
 
@@ -24,7 +30,7 @@ describe(__filename, () => {
         
         const event = { action: 'getAll' };
 
-        const result = await handler(event, {});
+        const result = await handler(event, context);
         assert.strictEqual(result.length >= 1, true);
     });
 
@@ -33,15 +39,23 @@ describe(__filename, () => {
         const event = {
             action: 'update',
             lifterId,
+            gender: genders.WOMEN,
             fields: {
-                weightClass: 'Flyweight'
+                weight: '75' // welterweight
             },
         };
 
-        await handler(event, {});
-        const results = await getAllFromDb();
+        await handler(event, context);
+        const results = await getAllFromDb(context);
+        const { weight: actual } = results.find(result => result.lifterId === lifterId);
+        assert.strictEqual(actual, event.fields.weight);
+    });
+
+    it('should save weight class when weight is saved', async () => {
+        
+        const results = await getAllFromDb(context);
         const { weightClass: actual } = results.find(result => result.lifterId === lifterId);
-        assert.strictEqual(actual, event.fields.weightClass);
+        assert.strictEqual(actual, weightClasses.WELTERWEIGHT);
     });
 
     it('should show when a lifter exists', async () => {
@@ -51,7 +65,7 @@ describe(__filename, () => {
             lifterId,
         };
 
-        const actual = await handler(event, {});
+        const actual = await handler(event, context);
         assert.strictEqual(actual, true);
     });
 
@@ -62,8 +76,8 @@ describe(__filename, () => {
             lifterId,
         };
 
-        await handler(event, {});
-        const actual = await lifterExists(event);
+        await handler(event, context);
+        const actual = await lifterExists(event, context);
         assert.strictEqual(actual, false);
     });
 
@@ -74,7 +88,7 @@ describe(__filename, () => {
             lifterId,
         };
 
-        const actual = await handler(event, {});
+        const actual = await handler(event, context);
         assert.strictEqual(actual, false);
     });
 });
