@@ -1,10 +1,12 @@
 const assert = require('assert');
-const { handler } = require('./index');
+const { handler, getAllResults } = require('./index');
+const { eventTypes, durations } = require('../shared/enums');
 
 describe(__filename, () => {
 
     const eventId = '18c88ea8b8a5dd866e94e5ff248d5ce9c4b9181c';
     const lifterId = '0eb62bb5d2ff8be63997e24a5dd85516c5980c6e';
+    const context = { tableName: 'kbEventDetailsDb-dev' };
 
     it('should register a lifter', async () => {
         
@@ -12,7 +14,7 @@ describe(__filename, () => {
             action: 'register',
             eventId,
             lifterId,
-        }, { tableName: 'kbEventDetailsDb-dev' });
+        }, context);
     });
 
     it('should retrieve all records', async () => {
@@ -29,11 +31,21 @@ describe(__filename, () => {
             action: 'lifterUpdate',
             eventId,
             lifterId,
+            eventType: eventTypes.LONG_CYCLE,
+            eventDuration: durations.TEN,
+            weight: 80,
             details: {
                 kettlebellWeight: '28',
                 totalRepetitions: '70',
             },
-        }, { tableName: 'kbEventDetailsDb-dev' });
+        }, context);
+    });
+
+    it('should obtain a score', async () => {
+        
+        const results = await getAllResults(context);
+        const { score: actual } = results.find(result => result.eventId === eventId && result.lifterId === lifterId);
+        assert.strictEqual(actual > 0, true);
     });
 
     it('should unregister a lifter', async () => {
@@ -42,6 +54,6 @@ describe(__filename, () => {
             action: 'unregister',
             eventId,
             lifterId,
-        }, { tableName: 'kbEventDetailsDb-dev' });
+        }, context);
     });
 });

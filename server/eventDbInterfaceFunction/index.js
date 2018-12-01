@@ -170,11 +170,12 @@ exports.lifterExists = async ({ lifterId }) => {
     console.log('INFO: Checking if lifter exists');
     const lambda = new AWS.Lambda({ region: 'us-west-2' });
     return new Promise((resolve, reject) => {
-        lambda.invokeAsync({
-            FunctionName: LIFTER_DB_FUNCTION,
-            InvokeArgs: JSON.stringify({
+        lambda.invoke({
+            FunctionName: LIFTER_DB_FUNCTION, 
+            InvocationType: "RequestResponse", 
+            Payload: JSON.stringify({
                 action: 'exists',
-                lifterId,
+                lifterId
             }),
         }, (err, lifterExists) => {
             if (err) {
@@ -182,7 +183,7 @@ exports.lifterExists = async ({ lifterId }) => {
                 reject(new Error('Could not determine if lifter exists'));
             } else {
                 console.log('DEBUG: call to lifter lambda successful');
-                resolve(lifterExists);
+                resolve(lifterExists.Payload);
             }
         });
     });

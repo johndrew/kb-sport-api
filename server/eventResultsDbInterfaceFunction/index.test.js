@@ -1,6 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const eventResultsFunction = require('./index');
+const { eventTypes, durations } = require('../shared/enums');
 
 const { handler } = eventResultsFunction;
 
@@ -483,8 +484,12 @@ describe(__filename, () => {
             action: 'lifterUpdate',
             eventId: 'foo',
             lifterId: 'bar',
+            weight: '80',
+            eventType: eventTypes.LONG_CYCLE,
+            eventDuration: durations.FIVE,
             details: {
                 kettlebellWeight: 'foobar',
+                totalRepetitions: 60,
             },
         };
 
@@ -492,9 +497,11 @@ describe(__filename, () => {
             
             sinon.stub(eventResultsFunction, 'eventExists');
             sinon.stub(eventResultsFunction, 'lifterExists');
+            sinon.stub(eventResultsFunction, 'getScore');
             sinon.stub(eventResultsFunction, 'updateRecord');
             eventResultsFunction.eventExists.resolves(true);
             eventResultsFunction.lifterExists.resolves(true);
+            eventResultsFunction.getScore.resolves(0);
             eventResultsFunction.updateRecord.resolves('success');
         });
 
@@ -502,6 +509,7 @@ describe(__filename, () => {
             
             eventResultsFunction.eventExists.restore();
             eventResultsFunction.lifterExists.restore();
+            eventResultsFunction.getScore.restore();
             eventResultsFunction.updateRecord.restore();
         });
 
@@ -569,6 +577,48 @@ describe(__filename, () => {
                 }
                 
                 throw new Error('should not resolve if invalid details are provided');
+            });
+
+            it('should error if lifter weight is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { weight: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if weight is missing');
+            });
+
+            it('should error if event type is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { eventType: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if event type is missing');
+            });
+
+            it('should error if event duration is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { eventDuration: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if event duration is missing');
             });
 
             describe('when event existence cannot be determined', () => {
@@ -671,6 +721,31 @@ describe(__filename, () => {
                 });
             });
 
+            describe('when scoring call fails', () => {
+                
+                beforeEach(() => {
+                    
+                    eventResultsFunction.getScore.rejects(new Error('call failed'));
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.getScore.resolves(0);
+                });
+
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if get score call fails');
+                });
+            });
+
             describe('when update call fails', () => {
                 
                 beforeEach(() => {
@@ -693,7 +768,7 @@ describe(__filename, () => {
                     }
                     
                     throw new Error('should not resolve if update call fails');
-                })
+                });
             });
         });
     });

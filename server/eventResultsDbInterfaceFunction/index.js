@@ -14,6 +14,7 @@ const VALID_DETAILS_TO_UPDATE = Object.freeze({
 const TABLE_NAME = 'kbEventDetailsDb';
 const LIFTER_DB_FUNCTION = 'kbSportLifterDbInterfaceFunction';
 const EVENT_DB_FUNCTION = 'kbSportEventDbInterfaceFunction';
+const GET_SCORE_FUNCTION = 'kbSportGetScoreFunction';
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
 };
@@ -36,6 +37,9 @@ function validateEvent(event) {
             if (!event.eventId) throw new Error('event id is required');
             if (!event.lifterId) throw new Error('lifter id is required');
             if (!event.details) throw new Error('details are required');
+            if (!event.weight) throw new Error('weight is required');
+            if (!event.eventType) throw new Error('eventType is required');
+            if (!event.eventDuration) throw new Error('eventDuration is required');
             Object.keys(event.details).forEach(detail => {
                 if (Object.values(VALID_DETAILS_TO_UPDATE).indexOf(detail) < 0) throw new Error(`detail ${detail} is not allowed`);
             });
@@ -62,9 +66,10 @@ exports.eventExists = async (eventId) => {
     console.log('INFO: Checking if event exists');
     const lambda = new AWS.Lambda({ region: 'us-west-2' });
     return new Promise((resolve, reject) => {
-        lambda.invokeAsync({
-            FunctionName: EVENT_DB_FUNCTION,
-            InvokeArgs: JSON.stringify({
+        lambda.invoke({
+            FunctionName: EVENT_DB_FUNCTION, 
+            InvocationType: "RequestResponse", 
+            Payload: JSON.stringify({
                 action: 'exists',
                 eventId,
             }),
@@ -74,7 +79,7 @@ exports.eventExists = async (eventId) => {
                 reject(new Error('Could not determine if event exists'));
             } else {
                 console.log('DEBUG: call to event lambda successful');
-                resolve(eventExists);
+                resolve(eventExists.Payload);
             }
         });
     });
@@ -88,9 +93,10 @@ exports.lifterExists = async (lifterId) => {
     console.log('INFO: Checking if lifter exists');
     const lambda = new AWS.Lambda({ region: 'us-west-2' });
     return new Promise((resolve, reject) => {
-        lambda.invokeAsync({
-            FunctionName: LIFTER_DB_FUNCTION,
-            InvokeArgs: JSON.stringify({
+        lambda.invoke({
+            FunctionName: LIFTER_DB_FUNCTION, 
+            InvocationType: "RequestResponse", 
+            Payload: JSON.stringify({
                 action: 'exists',
                 lifterId,
             }),
@@ -100,7 +106,7 @@ exports.lifterExists = async (lifterId) => {
                 reject(new Error('Could not determine if lifter exists'));
             } else {
                 console.log('DEBUG: call to lifter lambda successful');
-                resolve(lifterExists);
+                resolve(lifterExists.Payload);
             }
         });
     });
@@ -209,7 +215,34 @@ exports.updateRecord = async({ eventId, lifterId, details }, { tableName } = {})
             };
         });
     });
-}
+};
+
+exports.getScore = async ({ eventType, eventDuration, kettlebellWeight, lifterWeight, totalRepetitions }) => {
+
+    console.log('INFO: Retrieving lifter score');
+    const lambda = new AWS.Lambda({ region: 'us-west-2' });
+    return new Promise((resolve, reject) => {
+        lambda.invoke({
+            FunctionName: GET_SCORE_FUNCTION, 
+            InvocationType: "RequestResponse", 
+            Payload: JSON.stringify({
+                eventType,
+                eventDuration,
+                kettlebellWeight,
+                weight: lifterWeight,
+                totalRepetitions,
+            }),
+        }, (err, score) => {
+            if (err) {
+                console.error('ERROR: call to lambda failed', err.message);
+                reject(new Error('Could not get score'));
+            } else {
+                console.log('DEBUG: call to lifter lambda successful');
+                resolve(score.Payload);
+            }
+        });
+    });
+};
 
 exports.handler = async (event, context) => {
 
@@ -230,10 +263,24 @@ exports.handler = async (event, context) => {
             if (!(await exports.eventExists(event.eventId))) throw new Error(`event ${event.eventId} does not exist`);
             if (!(await exports.lifterExists(event.lifterId))) throw new Error(`lifter ${event.lifterId} does not exist`);
             // TODO: add kettlebell validation by gender
+            const updatedDetails = JSON.parse(JSON.stringify(event.details));
+
+
+            // Retrieve score and rank if total repetitions is included in details
+            if (event.details.totalRepetitions) {
+                updatedDetails.score = await exports.getScore({
+                    eventType: event.eventType,
+                    eventDuration: event.eventDuration,
+                    kettlebellWeight: event.details.kettlebellWeight,
+                    lifterWeight: event.weight,
+                    totalRepetitions: event.details.totalRepetitions,
+                });
+            }
+
             return exports.updateRecord({
                 eventId: event.eventId,
                 lifterId: event.lifterId,
-                details: event.details,
+                details: updatedDetails,
             }, context);
         default:
             console.warn('WARN: event action not recognized');
