@@ -1,5 +1,6 @@
 const assert = require('assert');
 const { handler } = require('./index');
+const { eventTypes, durations } = require('../shared/enums');
 
 const TEN_DIGIT_REGEX = /\d*\.(\d{1,10})/;
 
@@ -18,7 +19,8 @@ function assertScoresEqual(actual, expected) {
 describe(__filename, () => {
 
     const scoreEvent = {
-        formulaType: 'longCycle',
+        eventType: eventTypes.LONG_CYCLE,
+        eventDuration: durations.FIVE,
         kettlebellWeight: 20,
         weight: 98.9,
         totalRepetitions: 28,
@@ -33,7 +35,8 @@ describe(__filename, () => {
             beforeEach(() => {
                 
                 event = Object.assign({}, scoreEvent, {
-                    formulaType: 'longCycle',
+                    eventType: eventTypes.LONG_CYCLE,
+                    eventDuration: durations.TEN,
                 });
             });
 
@@ -80,7 +83,8 @@ describe(__filename, () => {
             beforeEach(() => {
                 
                 event = Object.assign({}, scoreEvent, {
-                    formulaType: 'snatch',
+                    eventType: eventTypes.SNATCH,
+                    eventDuration: durations.TEN,
                 });
             });
             
@@ -115,7 +119,8 @@ describe(__filename, () => {
             beforeEach(() => {
                 
                 event = Object.assign({}, scoreEvent, {
-                    formulaType: 'jerk',
+                    eventType: eventTypes.JERK,
+                    eventDuration: durations.TEN,
                 });
             });
             
@@ -150,7 +155,8 @@ describe(__filename, () => {
             beforeEach(() => {
                 
                 event = Object.assign({}, scoreEvent, {
-                    formulaType: 'OALC',
+                    eventType: eventTypes.LONG_CYCLE,
+                    eventDuration: durations.FIVE,
                 });
             });
             
@@ -194,9 +200,9 @@ describe(__filename, () => {
             throw new Error('should not resolve if event is missing');
         });
 
-        it('should error if formula type is missing', async () => {
+        it('should error if event type is missing', async () => {
 
-            const event = Object.assign({}, scoreEvent, { formulaType: undefined });
+            const event = Object.assign({}, scoreEvent, { eventType: undefined });
             
             try {
                 await handler(event, context);
@@ -205,12 +211,12 @@ describe(__filename, () => {
                 return;
             }
             
-            throw new Error('should not resolve if formula type is missing');
+            throw new Error('should not resolve if event type is missing');
         });
 
-        it('should error if invalid formula type is provided', async () => {
+        it('should error if event duration is missing', async () => {
 
-            const event = Object.assign({}, scoreEvent, { formulaType: 'foo' });
+            const event = Object.assign({}, scoreEvent, { eventDuration: undefined });
             
             try {
                 await handler(event, context);
@@ -219,7 +225,7 @@ describe(__filename, () => {
                 return;
             }
             
-            throw new Error('should not resolve if formula type is invalid');
+            throw new Error('should not resolve if event duration is missing');
         });
 
         it('should error if kettlebell weight is missing', async () => {

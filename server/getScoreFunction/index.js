@@ -1,3 +1,5 @@
+const { eventTypes, durations } = require('../shared/enums');
+
 const VALID_FORMULA_TYPES = Object.freeze({
     LONG_CYCLE: 'longCycle',
     SNATCH: 'snatch',
@@ -8,23 +10,42 @@ const VALID_FORMULA_TYPES = Object.freeze({
 function validateEvent(event) {
     
     if (!event) throw new Error('event is required');
-    if (!event.formulaType) throw new Error('formulaType is required');
-    if (Object.values(VALID_FORMULA_TYPES).indexOf(event.formulaType) < 0) throw new Error(`formulaType ${event.formulaType} is invalid`);
+    if (!event.eventType) throw new Error('eventType is required');
+    if (!event.eventDuration) throw new Error('eventDuration is required');
     if (!event.kettlebellWeight) throw new Error('kettlebellWeight is required');
     if (!event.weight) throw new Error('lifter weight is required');
     if (!event.totalRepetitions) throw new Error('total repetitions is required');
+}
+
+function mapEventToFormula(eventType, duration) {
+
+    switch (`${eventType}${duration}`) {
+        case `${eventTypes.LONG_CYCLE}${durations.FIVE}`:
+            return VALID_FORMULA_TYPES.OALC;
+        case `${eventTypes.LONG_CYCLE}${durations.TEN}`:
+            return VALID_FORMULA_TYPES.LONG_CYCLE;
+        case `${eventTypes.JERK}${durations.FIVE}`:
+        case `${eventTypes.JERK}${durations.TEN}`:
+            return VALID_FORMULA_TYPES.JERK;
+        case `${eventTypes.SNATCH}${durations.FIVE}`:
+        case `${eventTypes.SNATCH}${durations.TEN}`:
+            return VALID_FORMULA_TYPES.SNATCH;
+        default:
+            throw new Error(`unsupported event: ${eventType},${duration}`);
+    }
 }
 
 exports.handler = async (event, context) => {
 
     validateEvent(event);
 
+    const formulaType = mapEventToFormula(event.eventType, event.eventDuration);
     let indexA;
     let indexB;
     let indexC;
     let indexD;
 
-    switch (event.formulaType) {
+    switch (formulaType) {
         case VALID_FORMULA_TYPES.LONG_CYCLE:
             indexA = 3.1;
             indexB = 160;
