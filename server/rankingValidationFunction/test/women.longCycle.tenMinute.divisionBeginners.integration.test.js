@@ -14,7 +14,7 @@ const {
   testError,
 } = require('./util/getRankingUtil');
 
-describe.only(__filename, () => {
+describe(__filename, () => {
     let params;
     beforeEach(() => {
       params = {
