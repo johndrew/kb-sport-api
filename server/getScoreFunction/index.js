@@ -54,6 +54,7 @@ exports.handler = async (event, context) => {
             break;
     }
 
+    // This is called the KOEHORST formula
     return (
         Math.pow((event.kettlebellWeight / 6), indexA) *
         ((event.weight + indexB) / event.weight) * 
