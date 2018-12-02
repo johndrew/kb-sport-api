@@ -56,6 +56,7 @@ const rankings = Object.freeze({
   RANK_I: 'Rank I',
   RANK_II: 'Rank II',
   RANK_III: 'Rank III',
+  NO_RANK: 'No Rank',
 });
 
 module.exports = {

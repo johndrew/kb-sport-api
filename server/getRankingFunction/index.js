@@ -8,6 +8,7 @@ const {
   genders,
   weightClasses,
   kettlebellWeights,
+  rankings,
 } = require('../shared/enums');
 const createDBClient = require('../shared/createDBClient');
 
@@ -142,7 +143,7 @@ exports.handler = async (event, { dbHost, dbUser } = {}) => {
     if (dataExists === 'no data') {
       console.warn('No result from database');
       // throw new Error(errorResponses.NO_MATCH_ERROR);
-      return { ranking: 'No Rank' };
+      return { ranking: rankings.NO_RANK };
     }
 
     const result = {

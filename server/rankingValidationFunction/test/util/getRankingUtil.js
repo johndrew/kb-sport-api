@@ -36,7 +36,10 @@ const testErrorCode = async (params, statusCode) => {
 };
 
 const getRankingLocal = async (params) => {
-    return handler(params);
+    return handler(params, {
+        dbHost: 'localhost',
+        dbUser: 'root',
+    });
 }
 
 const testError = async (params, statusCode) => {
