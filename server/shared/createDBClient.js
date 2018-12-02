@@ -108,7 +108,9 @@ module.exports = async function createClient({
       ssl: 'Amazon RDS',
       authSwitchHandler: (data, callback) => {
         if (data.pluginName === 'mysql_clear_password') {
-          callback(null, Buffer.from(token + '\0'));
+
+          // Password is the generated token within this block
+          callback(null, Buffer.from(password + '\0'));
         }
       }
     });

@@ -6,15 +6,17 @@
   "author": "johndrew",
   "license": "MIT",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "mocha *.test.js"
   },
   "dependencies": {
     "aws-sdk": "^2.325.0",
     "joi": "^13.6.0",
     "lodash.get": "^4.4.2",
-    "mysql2": "^1.6.1"
+    "mysql2": "1.6.4"
   },
   "devDependencies": {
+    "mocha": "^5.2.0",
     "webpack": "3.11.0",
     "webpack-cli": "^3.1.0",
     "zip-webpack-plugin": "2.0.0"

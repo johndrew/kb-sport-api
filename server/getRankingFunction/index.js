@@ -11,6 +11,9 @@ const {
 } = require('../shared/enums');
 const createDBClient = require('../shared/createDBClient');
 
+const RANKING_DB = 'kbsportrankingtable2018.c88tulh6irue.us-west-2.rds.amazonaws.com';
+const DB_USER = 'taylor';
+
 /**
  * These errors are used by API Gateway to map to the correct error response type.
  * 
@@ -110,23 +113,20 @@ const getParams = (event) => {
   }
 };
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, { dbHost, dbUser } = {}) => {
   console.info('Received event', JSON.stringify(event));
   console.info('Validating event');
   validateParameters(event);
 
-  //FIXME: Make this work for local testing and in production.
   console.info('Setting up db client');
   const client = await createDBClient({
     AWS,
     mysql,
-    host: 'localhost',
-    // host: 'kbsportrankingtable2018.c88tulh6irue.us-west-2.rds.amazonaws.com',
-    user: 'root',
-    // user: 'taylor',
+    host: dbHost || RANKING_DB,
+    user: dbUser || DB_USER,
     database: 'rankingTable2018',
     region: 'us-west-2',
-    localTesting: true,
+    localTesting: dbHost != null && dbUser != null,
   });
 
   try {
