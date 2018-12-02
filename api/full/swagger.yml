@@ -70,6 +70,17 @@ paths:
           $ref: '#/components/responses/Success'
         '500':
           $ref: '#/components/responses/Error'
+  /events/event/{eventId}/lifter/{lifterId}/unregister:
+    get:
+      summary: Unregisters a lifter from an event
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+        - $ref: '#/components/parameters/LifterId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '500':
+          $ref: '#/components/responses/Error'
   /events/event/{eventId}/delete:
     get:
       summary: Deletes an event
