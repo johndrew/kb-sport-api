@@ -142,7 +142,7 @@ exports.handler = async (event, { dbHost, dbUser } = {}) => {
     if (dataExists === 'no data') {
       console.warn('No result from database');
       // throw new Error(errorResponses.NO_MATCH_ERROR);
-      return { ranking: '' };
+      return { ranking: 'No Rank' };
     }
 
     const result = {
