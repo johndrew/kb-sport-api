@@ -15,6 +15,7 @@ const TABLE_NAME = 'kbEventDetailsDb';
 const LIFTER_DB_FUNCTION = 'kbSportLifterDbInterfaceFunction';
 const EVENT_DB_FUNCTION = 'kbSportEventDbInterfaceFunction';
 const GET_SCORE_FUNCTION = 'kbSportGetScoreFunction';
+const GET_RANKING_FUNCTION = 'GetRanking';
 const DYNAMO_INIT_PARAMS = {
     region: 'us-west-2',
 };
@@ -38,8 +39,10 @@ function validateEvent(event) {
             if (!event.lifterId) throw new Error('lifter id is required');
             if (!event.details) throw new Error('details are required');
             if (!event.weight) throw new Error('weight is required');
+            if (!event.weightClass) throw new Error('weightClass is required');
             if (!event.eventType) throw new Error('eventType is required');
             if (!event.eventDuration) throw new Error('eventDuration is required');
+            if (!event.gender) throw new Error('gender is required');
             Object.keys(event.details).forEach(detail => {
                 if (Object.values(VALID_DETAILS_TO_UPDATE).indexOf(detail) < 0) throw new Error(`detail ${detail} is not allowed`);
             });
@@ -208,7 +211,7 @@ exports.updateRecord = async({ eventId, lifterId, details }, { tableName } = {})
         }, (err, result) => {
             if (err) {
                 console.error('ERROR: scan error;', err);
-                reject(new Error('Could not get lifters from database'));
+                reject(new Error('Could not update lifter in database'));
             } else {
                 console.log('DEBUG: scan success', result);
                 resolve('success');
@@ -237,12 +240,40 @@ exports.getScore = async ({ eventType, eventDuration, kettlebellWeight, lifterWe
                 console.error('ERROR: call to lambda failed', err.message);
                 reject(new Error('Could not get score'));
             } else {
-                console.log('DEBUG: call to lifter lambda successful');
+                console.log('DEBUG: call to score lambda successful');
                 resolve(score.Payload);
             }
         });
     });
 };
+
+exports.getRanking = async ({ eventDuration, eventType, gender, kettlebellWeight, totalRepetitions, weightClass }) => {
+
+    console.log('INFO: Retrieving lifter score');
+    const lambda = new AWS.Lambda({ region: 'us-west-2' });
+    return new Promise((resolve, reject) => {
+        lambda.invoke({
+            FunctionName: GET_RANKING_FUNCTION, 
+            InvocationType: "RequestResponse", 
+            Payload: JSON.stringify({
+                duration: eventDuration,
+                eventType,
+                gender,
+                kettlebellWeight,
+                repetitions: totalRepetitions,
+                weightCategory: weightClass,
+            }),
+        }, (err, result) => {
+            if (err) {
+                console.error('ERROR: call to lambda failed', err.message);
+                reject(new Error('Could not get ranking'));
+            } else {
+                console.log('DEBUG: call to ranking lambda successful');
+                resolve(JSON.parse(result.Payload).ranking);
+            }
+        });
+    });
+}
 
 exports.handler = async (event, context) => {
 
@@ -265,7 +296,6 @@ exports.handler = async (event, context) => {
             // TODO: add kettlebell validation by gender
             const updatedDetails = JSON.parse(JSON.stringify(event.details));
 
-
             // Retrieve score and rank if total repetitions is included in details
             if (event.details.totalRepetitions) {
                 updatedDetails.score = await exports.getScore({
@@ -275,11 +305,21 @@ exports.handler = async (event, context) => {
                     lifterWeight: event.weight,
                     totalRepetitions: event.details.totalRepetitions,
                 });
+                updatedDetails.rank = await exports.getRanking({
+                    eventDuration: event.eventDuration,
+                    eventType: event.eventType,
+                    gender: event.gender,
+                    kettlebellWeight: event.details.kettlebellWeight,
+                    totalRepetitions: event.details.totalRepetitions,
+                    weightClass: event.weightClass,
+                });
                 
                 // Add other details for reference
                 updatedDetails.weight = event.weight;
                 updatedDetails.eventType = event.eventType;
                 updatedDetails.eventDuration = event.eventDuration;
+                updatedDetails.gender = event.gender;
+                updatedDetails.weightClass = event.weightClass;
             }
 
             return exports.updateRecord({

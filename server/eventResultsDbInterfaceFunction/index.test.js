@@ -1,7 +1,13 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const eventResultsFunction = require('./index');
-const { eventTypes, durations } = require('../shared/enums');
+const {
+    eventTypes,
+    durations,
+    genders,
+    rankings,
+    weightClasses,
+} = require('../shared/enums');
 
 const { handler } = eventResultsFunction;
 
@@ -487,6 +493,8 @@ describe(__filename, () => {
             weight: '80',
             eventType: eventTypes.LONG_CYCLE,
             eventDuration: durations.FIVE,
+            weightClass: weightClasses.MIDDLEWEIGHT,
+            gender: genders.MEN,
             details: {
                 kettlebellWeight: 'foobar',
                 totalRepetitions: 60,
@@ -498,10 +506,12 @@ describe(__filename, () => {
             sinon.stub(eventResultsFunction, 'eventExists');
             sinon.stub(eventResultsFunction, 'lifterExists');
             sinon.stub(eventResultsFunction, 'getScore');
+            sinon.stub(eventResultsFunction, 'getRanking');
             sinon.stub(eventResultsFunction, 'updateRecord');
             eventResultsFunction.eventExists.resolves(true);
             eventResultsFunction.lifterExists.resolves(true);
             eventResultsFunction.getScore.resolves(0);
+            eventResultsFunction.getRanking.resolves(rankings.RANK_III);
             eventResultsFunction.updateRecord.resolves('success');
         });
 
@@ -510,6 +520,7 @@ describe(__filename, () => {
             eventResultsFunction.eventExists.restore();
             eventResultsFunction.lifterExists.restore();
             eventResultsFunction.getScore.restore();
+            eventResultsFunction.getRanking.restore();
             eventResultsFunction.updateRecord.restore();
         });
 
@@ -619,6 +630,34 @@ describe(__filename, () => {
                 }
                 
                 throw new Error('should not resolve if event duration is missing');
+            });
+
+            it('should error if weight class is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { weightClass: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if weight class is missing');
+            });
+
+            it('should error if gender is missing', async () => {
+                
+                const event = Object.assign({}, updateEvent, { gender: undefined });
+                
+                try {
+                    await handler(event, context);
+                } catch (e) {
+                    assert.ok(e);
+                    return;
+                }
+                
+                throw new Error('should not resolve if gender is missing');
             });
 
             describe('when event existence cannot be determined', () => {
@@ -743,6 +782,31 @@ describe(__filename, () => {
                     }
                     
                     throw new Error('should not resolve if get score call fails');
+                });
+            });
+
+            describe('when ranking call fails', () => {
+                
+                beforeEach(() => {
+                    
+                    eventResultsFunction.getRanking.rejects(new Error('call failed'));
+                });
+
+                afterEach(() => {
+                    
+                    eventResultsFunction.getRanking.resolves(rankings.RANK_III);
+                });
+
+                it('should error', async () => {
+                    
+                    try {
+                        await handler(updateEvent, context);
+                    } catch (e) {
+                        assert.ok(e);
+                        return;
+                    }
+                    
+                    throw new Error('should not resolve if get ranking call fails');
                 });
             });
 

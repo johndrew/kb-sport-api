@@ -1,6 +1,13 @@
 const assert = require('assert');
 const { handler, getAllResults } = require('./index');
-const { eventTypes, durations } = require('../shared/enums');
+const {
+    eventTypes,
+    durations,
+    genders,
+    kettlebellWeights,
+    rankings,
+    weightClasses,
+} = require('../shared/enums');
 
 describe(__filename, () => {
 
@@ -25,7 +32,9 @@ describe(__filename, () => {
         assert.strictEqual(records.length > 0, true, 'there should be at least one record');
     });
 
-    it('should update a record', async () => {
+    it('should update a record', async function i() {
+
+        this.timeout(3000);
         
         await handler({
             action: 'lifterUpdate',
@@ -33,10 +42,12 @@ describe(__filename, () => {
             lifterId,
             eventType: eventTypes.LONG_CYCLE,
             eventDuration: durations.TEN,
-            weight: 80,
+            weight: 62,
+            weightClass: weightClasses.BANTAMWEIGHT,
+            gender: genders.MEN,
             details: {
-                kettlebellWeight: '28',
-                totalRepetitions: '70',
+                kettlebellWeight: kettlebellWeights.THIRTYTWO,
+                totalRepetitions: '53',
             },
         }, context);
     });
@@ -46,6 +57,13 @@ describe(__filename, () => {
         const results = await getAllResults(context);
         const { score: actual } = results.find(result => result.eventId === eventId && result.lifterId === lifterId);
         assert.strictEqual(actual > 0, true);
+    });
+
+    it('should obtain a rank', async () => {
+        
+        const results = await getAllResults(context);
+        const { rank: actual } = results.find(result => result.eventId === eventId && result.lifterId === lifterId);
+        assert.strictEqual(actual, rankings.MSIC);
     });
 
     it('should unregister a lifter', async () => {
