@@ -1,0 +1,1 @@
+UPDATE RankingTable SET WeightCategory = 'Super Welterweight' WHERE EventType = 'Jerk' AND Duration = '10min' AND Gender = 'women' AND WeightCategory = 'Middleweight';
