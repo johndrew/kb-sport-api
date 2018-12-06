@@ -1,0 +1,1 @@
+UPDATE RankingTable SET MinimumRepetitions = 109 WHERE MinimumRepetitions = 106 AND Ranking = 3 AND EventType = 'Jerk' AND Duration = '10min' AND WeightCategory = 'Welterweight' AND Division = 'Semi PRO';

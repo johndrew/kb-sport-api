@@ -43,7 +43,7 @@ INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, Weig
 (41,  4, 'Snatch', '5min', 'Welterweight',       '24', 'PRO', 'women'),
 (43,  4, 'Snatch', '5min', 'Super Welterweight', '24', 'PRO', 'women');
 -- Rank I: Semi PRO Division
-IERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
+INSERT INTO RankingTable (MinimumRepetitions, Ranking, EventType, Duration, WeightCategory, KettlebellWeight, Division, Gender) VALUES
 (32, 4, 'Snatch', '5min', 'Strawweight',       '20', 'Semi PRO', 'women'),
 (36, 4, 'Snatch', '5min', 'Flyweight',       '20', 'Semi PRO', 'women'),
 (41, 4, 'Snatch', '5min', 'Bantamweight',       '20', 'Semi PRO', 'women'),
