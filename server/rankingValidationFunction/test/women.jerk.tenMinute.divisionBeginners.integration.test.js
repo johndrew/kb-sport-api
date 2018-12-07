@@ -19,7 +19,7 @@ describe(__filename, () => {
             gender: genders.WOMEN,
             eventType: eventTypes.JERK,
             duration: durations.TEN,
-            kettlebellWeight: kettlebellWeights.TWELVE,
+            kettlebellWeight: kettlebellWeights.EIGHT,
         };
     });
 
@@ -30,11 +30,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.STRAWWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 83', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 104', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 83; i < 110; i++) testRepetitions.push(i);
+                for (let i = 104; i < 130; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -45,11 +45,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 83 and greater than or equal to 67', async function i() {
+            it('returns Rank II for repetitions less than 104 and greater than or equal to 83', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 67; i < 83; i++) testRepetitions.push(i);
+                for (let i = 83; i < 104; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -60,11 +60,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 67 and greater than or equal to 53', async function i() {
+            it('returns Rank III for repetitions less than 83 and greater than or equal to 67', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 53; i < 67; i++) testRepetitions.push(i);
+                for (let i = 67; i < 83; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -81,11 +81,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.FLYWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 91', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 112', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 91; i < 120; i++) testRepetitions.push(i);
+                for (let i = 112; i < 140; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -96,11 +96,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 91 and greater than or equal to 73', async function i() {
+            it('returns Rank II for repetitions less than 112 and greater than or equal to 89', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 73; i < 91; i++) testRepetitions.push(i);
+                for (let i = 89; i < 112; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -111,11 +111,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 73 and greater than or equal to 58', async function i() {
+            it('returns Rank III for repetitions less than 89 and greater than or equal to 72', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 58; i < 73; i++) testRepetitions.push(i);
+                for (let i = 72; i < 89; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -132,11 +132,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.BANTAMWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 99', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 120', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 99; i < 130; i++) testRepetitions.push(i);
+                for (let i = 120; i < 150; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -147,11 +147,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 99 and greater than or equal to 79', async function i() {
+            it('returns Rank II for repetitions less than 120 and greater than or equal to 96', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 79; i < 99; i++) testRepetitions.push(i);
+                for (let i = 96; i < 120; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -162,11 +162,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 79 and greater than or equal to 63', async function i() {
+            it('returns Rank III for repetitions less than 96 and greater than or equal to 77', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 63; i < 79; i++) testRepetitions.push(i);
+                for (let i = 77; i < 96; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -183,11 +183,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.FEATHERWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 107', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 128', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 107; i < 140; i++) testRepetitions.push(i);
+                for (let i = 128; i < 160; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -198,11 +198,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 107 and greater than or equal to 86', async function i() {
+            it('returns Rank II for repetitions less than 128 and greater than or equal to 103', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 86; i < 107; i++) testRepetitions.push(i);
+                for (let i = 103; i < 128; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -213,11 +213,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 86 and greater than or equal to 69', async function i() {
+            it('returns Rank III for repetitions less than 103 and greater than or equal to 82', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 69; i < 86; i++) testRepetitions.push(i);
+                for (let i = 82; i < 103; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -234,11 +234,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.LIGHTWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 117', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 138', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 117; i < 140; i++) testRepetitions.push(i);
+                for (let i = 138; i < 170; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -249,11 +249,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 117 and greater than or equal to 94', async function i() {
+            it('returns Rank II for repetitions less than 138 and greater than or equal to 110', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 94; i < 117; i++) testRepetitions.push(i);
+                for (let i = 110; i < 138; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -264,11 +264,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 94 and greater than or equal to 75', async function i() {
+            it('returns Rank III for repetitions less than 110 and greater than or equal to 88', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 75; i < 94; i++) testRepetitions.push(i);
+                for (let i = 88; i < 110; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -285,11 +285,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_LIGHTWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 127', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 149', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 127; i < 160; i++) testRepetitions.push(i);
+                for (let i = 149; i < 180; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -300,11 +300,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 127 and greater than or equal to 102', async function i() {
+            it('returns Rank II for repetitions less than 149 and greater than or equal to 118', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 102; i < 127; i++) testRepetitions.push(i);
+                for (let i = 118; i < 149; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -315,11 +315,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 102 and greater than or equal to 81', async function i() {
+            it('returns Rank III for repetitions less than 118 and greater than or equal to 95', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 81; i < 102; i++) testRepetitions.push(i);
+                for (let i = 95; i < 118; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -336,11 +336,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.WELTERWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 137', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 160', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 137; i < 140; i++) testRepetitions.push(i);
+                for (let i = 160; i < 190; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -351,11 +351,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 137 and greater than or equal to 110', async function i() {
+            it('returns Rank II for repetitions less than 160 and greater than or equal to 126', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 110; i < 137; i++) testRepetitions.push(i);
+                for (let i = 126; i < 160; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -366,11 +366,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 110 and greater than or equal to 87', async function i() {
+            it('returns Rank III for repetitions less than 126 and greater than or equal to 102', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 87; i < 110; i++) testRepetitions.push(i);
+                for (let i = 102; i < 126; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -387,11 +387,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_WELTERWEIGHT;
             });
         
-            it('returns Rank I for repetitions greater than or equal to 146', async function i() {
+            it('returns Rank I for repetitions greater than or equal to 170', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 146; i < 180; i++) testRepetitions.push(i);
+                for (let i = 170; i < 200; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -402,11 +402,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank II for repetitions less than 146 and greater than or equal to 117', async function i() {
+            it('returns Rank II for repetitions less than 170 and greater than or equal to 134', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 117; i < 146; i++) testRepetitions.push(i);
+                for (let i = 134; i < 170; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -417,11 +417,11 @@ describe(__filename, () => {
                 results.forEach(({ ranking: actual }) => strictEqual(actual, expected));
             });
             
-            it('returns Rank III for repetitions less than 117 and greater than or equal to 93', async function i() {
+            it('returns Rank III for repetitions less than 134 and greater than or equal to 109', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 93; i < 117; i++) testRepetitions.push(i);
+                for (let i = 109; i < 134; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -441,11 +441,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.STRAWWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 53', async function i() {
+            it('should return no rank for repetitions less than 67', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 53; i++) testRepetitions.push(i);
+                for (let i = 0; i < 67; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -462,11 +462,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.FLYWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 58', async function i() {
+            it('should return no rank for repetitions less than 72', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 58; i++) testRepetitions.push(i);
+                for (let i = 0; i < 72; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -483,11 +483,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.BANTAMWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 63', async function i() {
+            it('should return no rank for repetitions less than 77', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 63; i++) testRepetitions.push(i);
+                for (let i = 0; i < 77; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -504,11 +504,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.FEATHERWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 69', async function i() {
+            it('should return no rank for repetitions less than 82', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 69; i++) testRepetitions.push(i);
+                for (let i = 0; i < 82; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -525,11 +525,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.LIGHTWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 75', async function i() {
+            it('should return no rank for repetitions less than 88', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 75; i++) testRepetitions.push(i);
+                for (let i = 0; i < 88; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -546,11 +546,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_LIGHTWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 81', async function i() {
+            it('should return no rank for repetitions less than 95', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 81; i++) testRepetitions.push(i);
+                for (let i = 0; i < 95; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -567,11 +567,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.WELTERWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 87', async function i() {
+            it('should return no rank for repetitions less than 102', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 87; i++) testRepetitions.push(i);
+                for (let i = 0; i < 102; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -588,11 +588,11 @@ describe(__filename, () => {
                 params.weightCategory = weightClasses.SUPER_WELTERWEIGHT;
             });
         
-            it('should return no rank for repetitions less than 93', async function i() {
+            it('should return no rank for repetitions less than 109', async function i() {
                 this.timeout(timeout);
             
                 const testRepetitions = [];
-                for (let i = 0; i < 93; i++) testRepetitions.push(i);
+                for (let i = 0; i < 109; i++) testRepetitions.push(i);
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
                     repetitions: rep,
@@ -613,7 +613,7 @@ describe(__filename, () => {
                 this.timeout(timeout);
             
                 const testRepetitions = [
-                    146, 117, 93,
+                    170, 134, 109,
                 ];
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
@@ -635,7 +635,7 @@ describe(__filename, () => {
                 this.timeout(timeout);
             
                 const testRepetitions = [
-                    154, 123, 98,
+                    180, 142, 115,
                 ];
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
@@ -657,7 +657,7 @@ describe(__filename, () => {
                 this.timeout(timeout);
             
                 const testRepetitions = [
-                    160, 128, 102,
+                    188, 149, 120,
                 ];
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
@@ -679,7 +679,7 @@ describe(__filename, () => {
                 this.timeout(timeout);
             
                 const testRepetitions = [
-                    166, 133, 106,
+                    195, 155, 125,
                 ];
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
@@ -701,7 +701,7 @@ describe(__filename, () => {
                 this.timeout(timeout);
             
                 const testRepetitions = [
-                    170, 136, 109,
+                    200, 160, 128,
                 ];
             
                 const tests = testRepetitions.map(rep => Object.assign({}, params, {
