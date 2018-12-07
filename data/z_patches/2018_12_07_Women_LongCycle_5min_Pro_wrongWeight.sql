@@ -1,0 +1,1 @@
+UPDATE RankingTable SET KettlebellWeight = '24' WHERE EventType = 'Long Cycle' AND Duration = '5min' AND KettlebellWeight = '16' AND Division = 'PRO' AND Gender = 'women'; 
