@@ -53,8 +53,8 @@ const createClient = async (host, user, region) => {
 const getSQLSeedFile = async () => {
   const s3 = new AWS.S3();
   const params = {
-    Bucket: 'johndrew-kb-sport',
-    Key: 'rankingTable/data.sql',
+    Bucket: 'kbsport-ranking-table',
+    Key: 'data.sql',
   };
   const getDataAsString = data => data.Body.toString('utf8');
 
