@@ -1,0 +1,1 @@
+UPDATE RankingTable SET MinimumRepetitions = 34 WHERE MinimumRepetitions = 24 AND Ranking = 6 AND EventType = 'Long Cycle' AND Duration = '5min' AND WeightCategory = 'Super Welterweight' AND KettlebellWeight = '12' AND Division = 'Semi Amateur' AND Gender = 'women';
