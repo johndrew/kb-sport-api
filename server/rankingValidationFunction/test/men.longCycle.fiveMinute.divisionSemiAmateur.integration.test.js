@@ -9,7 +9,7 @@ const {
 } = require('../../shared/enums');
 const { getRankingLocal, testError } = require('./util/getRankingUtil');
 
-describe.only(__filename, () => {
+describe(__filename, () => {
 
     const timeout = 4000;
 
